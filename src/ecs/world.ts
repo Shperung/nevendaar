@@ -1,11 +1,12 @@
 import { addComponent, addEntity, createWorld, type IWorld } from 'bitecs';
-import { TextureId } from '../assets/manifest';
+import { UnitId } from '../assets/manifest';
 import { HERO_SPEED } from '../config';
 import type { GameMap } from '../map/GameMap';
 import { Player } from './components/Player';
 import { Position } from './components/Position';
 import { Speed } from './components/Speed';
 import { Sprite } from './components/Sprite';
+import { animationSystem } from './systems/animation';
 import { createInputSystem } from './systems/input';
 import { movementSystem } from './systems/movement';
 
@@ -19,6 +20,7 @@ export function createStep(map: GameMap): (world: IWorld) => void {
   return (world) => {
     inputSystem(world);
     movementSystem(world);
+    animationSystem(world);
   };
 }
 
@@ -31,6 +33,7 @@ export function spawnHero(world: IWorld, x: number, y: number): number {
   Position.x[eid] = Position.prevX[eid] = x;
   Position.y[eid] = Position.prevY[eid] = y;
   Speed.value[eid] = HERO_SPEED;
-  Sprite.texture[eid] = TextureId.Hero;
+  Sprite.unit[eid] = UnitId.Hero;
+  Sprite.dir[eid] = 4; // S, facing the camera
   return eid;
 }

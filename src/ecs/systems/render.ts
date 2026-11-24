@@ -1,6 +1,6 @@
 import { defineQuery, enterQuery, exitQuery, type IWorld } from 'bitecs';
 import { Assets, Container, Graphics, Sprite as PixiSprite } from 'pixi.js';
-import { TEXTURES } from '../../assets/manifest';
+import { frameAlias } from '../../assets/manifest';
 import { isWalkable, type GameMap } from '../../map/GameMap';
 import { toScreen } from '../../map/IsoMath';
 import { Position } from '../components/Position';
@@ -50,31 +50,34 @@ export function drawMap(layer: Container, map: GameMap): void {
 }
 
 export function createRenderSystem(layer: Container): (world: IWorld, alpha: number) => void {
-  const views = new Map<number, Container>();
+  const views = new Map<number, { view: Container; sprite: PixiSprite }>();
 
   return (world, alpha) => {
     for (const eid of enterSprites(world)) {
       // Ground shadow + sprite, anchored at the feet (0,0).
-      const sprite = new PixiSprite(Assets.get(TEXTURES[Sprite.texture[eid]]));
+      const sprite = new PixiSprite();
       sprite.anchor.set(0.5, 1);
-      sprite.scale.set(SPRITE_HEIGHT / sprite.texture.height);
       const shadow = new Graphics()
-        .ellipse(0, 0, sprite.width * 0.4, sprite.width * 0.2)
+        .ellipse(0, 0, SPRITE_HEIGHT * 0.3, SPRITE_HEIGHT * 0.15)
         .fill({ color: 0x000000, alpha: 0.35 });
       const view = new Container();
       view.addChild(shadow, sprite);
       layer.addChild(view);
-      views.set(eid, view);
+      views.set(eid, { view, sprite });
     }
 
     for (const eid of exitSprites(world)) {
-      views.get(eid)?.destroy();
+      views.get(eid)?.view.destroy({ children: true });
       views.delete(eid);
     }
 
     for (const eid of spriteQuery(world)) {
-      const view = views.get(eid);
-      if (!view) continue;
+      const entry = views.get(eid);
+      if (!entry) continue;
+      const { view, sprite } = entry;
+      sprite.texture = Assets.get(frameAlias(Sprite.unit[eid], 'idle', Sprite.dir[eid], 0));
+      sprite.scale.set(SPRITE_HEIGHT / sprite.texture.height);
+
       // Interpolate between the last two fixed steps for smooth motion at any frame rate.
       const x = Position.prevX[eid] + (Position.x[eid] - Position.prevX[eid]) * alpha;
       const y = Position.prevY[eid] + (Position.y[eid] - Position.prevY[eid]) * alpha;

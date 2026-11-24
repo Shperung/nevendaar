@@ -8,6 +8,16 @@ export function toScreen(tx: number, ty: number): { x: number; y: number } {
   };
 }
 
+/**
+ * 8-way facing (0 = N/screen-up, clockwise) for a tile-space movement delta.
+ * The angle is measured on screen, so "up" means up on the monitor, not +y in tiles.
+ */
+export function directionFromDelta(dx: number, dy: number): number {
+  const s = toScreen(dx, dy);
+  const angle = Math.atan2(s.x, -s.y);
+  return (Math.round(angle / (Math.PI / 4)) + 8) % 8;
+}
+
 // Inverse of toScreen: solve the 2x2 system for tx, ty.
 export function toTile(sx: number, sy: number): { x: number; y: number } {
   const a = sx / (TILE_W / 2);

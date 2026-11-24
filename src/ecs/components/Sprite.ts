@@ -1,6 +1,7 @@
 import { defineComponent, Types } from 'bitecs';
 
-/** `texture` is an index into TEXTURES (assets/manifest.ts). */
+/** `unit` indexes UNITS (assets/manifest.ts); `dir` is the 8-way facing, 0 = N, clockwise. */
 export const Sprite = defineComponent({
-  texture: Types.ui8,
+  unit: Types.ui8,
+  dir: Types.ui8,
 });
