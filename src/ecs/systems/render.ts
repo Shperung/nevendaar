@@ -1,5 +1,6 @@
 import { defineQuery, enterQuery, exitQuery, type IWorld } from 'bitecs';
 import { Container, Graphics } from 'pixi.js';
+import { isWalkable, type GameMap } from '../../map/GameMap';
 import { toScreen } from '../../map/IsoMath';
 import { Position } from '../components/Position';
 import { Sprite } from '../components/Sprite';
@@ -7,6 +8,43 @@ import { Sprite } from '../components/Sprite';
 const spriteQuery = defineQuery([Position, Sprite]);
 const enterSprites = enterQuery(spriteQuery);
 const exitSprites = exitQuery(spriteQuery);
+
+const BLOCK_HEIGHT = 40;
+
+/** Static map visuals: floor outline below everything, obstacles as iso blocks depth-sorted with sprites. */
+export function drawMap(layer: Container, map: GameMap): void {
+  const corners = (tx: number, ty: number, w: number, h: number) => [
+    toScreen(tx, ty),
+    toScreen(tx + w, ty),
+    toScreen(tx + w, ty + h),
+    toScreen(tx, ty + h),
+  ];
+
+  const floor = new Graphics()
+    .poly(corners(0, 0, map.width, map.height))
+    .fill(0x4a4a4a)
+    .stroke({ color: 0x6a6a6a, width: 2 });
+  floor.zIndex = -Infinity;
+  layer.addChild(floor);
+
+  for (let ty = 0; ty < map.height; ty++) {
+    for (let tx = 0; tx < map.width; tx++) {
+      if (isWalkable(map, tx, ty)) continue;
+      const [top, right, bottom, left] = corners(tx, ty, 1, 1);
+      const up = (p: { x: number; y: number }) => ({ x: p.x, y: p.y - BLOCK_HEIGHT });
+      const block = new Graphics()
+        .poly([left, bottom, up(bottom), up(left)])
+        .fill(0x2e2e34)
+        .poly([bottom, right, up(right), up(bottom)])
+        .fill(0x3a3a42)
+        .poly([up(top), up(right), up(bottom), up(left)])
+        .fill(0x6b6b78);
+      // Sort by tile center depth so the hero is hidden when standing behind (north of) a block.
+      block.zIndex = toScreen(tx + 0.5, ty + 0.5).y;
+      layer.addChild(block);
+    }
+  }
+}
 
 export function createRenderSystem(layer: Container): (world: IWorld, alpha: number) => void {
   const views = new Map<number, Graphics>();

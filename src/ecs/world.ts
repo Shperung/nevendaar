@@ -1,10 +1,11 @@
 import { addComponent, addEntity, createWorld, type IWorld } from 'bitecs';
 import { HERO_SPEED } from '../config';
+import type { GameMap } from '../map/GameMap';
 import { Player } from './components/Player';
 import { Position } from './components/Position';
 import { Speed } from './components/Speed';
 import { Sprite } from './components/Sprite';
-import { inputSystem } from './systems/input';
+import { createInputSystem } from './systems/input';
 import { movementSystem } from './systems/movement';
 
 export function createGameWorld(): IWorld {
@@ -12,9 +13,12 @@ export function createGameWorld(): IWorld {
 }
 
 /** Fixed-step systems, in order: input → ai → movement → combat → ... (see AGENTS.md §4). */
-export function stepWorld(world: IWorld): void {
-  inputSystem(world);
-  movementSystem(world);
+export function createStep(map: GameMap): (world: IWorld) => void {
+  const inputSystem = createInputSystem(map);
+  return (world) => {
+    inputSystem(world);
+    movementSystem(world);
+  };
 }
 
 export function spawnHero(world: IWorld, x: number, y: number): number {
