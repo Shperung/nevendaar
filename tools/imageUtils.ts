@@ -50,20 +50,27 @@ export function removeBackground(data: Buffer, w: number, h: number): void {
   }
 }
 
-// Chroma key: "greenness" = g - max(r, b). Below KEY_SOLID the pixel is kept, above KEY_CLEAR it
-// is removed, in between alpha ramps linearly (soft anti-aliased edges).
+// Chroma key: "keyness" = how much the key channels exceed the others (green: g - max(r, b);
+// magenta: min(r, b) - g). Below KEY_SOLID the pixel is kept, above KEY_CLEAR it is removed,
+// in between alpha ramps linearly (soft anti-aliased edges).
 const KEY_SOLID = 25;
 const KEY_CLEAR = 110;
 
-/** Makes a pure green (#00FF00) background transparent and removes green spill (RGBA, in place). */
-export function removeGreenScreen(data: Buffer): void {
+export type KeyColor = 'green' | 'magenta';
+
+/**
+ * Makes a pure green (#00FF00) or magenta (#FF00FF) background transparent and removes the
+ * key color spill (RGBA, in place). Use magenta for green subjects such as trees.
+ */
+export function removeKeyColor(data: Buffer, key: KeyColor): void {
   for (let i = 0; i < data.length; i += 4) {
-    const rb = Math.max(data[i], data[i + 2]);
-    const greenness = data[i + 1] - rb;
-    if (greenness <= 0) continue;
-    const t = (greenness - KEY_SOLID) / (KEY_CLEAR - KEY_SOLID);
+    const [r, g, b] = [data[i], data[i + 1], data[i + 2]];
+    const keyness = key === 'green' ? g - Math.max(r, b) : Math.min(r, b) - g;
+    if (keyness <= 0) continue;
+    const t = (keyness - KEY_SOLID) / (KEY_CLEAR - KEY_SOLID);
     data[i + 3] = Math.round(255 * (1 - Math.min(Math.max(t, 0), 1)));
-    data[i + 1] = rb;
+    if (key === 'green') data[i + 1] = g - keyness;
+    else [data[i], data[i + 2]] = [r - keyness, b - keyness];
   }
 }
 

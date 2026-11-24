@@ -10,7 +10,7 @@ import {
 import { CLIPS, frameAlias } from '../../assets/manifest';
 import { TILE_H } from '../../config';
 import { atlasPath, type Biome } from '../../map/Biome';
-import { isWalkable, type GameMap } from '../../map/GameMap';
+import { obstacleClusters, type GameMap } from '../../map/GameMap';
 import { toScreen } from '../../map/IsoMath';
 import { Position } from '../components/Position';
 import { Sprite } from '../components/Sprite';
@@ -42,23 +42,33 @@ export function drawMap(layer: Container, map: GameMap, biome: Biome): void {
   floor.zIndex = -Infinity;
   layer.addChild(floor);
 
+  // Each connected obstacle group gets one set (a whole rock ridge or a whole tree line).
+  const sets = Object.values(biome.obstacles);
+  const clusters = obstacleClusters(map);
   for (let ty = 0; ty < map.height; ty++) {
     for (let tx = 0; tx < map.width; tx++) {
-      if (isWalkable(map, tx, ty)) continue;
-      const variant = biome.obstacles[Math.floor(tileHash(tx, ty, 1) * biome.obstacles.length)];
-      const rock = new PixiSprite({
+      const cluster = clusters[ty * map.width + tx];
+      if (cluster < 0) continue;
+      const set =
+        sets[
+          Math.floor(
+            tileHash(cluster % map.width, Math.floor(cluster / map.width), 4) * sets.length,
+          )
+        ];
+      const variant = set[Math.floor(tileHash(tx, ty, 1) * set.length)];
+      const obstacle = new PixiSprite({
         texture: Assets.get(atlasPath(variant.texture)),
         cullable: true,
       });
-      // Anchor near the bottom so the rock's base sits on the tile and its body rises above it.
-      rock.anchor.set(0.5, 0.9);
-      const scale = (variant.width / rock.texture.width) * (0.85 + tileHash(tx, ty, 2) * 0.3);
-      rock.scale.set(tileHash(tx, ty, 3) < 0.5 ? scale : -scale, scale);
+      obstacle.anchor.set(0.5, variant.anchorY);
+      const scale = (variant.width / obstacle.texture.width) * (0.85 + tileHash(tx, ty, 2) * 0.3);
+      obstacle.scale.set(tileHash(tx, ty, 3) < 0.5 ? scale : -scale, scale);
       const center = toScreen(tx + 0.5, ty + 0.5);
-      rock.position.set(center.x, center.y + TILE_H * 0.3);
-      // Sort by tile center depth so the hero is hidden when standing behind (north of) a rock.
-      rock.zIndex = center.y;
-      layer.addChild(rock);
+      const jitterX = (tileHash(tx, ty, 5) - 0.5) * TILE_H * 0.4;
+      obstacle.position.set(center.x + jitterX, center.y + TILE_H * 0.3);
+      // Sort by tile center depth so the hero is hidden when standing behind (north of) an obstacle.
+      obstacle.zIndex = center.y;
+      layer.addChild(obstacle);
     }
   }
 }
