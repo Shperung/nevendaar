@@ -1,9 +1,12 @@
-import { Application, Container, Rectangle } from 'pixi.js';
+import { Application, Container, Point, Rectangle } from 'pixi.js';
 import { FIXED_DT } from '../config';
+import { Position } from '../ecs/components/Position';
 import { createGameWorld, createStep, spawnHero } from '../ecs/world';
 import { createRenderSystem, drawMap } from '../ecs/systems/render';
 import { toScreen } from '../map/IsoMath';
 import { TEST_MAP, TEST_MAP_SPAWN } from '../map/testMap';
+import { createFullscreenButton } from '../ui/FullscreenButton';
+import { Camera } from './Camera';
 import { Input } from './Input';
 
 export class Game {
@@ -14,39 +17,40 @@ export class Game {
     const world = createGameWorld();
     const step = createStep(TEST_MAP);
 
-    // Static camera: the spawn point sits at the screen center.
     const worldLayer = new Container({ sortableChildren: true });
     app.stage.addChild(worldLayer);
-    const spawnScreen = toScreen(TEST_MAP_SPAWN.x, TEST_MAP_SPAWN.y);
-    const center = () =>
-      worldLayer.position.set(
-        app.screen.width / 2 - spawnScreen.x,
-        app.screen.height / 2 - spawnScreen.y,
-      );
-    center();
-    app.renderer.on('resize', center);
+    const camera = new Camera(app, worldLayer);
 
     app.stage.eventMode = 'static';
     app.stage.hitArea = new Rectangle(0, 0, 1e5, 1e5);
+    // Last pointer position in screen pixels; re-projected every frame since the camera moves under it.
+    const pointerScreen = new Point();
     app.stage.on('pointerdown', (e) => {
       if (e.button !== 0) return;
+      pointerScreen.copyFrom(e.global);
       const p = worldLayer.toLocal(e.global);
       Input.click = { x: p.x, y: p.y };
-      Input.pointer = { x: p.x, y: p.y };
       Input.held = true;
     });
-    app.stage.on('globalpointermove', (e) => {
-      const p = worldLayer.toLocal(e.global);
-      Input.pointer = { x: p.x, y: p.y };
-    });
+    app.stage.on('globalpointermove', (e) => pointerScreen.copyFrom(e.global));
     const release = () => (Input.held = false);
     app.stage.on('pointerup', release);
     app.stage.on('pointerupoutside', release);
     window.addEventListener('blur', release);
 
     drawMap(worldLayer, TEST_MAP);
-    spawnHero(world, TEST_MAP_SPAWN.x, TEST_MAP_SPAWN.y);
+    const hero = spawnHero(world, TEST_MAP_SPAWN.x, TEST_MAP_SPAWN.y);
     const render = createRenderSystem(worldLayer);
+    app.stage.addChild(createFullscreenButton(app));
+
+    // Hero position in world screen pixels, interpolated the same way render.ts does.
+    const heroScreen = (alpha: number) =>
+      toScreen(
+        Position.prevX[hero] + (Position.x[hero] - Position.prevX[hero]) * alpha,
+        Position.prevY[hero] + (Position.y[hero] - Position.prevY[hero]) * alpha,
+      );
+    camera.centerOn(heroScreen(1));
+    app.renderer.on('resize', () => camera.centerOn(heroScreen(1)));
 
     // Fixed-step accumulator: logic runs at exactly 60 Hz, rendering interpolates the remainder.
     let acc = 0;
@@ -56,7 +60,11 @@ export class Game {
         step(world);
         acc -= FIXED_DT;
       }
-      render(world, acc / FIXED_DT);
+      const alpha = acc / FIXED_DT;
+      render(world, alpha);
+      camera.follow(heroScreen(alpha));
+      const p = worldLayer.toLocal(pointerScreen);
+      Input.pointer = { x: p.x, y: p.y };
     });
   }
 }

@@ -1,5 +1,5 @@
 import { defineQuery, enterQuery, exitQuery, type IWorld } from 'bitecs';
-import { Assets, Container, Graphics, Sprite as PixiSprite } from 'pixi.js';
+import { Assets, Container, Graphics, GraphicsContext, Sprite as PixiSprite } from 'pixi.js';
 import { CLIPS, frameAlias } from '../../assets/manifest';
 import { isWalkable, type GameMap } from '../../map/GameMap';
 import { toScreen } from '../../map/IsoMath';
@@ -30,18 +30,23 @@ export function drawMap(layer: Container, map: GameMap): void {
   floor.zIndex = -Infinity;
   layer.addChild(floor);
 
+  // One shared geometry for all blocks, drawn for tile (0,0); each block just offsets it.
+  const [top, right, bottom, left] = corners(0, 0, 1, 1);
+  const up = (p: { x: number; y: number }) => ({ x: p.x, y: p.y - BLOCK_HEIGHT });
+  const blockShape = new GraphicsContext()
+    .poly([left, bottom, up(bottom), up(left)])
+    .fill(0x2e2e34)
+    .poly([bottom, right, up(right), up(bottom)])
+    .fill(0x3a3a42)
+    .poly([up(top), up(right), up(bottom), up(left)])
+    .fill(0x6b6b78);
+
   for (let ty = 0; ty < map.height; ty++) {
     for (let tx = 0; tx < map.width; tx++) {
       if (isWalkable(map, tx, ty)) continue;
-      const [top, right, bottom, left] = corners(tx, ty, 1, 1);
-      const up = (p: { x: number; y: number }) => ({ x: p.x, y: p.y - BLOCK_HEIGHT });
-      const block = new Graphics()
-        .poly([left, bottom, up(bottom), up(left)])
-        .fill(0x2e2e34)
-        .poly([bottom, right, up(right), up(bottom)])
-        .fill(0x3a3a42)
-        .poly([up(top), up(right), up(bottom), up(left)])
-        .fill(0x6b6b78);
+      const block = new Graphics({ context: blockShape, cullable: true });
+      const origin = toScreen(tx, ty);
+      block.position.set(origin.x, origin.y);
       // Sort by tile center depth so the hero is hidden when standing behind (north of) a block.
       block.zIndex = toScreen(tx + 0.5, ty + 0.5).y;
       layer.addChild(block);
