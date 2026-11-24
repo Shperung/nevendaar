@@ -1,6 +1,6 @@
 import { defineQuery, enterQuery, exitQuery, type IWorld } from 'bitecs';
 import { Assets, Container, Graphics, Sprite as PixiSprite } from 'pixi.js';
-import { frameAlias } from '../../assets/manifest';
+import { CLIPS, frameAlias } from '../../assets/manifest';
 import { isWalkable, type GameMap } from '../../map/GameMap';
 import { toScreen } from '../../map/IsoMath';
 import { Position } from '../components/Position';
@@ -75,7 +75,10 @@ export function createRenderSystem(layer: Container): (world: IWorld, alpha: num
       const entry = views.get(eid);
       if (!entry) continue;
       const { view, sprite } = entry;
-      sprite.texture = Assets.get(frameAlias(Sprite.unit[eid], 'idle', Sprite.dir[eid], 0));
+      const clip = CLIPS[Sprite.clip[eid]].name;
+      sprite.texture = Assets.get(
+        frameAlias(Sprite.unit[eid], clip, Sprite.dir[eid], Sprite.frame[eid]),
+      );
       sprite.scale.set(SPRITE_HEIGHT / sprite.texture.height);
 
       // Interpolate between the last two fixed steps for smooth motion at any frame rate.

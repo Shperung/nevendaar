@@ -1,3 +1,5 @@
+import sharp from 'sharp';
+
 // Background = neutral gray/white (r≈g≈b) brighter than MIN_BRIGHTNESS, flood-filled from the
 // borders so neutral highlights inside the character are kept. Enclosed holes (e.g. between legs)
 // are removed only if they are near-white and larger than MIN_HOLE_PIXELS.
@@ -46,4 +48,72 @@ export function removeBackground(data: Buffer, w: number, h: number): void {
     const hole = flood([i], MIN_HOLE_BRIGHTNESS);
     if (hole.length >= MIN_HOLE_PIXELS) clear(hole);
   }
+}
+
+const MIN_VIEW_WIDTH = 40;
+
+/**
+ * Cuts a sheet of `count` figures in a row (separated by background columns) into PNGs of the
+ * given height. All figures share one vertical range, so scale and feet baseline stay consistent
+ * (walk bob is preserved). Each crop is padded so its horizontal center is the figure's topmost
+ * pixel (helmet tip): a sprite anchored at x=0.5 then doesn't jitter as the stride changes width.
+ */
+export async function sliceSheet(sheet: string, count: number, height: number): Promise<Buffer[]> {
+  const { data, info } = await sharp(sheet)
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  const { width: w, height: h } = info;
+  removeBackground(data, w, h);
+  const opaque = (x: number, y: number) => data[(y * w + x) * 4 + 3] > 0;
+
+  const views: { left: number; right: number }[] = [];
+  let start = -1;
+  for (let x = 0; x <= w; x++) {
+    let filled = false;
+    for (let y = 0; x < w && y < h && !filled; y++) filled = opaque(x, y);
+    if (filled && start < 0) start = x;
+    if (!filled && start >= 0) {
+      if (x - start >= MIN_VIEW_WIDTH) views.push({ left: start, right: x - 1 });
+      start = -1;
+    }
+  }
+  if (views.length !== count)
+    throw new Error(`${sheet}: expected ${count} views, found ${views.length}`);
+
+  let top = h;
+  let bottom = 0;
+  const tips = views.map((v) => {
+    let tip = { x: v.left, y: h };
+    for (let y = 0; y < h; y++) {
+      for (let x = v.left; x <= v.right; x++) {
+        if (!opaque(x, y)) continue;
+        if (y < tip.y) tip = { x, y };
+        top = Math.min(top, y);
+        bottom = Math.max(bottom, y);
+      }
+    }
+    return tip.x;
+  });
+
+  const raw = sharp(data, { raw: { width: w, height: h, channels: 4 } });
+  return Promise.all(
+    views.map(async (v, i) => {
+      const half = Math.max(tips[i] - v.left, v.right - tips[i]) + 1;
+      const cropped = await raw
+        .clone()
+        .extract({ left: v.left, top, width: v.right - v.left + 1, height: bottom - top + 1 })
+        .png()
+        .toBuffer();
+      return sharp(cropped)
+        .extend({
+          left: half - (tips[i] - v.left),
+          right: half - (v.right - tips[i]),
+          background: { r: 0, g: 0, b: 0, alpha: 0 },
+        })
+        .resize({ height })
+        .png()
+        .toBuffer();
+    }),
+  );
 }
