@@ -3,6 +3,7 @@ import { FIXED_DT } from '../config';
 import { Position } from '../ecs/components/Position';
 import { createGameWorld, createStep, spawnHero } from '../ecs/world';
 import { createRenderSystem, drawMap } from '../ecs/systems/render';
+import type { Biome } from '../map/Biome';
 import { toScreen } from '../map/IsoMath';
 import { TEST_MAP, TEST_MAP_SPAWN } from '../map/testMap';
 import { createFullscreenButton } from '../ui/FullscreenButton';
@@ -10,7 +11,10 @@ import { Camera } from './Camera';
 import { Input } from './Input';
 
 export class Game {
-  constructor(private readonly app: Application) {}
+  constructor(
+    private readonly app: Application,
+    private readonly biome: Biome,
+  ) {}
 
   start(): void {
     const { app } = this;
@@ -38,7 +42,7 @@ export class Game {
     app.stage.on('pointerupoutside', release);
     window.addEventListener('blur', release);
 
-    drawMap(worldLayer, TEST_MAP);
+    drawMap(worldLayer, TEST_MAP, this.biome);
     const hero = spawnHero(world, TEST_MAP_SPAWN.x, TEST_MAP_SPAWN.y);
     const render = createRenderSystem(worldLayer);
     app.stage.addChild(createFullscreenButton(app));

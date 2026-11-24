@@ -39,7 +39,8 @@ Disciples 2: темне готичне фентезі, пререндерені 
 public/assets/
   atlases/      спрайт-атласи (TexturePacker JSON + PNG)
   maps/         карти Tiled у JSON
-  data/         items.json, affixes.json, monsters.json, skills.json
+  atlases/{biome}/ текстури ландшафту біому (ground + перешкоди), напр. atlases/snow/
+  data/         items.json, affixes.json, monsters.json, skills.json, biomes.json
   audio/
 src/
   main.ts            лише бутстрап — створити Pixi app, завантажити маніфест, стартувати Game
@@ -89,6 +90,12 @@ tests/               Vitest-специфікації, що дзеркалять 
 - Анімації: `idle`, `walk`, `attack`, `hit`, `death`, опціонально `cast`.
 - `animation.ts` обирає кліп за `(state, facing)`; вона нічого не знає про текстури Pixi,
   а пише `Sprite.clipId` і `Sprite.frame`.
+
+### Ландшафти (біоми)
+- Біом = безшовна текстура ґрунту + відтінок + варіанти спрайтів перешкод; описується в `biomes.json`,
+ тип — `src/map/Biome.ts`. Новий ландшафт = нова тека `atlases/{biome}/` + запис у JSON, без змін у коді.
+- Завантажуються лише текстури біому поточної карти. Варіант перешкоди обирається детерміновано за координатами тайла.
+- Сирі генерації — в `art/concepts/terrain/`; `tools/keyCutout.ts` вирізає зелений фон, `tools/seamless.ts` робить текстуру безшовною.
 
 ### Лут і стати
 - Рівні рідкості: `common, magic, rare, unique`. Пули афіксів — в `affixes.json`.

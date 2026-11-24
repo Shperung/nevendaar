@@ -1,6 +1,15 @@
 import { defineQuery, enterQuery, exitQuery, type IWorld } from 'bitecs';
-import { Assets, Container, Graphics, GraphicsContext, Sprite as PixiSprite } from 'pixi.js';
+import {
+  Assets,
+  Container,
+  FillPattern,
+  Graphics,
+  Sprite as PixiSprite,
+  type Texture,
+} from 'pixi.js';
 import { CLIPS, frameAlias } from '../../assets/manifest';
+import { TILE_H } from '../../config';
+import { atlasPath, type Biome } from '../../map/Biome';
 import { isWalkable, type GameMap } from '../../map/GameMap';
 import { toScreen } from '../../map/IsoMath';
 import { Position } from '../components/Position';
@@ -10,46 +19,46 @@ const spriteQuery = defineQuery([Position, Sprite]);
 const enterSprites = enterQuery(spriteQuery);
 const exitSprites = exitQuery(spriteQuery);
 
-const BLOCK_HEIGHT = 40;
 /** On-screen height of unit sprites in pixels. */
 const SPRITE_HEIGHT = 110;
+/** Deterministic per-tile pseudo-random value in [0, 1), so the map looks the same every run. */
+function tileHash(tx: number, ty: number, salt: number): number {
+  let h = Math.imul(tx * 374761393 + ty * 668265263 + salt * 2246822519, 1274126177);
+  h ^= h >>> 15;
+  return (h >>> 0) / 4294967296;
+}
 
-/** Static map visuals: floor outline below everything, obstacles as iso blocks depth-sorted with sprites. */
-export function drawMap(layer: Container, map: GameMap): void {
-  const corners = (tx: number, ty: number, w: number, h: number) => [
-    toScreen(tx, ty),
-    toScreen(tx + w, ty),
-    toScreen(tx + w, ty + h),
-    toScreen(tx, ty + h),
-  ];
-
+/** Static map visuals: biome floor below everything, obstacle sprites depth-sorted with units. */
+export function drawMap(layer: Container, map: GameMap, biome: Biome): void {
+  const ground = Assets.get<Texture>(atlasPath(biome.ground.texture));
   const floor = new Graphics()
-    .poly(corners(0, 0, map.width, map.height))
-    .fill(0x4a4a4a)
-    .stroke({ color: 0x6a6a6a, width: 2 });
+    .poly([
+      toScreen(0, 0),
+      toScreen(map.width, 0),
+      toScreen(map.width, map.height),
+      toScreen(0, map.height),
+    ])
+    .fill({ fill: new FillPattern(ground, 'repeat'), color: biome.ground.tint });
   floor.zIndex = -Infinity;
   layer.addChild(floor);
-
-  // One shared geometry for all blocks, drawn for tile (0,0); each block just offsets it.
-  const [top, right, bottom, left] = corners(0, 0, 1, 1);
-  const up = (p: { x: number; y: number }) => ({ x: p.x, y: p.y - BLOCK_HEIGHT });
-  const blockShape = new GraphicsContext()
-    .poly([left, bottom, up(bottom), up(left)])
-    .fill(0x2e2e34)
-    .poly([bottom, right, up(right), up(bottom)])
-    .fill(0x3a3a42)
-    .poly([up(top), up(right), up(bottom), up(left)])
-    .fill(0x6b6b78);
 
   for (let ty = 0; ty < map.height; ty++) {
     for (let tx = 0; tx < map.width; tx++) {
       if (isWalkable(map, tx, ty)) continue;
-      const block = new Graphics({ context: blockShape, cullable: true });
-      const origin = toScreen(tx, ty);
-      block.position.set(origin.x, origin.y);
-      // Sort by tile center depth so the hero is hidden when standing behind (north of) a block.
-      block.zIndex = toScreen(tx + 0.5, ty + 0.5).y;
-      layer.addChild(block);
+      const variant = biome.obstacles[Math.floor(tileHash(tx, ty, 1) * biome.obstacles.length)];
+      const rock = new PixiSprite({
+        texture: Assets.get(atlasPath(variant.texture)),
+        cullable: true,
+      });
+      // Anchor near the bottom so the rock's base sits on the tile and its body rises above it.
+      rock.anchor.set(0.5, 0.9);
+      const scale = (variant.width / rock.texture.width) * (0.85 + tileHash(tx, ty, 2) * 0.3);
+      rock.scale.set(tileHash(tx, ty, 3) < 0.5 ? scale : -scale, scale);
+      const center = toScreen(tx + 0.5, ty + 0.5);
+      rock.position.set(center.x, center.y + TILE_H * 0.3);
+      // Sort by tile center depth so the hero is hidden when standing behind (north of) a rock.
+      rock.zIndex = center.y;
+      layer.addChild(rock);
     }
   }
 }

@@ -26,6 +26,9 @@ export const TEST_MAP = parseAsciiMap(
   Array.from({ length: REPEAT }, () => PATTERN.map((row) => row.repeat(REPEAT))).flat(),
 );
 
+/** Key in public/assets/data/biomes.json. */
+export const TEST_MAP_BIOME = 'snow';
+
 export const TEST_MAP_SPAWN = {
   x: (REPEAT / 2) * PATTERN[0].length + 7.5,
   y: (REPEAT / 2) * PATTERN.length + 7.5,

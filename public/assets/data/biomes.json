@@ -1,0 +1,11 @@
+{
+  "snow": {
+    "ground": { "texture": "snow/ground.jpg", "tint": "#dde3ec" },
+    "obstacles": [
+      { "texture": "snow/rock_0.png", "width": 170 },
+      { "texture": "snow/rock_1.png", "width": 160 },
+      { "texture": "snow/rock_2.png", "width": 120 },
+      { "texture": "snow/rock_3.png", "width": 165 }
+    ]
+  }
+}

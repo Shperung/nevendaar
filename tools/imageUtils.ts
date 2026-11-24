@@ -50,6 +50,23 @@ export function removeBackground(data: Buffer, w: number, h: number): void {
   }
 }
 
+// Chroma key: "greenness" = g - max(r, b). Below KEY_SOLID the pixel is kept, above KEY_CLEAR it
+// is removed, in between alpha ramps linearly (soft anti-aliased edges).
+const KEY_SOLID = 25;
+const KEY_CLEAR = 110;
+
+/** Makes a pure green (#00FF00) background transparent and removes green spill (RGBA, in place). */
+export function removeGreenScreen(data: Buffer): void {
+  for (let i = 0; i < data.length; i += 4) {
+    const rb = Math.max(data[i], data[i + 2]);
+    const greenness = data[i + 1] - rb;
+    if (greenness <= 0) continue;
+    const t = (greenness - KEY_SOLID) / (KEY_CLEAR - KEY_SOLID);
+    data[i + 3] = Math.round(255 * (1 - Math.min(Math.max(t, 0), 1)));
+    data[i + 1] = rb;
+  }
+}
+
 const MIN_VIEW_WIDTH = 40;
 
 /**
