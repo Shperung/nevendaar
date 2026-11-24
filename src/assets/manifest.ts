@@ -1,7 +1,7 @@
 /** Unit names; `Sprite.unit` stores an index into this list. */
-export const UNITS = ['hero'] as const;
+export const UNITS = ['hero', 'skeleton'] as const;
 
-export const UnitId = { Hero: UNITS.indexOf('hero') } as const;
+export const UnitId = { Hero: UNITS.indexOf('hero'), Skeleton: UNITS.indexOf('skeleton') } as const;
 
 /** Animation clips; `Sprite.clip` stores an index into this list. */
 export const CLIPS = [
@@ -22,12 +22,14 @@ export const manifest = {
   bundles: [
     {
       name: 'game',
-      assets: CLIPS.flatMap((clip) =>
-        DIRS.flatMap((dir) =>
-          Array.from({ length: clip.frames }, (_, frame) => {
-            const alias = frameAlias(UnitId.Hero, clip.name, dir, frame);
-            return { alias, src: `assets/atlases/${alias}.png` };
-          }),
+      assets: UNITS.flatMap((_, unit) =>
+        CLIPS.flatMap((clip) =>
+          DIRS.flatMap((dir) =>
+            Array.from({ length: clip.frames }, (_, frame) => {
+              const alias = frameAlias(unit, clip.name, dir, frame);
+              return { alias, src: `assets/atlases/${alias}.png` };
+            }),
+          ),
         ),
       ),
     },

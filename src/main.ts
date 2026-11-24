@@ -12,6 +12,9 @@ const app = new Application();
 await app.init({ background: BG_COLOR, resizeTo: window, antialias: true });
 document.body.appendChild(app.canvas);
 
+// Hotspot (1 1) is the dagger tip in the top-left corner of the image.
+app.renderer.events.cursorStyles.default = 'url(/assets/ui/cursor.png) 1 1, auto';
+
 await Assets.init({ manifest });
 await Assets.loadBundle('game');
 

@@ -37,3 +37,14 @@ export function spawnHero(world: IWorld, x: number, y: number): number {
   Sprite.dir[eid] = 4; // S, facing the camera
   return eid;
 }
+
+export function spawnSkeleton(world: IWorld, x: number, y: number, dir: number): number {
+  const eid = addEntity(world);
+  addComponent(world, Position, eid);
+  addComponent(world, Sprite, eid);
+  Position.x[eid] = Position.prevX[eid] = x;
+  Position.y[eid] = Position.prevY[eid] = y;
+  Sprite.unit[eid] = UnitId.Skeleton;
+  Sprite.dir[eid] = dir;
+  return eid;
+}

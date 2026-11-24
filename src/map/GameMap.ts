@@ -16,6 +16,34 @@ export function isWalkable(map: GameMap, tx: number, ty: number): boolean {
 }
 
 /**
+ * Picks up to `count` distinct walkable tiles at random, farther than `minDist` tiles from `avoid`.
+ * Returns tile centers.
+ */
+export function randomFloorTiles(
+  map: GameMap,
+  count: number,
+  rng: () => number,
+  avoid: { x: number; y: number },
+  minDist: number,
+): { x: number; y: number }[] {
+  const taken = new Set<number>();
+  const result: { x: number; y: number }[] = [];
+  // Bounded attempts so a nearly full map can't loop forever.
+  for (let attempt = 0; attempt < count * 20 && result.length < count; attempt++) {
+    const tx = Math.floor(rng() * map.width);
+    const ty = Math.floor(rng() * map.height);
+    const x = tx + 0.5;
+    const y = ty + 0.5;
+    const i = ty * map.width + tx;
+    if (taken.has(i) || !isWalkable(map, tx, ty)) continue;
+    if (Math.hypot(x - avoid.x, y - avoid.y) <= minDist) continue;
+    taken.add(i);
+    result.push({ x, y });
+  }
+  return result;
+}
+
+/**
  * Labels groups of edge-connected blocked tiles. Returns cluster[ty * width + tx]:
  * the index of the group's first tile in row-major order, or -1 for walkable tiles.
  */

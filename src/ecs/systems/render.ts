@@ -84,7 +84,7 @@ export function createRenderSystem(layer: Container): (world: IWorld, alpha: num
       const shadow = new Graphics()
         .ellipse(0, 0, SPRITE_HEIGHT * 0.3, SPRITE_HEIGHT * 0.15)
         .fill({ color: 0x000000, alpha: 0.35 });
-      const view = new Container();
+      const view = new Container({ cullable: true });
       view.addChild(shadow, sprite);
       layer.addChild(view);
       views.set(eid, { view, sprite });

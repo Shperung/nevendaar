@@ -81,15 +81,23 @@ const MIN_VIEW_WIDTH = 40;
  * given height. All figures share one vertical range, so scale and feet baseline stay consistent
  * (walk bob is preserved). Each crop is padded so its horizontal center is the figure's topmost
  * pixel (helmet tip): a sprite anchored at x=0.5 then doesn't jitter as the stride changes width.
+ * Without `key` the background is light neutral, otherwise a chroma key color.
  */
-export async function sliceSheet(sheet: string, count: number, height: number): Promise<Buffer[]> {
+export async function sliceSheet(
+  sheet: string,
+  count: number,
+  height: number,
+  key?: KeyColor,
+): Promise<Buffer[]> {
   const { data, info } = await sharp(sheet)
     .ensureAlpha()
     .raw()
     .toBuffer({ resolveWithObject: true });
   const { width: w, height: h } = info;
-  removeBackground(data, w, h);
-  const opaque = (x: number, y: number) => data[(y * w + x) * 4 + 3] > 0;
+  if (key) removeKeyColor(data, key);
+  else removeBackground(data, w, h);
+  // Half-transparent chroma-key fringe (e.g. faint ground shadow) doesn't count as figure.
+  const opaque = (x: number, y: number) => data[(y * w + x) * 4 + 3] > 127;
 
   const views: { left: number; right: number }[] = [];
   let start = -1;
@@ -119,7 +127,6 @@ export async function sliceSheet(sheet: string, count: number, height: number): 
     }
     return tip.x;
   });
-
   const raw = sharp(data, { raw: { width: w, height: h, channels: 4 } });
   return Promise.all(
     views.map(async (v, i) => {
