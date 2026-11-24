@@ -15,32 +15,74 @@ export function isWalkable(map: GameMap, tx: number, ty: number): boolean {
   return map.grid[Math.floor(ty)]?.[Math.floor(tx)] === 0;
 }
 
+export interface Tile {
+  x: number;
+  y: number;
+}
+
+export interface PackOptions {
+  count: number;
+  minSize: number;
+  maxSize: number;
+  /** Max distance of a pack member from its center (tiles). */
+  radius: number;
+  /** Min distance between pack centers (tiles). */
+  spacing: number;
+  /** No pack member is closer than `minDist` tiles to `avoid`. */
+  avoid: Tile;
+  minDist: number;
+}
+
 /**
- * Picks up to `count` distinct walkable tiles at random, farther than `minDist` tiles from `avoid`.
+ * Picks up to `count` packs of distinct walkable tiles: random centers kept `spacing` apart,
+ * each filled with tiles reachable from the center within `radius`, so walls never split a pack.
  * Returns tile centers.
  */
-export function randomFloorTiles(
-  map: GameMap,
-  count: number,
-  rng: () => number,
-  avoid: { x: number; y: number },
-  minDist: number,
-): { x: number; y: number }[] {
-  const taken = new Set<number>();
-  const result: { x: number; y: number }[] = [];
-  // Bounded attempts so a nearly full map can't loop forever.
-  for (let attempt = 0; attempt < count * 20 && result.length < count; attempt++) {
+export function floorPacks(map: GameMap, o: PackOptions, rng: () => number): Tile[][] {
+  const centers: Tile[] = [];
+  const packs: Tile[][] = [];
+  // Bounded attempts so a crowded map can't loop forever.
+  for (let attempt = 0; attempt < o.count * 20 && packs.length < o.count; attempt++) {
     const tx = Math.floor(rng() * map.width);
     const ty = Math.floor(rng() * map.height);
-    const x = tx + 0.5;
-    const y = ty + 0.5;
-    const i = ty * map.width + tx;
-    if (taken.has(i) || !isWalkable(map, tx, ty)) continue;
-    if (Math.hypot(x - avoid.x, y - avoid.y) <= minDist) continue;
-    taken.add(i);
-    result.push({ x, y });
+    const c = { x: tx + 0.5, y: ty + 0.5 };
+    if (!isWalkable(map, tx, ty)) continue;
+    if (Math.hypot(c.x - o.avoid.x, c.y - o.avoid.y) <= o.minDist + o.radius) continue;
+    if (centers.some((p) => Math.hypot(c.x - p.x, c.y - p.y) < o.spacing)) continue;
+    centers.push(c);
+
+    const near = reachableWithin(map, tx, ty, o.radius);
+    const size = Math.min(near.length, o.minSize + Math.floor(rng() * (o.maxSize - o.minSize + 1)));
+    // Partial Fisher–Yates: the first `size` entries become a uniform random subset.
+    for (let i = 0; i < size; i++) {
+      const j = i + Math.floor(rng() * (near.length - i));
+      [near[i], near[j]] = [near[j], near[i]];
+    }
+    packs.push(near.slice(0, size));
   }
-  return result;
+  return packs;
+}
+
+/** Walkable tiles reachable from (tx, ty) by edge steps without leaving `radius` of it. */
+function reachableWithin(map: GameMap, tx: number, ty: number, radius: number): Tile[] {
+  const seen = new Set([ty * map.width + tx]);
+  const queue: Tile[] = [{ x: tx, y: ty }];
+  for (let q = 0; q < queue.length; q++) {
+    const { x, y } = queue[q];
+    for (const [nx, ny] of [
+      [x - 1, y],
+      [x + 1, y],
+      [x, y - 1],
+      [x, y + 1],
+    ]) {
+      const n = ny * map.width + nx;
+      if (nx < 0 || nx >= map.width || seen.has(n) || !isWalkable(map, nx, ny)) continue;
+      if (Math.hypot(nx - tx, ny - ty) > radius) continue;
+      seen.add(n);
+      queue.push({ x: nx, y: ny });
+    }
+  }
+  return queue.map((t) => ({ x: t.x + 0.5, y: t.y + 0.5 }));
 }
 
 /**

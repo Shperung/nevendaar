@@ -9,6 +9,13 @@ export const HERO_SPEED = 4;
 export const HOLD_REPATH_INTERVAL = 0.1;
 /** Camera scrolls once the hero passes this fraction of the screen (and 1 - this on the opposite side). */
 export const CAMERA_EDGE = 0.7;
-/** Monsters scattered over the test map, and their minimum distance from the hero spawn (tiles). */
-export const MONSTER_COUNT = 400;
+/** Monster packs on the test map. Spacing must stay > 2 × radius so packs never overlap (tiles). */
+export const MONSTER_PACKS = {
+  count: 300,
+  minSize: 3,
+  maxSize: 7,
+  radius: 2.5,
+  spacing: 7,
+};
+/** Minimum distance of any monster from the hero spawn (tiles). */
 export const MONSTER_SPAWN_CLEARANCE = 5;

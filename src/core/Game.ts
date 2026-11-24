@@ -1,12 +1,12 @@
 import { Application, Container, Point, Rectangle } from 'pixi.js';
 import { UnitId } from '../assets/manifest';
-import { FIXED_DT, MONSTER_COUNT, MONSTER_SPAWN_CLEARANCE } from '../config';
+import { FIXED_DT, MONSTER_PACKS, MONSTER_SPAWN_CLEARANCE } from '../config';
 import { Position } from '../ecs/components/Position';
 import { createGameWorld, createStep, spawnHero, spawnMonster } from '../ecs/world';
 import { createRenderSystem, drawMap } from '../ecs/systems/render';
 import { mulberry32 } from '../gameplay/Random';
 import type { Biome } from '../map/Biome';
-import { randomFloorTiles } from '../map/GameMap';
+import { floorPacks } from '../map/GameMap';
 import { toScreen } from '../map/IsoMath';
 import { TEST_MAP, TEST_MAP_SPAWN } from '../map/testMap';
 import { createFullscreenButton } from '../ui/FullscreenButton';
@@ -49,17 +49,15 @@ export class Game {
     const hero = spawnHero(world, TEST_MAP_SPAWN.x, TEST_MAP_SPAWN.y);
     // New seed every run until it is kept in the save (AGENTS.md §4).
     const rng = mulberry32((Math.random() * 2 ** 32) >>> 0);
-    const spots = randomFloorTiles(
+    const packs = floorPacks(
       TEST_MAP,
-      MONSTER_COUNT,
+      { ...MONSTER_PACKS, avoid: TEST_MAP_SPAWN, minDist: MONSTER_SPAWN_CLEARANCE },
       rng,
-      TEST_MAP_SPAWN,
-      MONSTER_SPAWN_CLEARANCE,
     );
     const monsters = [UnitId.Skeleton, UnitId.NecroWarrior, UnitId.Zombie];
-    for (const { x, y } of spots) {
+    for (const pack of packs) {
       const unit = monsters[Math.floor(rng() * monsters.length)];
-      spawnMonster(world, unit, x, y, Math.floor(rng() * 8));
+      for (const { x, y } of pack) spawnMonster(world, unit, x, y, Math.floor(rng() * 8));
     }
     const render = createRenderSystem(worldLayer);
     app.stage.addChild(createFullscreenButton(app));
