@@ -9,6 +9,6 @@ export const HERO_SPEED = 4;
 export const HOLD_REPATH_INTERVAL = 0.1;
 /** Camera scrolls once the hero passes this fraction of the screen (and 1 - this on the opposite side). */
 export const CAMERA_EDGE = 0.7;
-/** Skeletons scattered over the test map, and their minimum distance from the hero spawn (tiles). */
-export const SKELETON_COUNT = 400;
-export const SKELETON_SPAWN_CLEARANCE = 5;
+/** Monsters scattered over the test map, and their minimum distance from the hero spawn (tiles). */
+export const MONSTER_COUNT = 400;
+export const MONSTER_SPAWN_CLEARANCE = 5;

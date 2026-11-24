@@ -1,7 +1,8 @@
 import { Application, Container, Point, Rectangle } from 'pixi.js';
-import { FIXED_DT, SKELETON_COUNT, SKELETON_SPAWN_CLEARANCE } from '../config';
+import { UnitId } from '../assets/manifest';
+import { FIXED_DT, MONSTER_COUNT, MONSTER_SPAWN_CLEARANCE } from '../config';
 import { Position } from '../ecs/components/Position';
-import { createGameWorld, createStep, spawnHero, spawnSkeleton } from '../ecs/world';
+import { createGameWorld, createStep, spawnHero, spawnMonster } from '../ecs/world';
 import { createRenderSystem, drawMap } from '../ecs/systems/render';
 import { mulberry32 } from '../gameplay/Random';
 import type { Biome } from '../map/Biome';
@@ -50,12 +51,15 @@ export class Game {
     const rng = mulberry32((Math.random() * 2 ** 32) >>> 0);
     const spots = randomFloorTiles(
       TEST_MAP,
-      SKELETON_COUNT,
+      MONSTER_COUNT,
       rng,
       TEST_MAP_SPAWN,
-      SKELETON_SPAWN_CLEARANCE,
+      MONSTER_SPAWN_CLEARANCE,
     );
-    for (const { x, y } of spots) spawnSkeleton(world, x, y, Math.floor(rng() * 8));
+    for (const { x, y } of spots) {
+      const unit = rng() < 0.5 ? UnitId.Skeleton : UnitId.NecroWarrior;
+      spawnMonster(world, unit, x, y, Math.floor(rng() * 8));
+    }
     const render = createRenderSystem(worldLayer);
     app.stage.addChild(createFullscreenButton(app));
 

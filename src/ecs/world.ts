@@ -38,13 +38,19 @@ export function spawnHero(world: IWorld, x: number, y: number): number {
   return eid;
 }
 
-export function spawnSkeleton(world: IWorld, x: number, y: number, dir: number): number {
+export function spawnMonster(
+  world: IWorld,
+  unit: number,
+  x: number,
+  y: number,
+  dir: number,
+): number {
   const eid = addEntity(world);
   addComponent(world, Position, eid);
   addComponent(world, Sprite, eid);
   Position.x[eid] = Position.prevX[eid] = x;
   Position.y[eid] = Position.prevY[eid] = y;
-  Sprite.unit[eid] = UnitId.Skeleton;
+  Sprite.unit[eid] = unit;
   Sprite.dir[eid] = dir;
   return eid;
 }

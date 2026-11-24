@@ -1,7 +1,11 @@
 /** Unit names; `Sprite.unit` stores an index into this list. */
-export const UNITS = ['hero', 'skeleton'] as const;
+export const UNITS = ['hero', 'skeleton', 'necro_warrior'] as const;
 
-export const UnitId = { Hero: UNITS.indexOf('hero'), Skeleton: UNITS.indexOf('skeleton') } as const;
+export const UnitId = {
+  Hero: UNITS.indexOf('hero'),
+  Skeleton: UNITS.indexOf('skeleton'),
+  NecroWarrior: UNITS.indexOf('necro_warrior'),
+} as const;
 
 /** Animation clips; `Sprite.clip` stores an index into this list. */
 export const CLIPS = [
