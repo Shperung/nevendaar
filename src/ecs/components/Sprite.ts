@@ -1,6 +1,6 @@
 import { defineComponent, Types } from 'bitecs';
 
-/** Placeholder visual: colored rectangle until real atlases exist. */
+/** `texture` is an index into TEXTURES (assets/manifest.ts). */
 export const Sprite = defineComponent({
-  color: Types.ui32,
+  texture: Types.ui8,
 });

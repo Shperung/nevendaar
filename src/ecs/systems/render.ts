@@ -1,5 +1,6 @@
 import { defineQuery, enterQuery, exitQuery, type IWorld } from 'bitecs';
-import { Container, Graphics } from 'pixi.js';
+import { Assets, Container, Graphics, Sprite as PixiSprite } from 'pixi.js';
+import { TEXTURES } from '../../assets/manifest';
 import { isWalkable, type GameMap } from '../../map/GameMap';
 import { toScreen } from '../../map/IsoMath';
 import { Position } from '../components/Position';
@@ -10,6 +11,8 @@ const enterSprites = enterQuery(spriteQuery);
 const exitSprites = exitQuery(spriteQuery);
 
 const BLOCK_HEIGHT = 40;
+/** On-screen height of unit sprites in pixels. */
+const SPRITE_HEIGHT = 110;
 
 /** Static map visuals: floor outline below everything, obstacles as iso blocks depth-sorted with sprites. */
 export function drawMap(layer: Container, map: GameMap): void {
@@ -47,18 +50,21 @@ export function drawMap(layer: Container, map: GameMap): void {
 }
 
 export function createRenderSystem(layer: Container): (world: IWorld, alpha: number) => void {
-  const views = new Map<number, Graphics>();
+  const views = new Map<number, Container>();
 
   return (world, alpha) => {
     for (const eid of enterSprites(world)) {
-      // Placeholder hero: ground shadow + body, anchored at the feet (0,0).
-      const g = new Graphics()
-        .ellipse(0, 0, 22, 11)
-        .fill({ color: 0x000000, alpha: 0.35 })
-        .rect(-16, -64, 32, 64)
-        .fill(Sprite.color[eid]);
-      layer.addChild(g);
-      views.set(eid, g);
+      // Ground shadow + sprite, anchored at the feet (0,0).
+      const sprite = new PixiSprite(Assets.get(TEXTURES[Sprite.texture[eid]]));
+      sprite.anchor.set(0.5, 1);
+      sprite.scale.set(SPRITE_HEIGHT / sprite.texture.height);
+      const shadow = new Graphics()
+        .ellipse(0, 0, sprite.width * 0.4, sprite.width * 0.2)
+        .fill({ color: 0x000000, alpha: 0.35 });
+      const view = new Container();
+      view.addChild(shadow, sprite);
+      layer.addChild(view);
+      views.set(eid, view);
     }
 
     for (const eid of exitSprites(world)) {

@@ -1,4 +1,5 @@
 import { addComponent, addEntity, createWorld, type IWorld } from 'bitecs';
+import { TextureId } from '../assets/manifest';
 import { HERO_SPEED } from '../config';
 import type { GameMap } from '../map/GameMap';
 import { Player } from './components/Player';
@@ -30,6 +31,6 @@ export function spawnHero(world: IWorld, x: number, y: number): number {
   Position.x[eid] = Position.prevX[eid] = x;
   Position.y[eid] = Position.prevY[eid] = y;
   Speed.value[eid] = HERO_SPEED;
-  Sprite.color[eid] = 0xb03030;
+  Sprite.texture[eid] = TextureId.Hero;
   return eid;
 }

@@ -29,9 +29,20 @@ export class Game {
     app.stage.eventMode = 'static';
     app.stage.hitArea = new Rectangle(0, 0, 1e5, 1e5);
     app.stage.on('pointerdown', (e) => {
+      if (e.button !== 0) return;
       const p = worldLayer.toLocal(e.global);
       Input.click = { x: p.x, y: p.y };
+      Input.pointer = { x: p.x, y: p.y };
+      Input.held = true;
     });
+    app.stage.on('globalpointermove', (e) => {
+      const p = worldLayer.toLocal(e.global);
+      Input.pointer = { x: p.x, y: p.y };
+    });
+    const release = () => (Input.held = false);
+    app.stage.on('pointerup', release);
+    app.stage.on('pointerupoutside', release);
+    window.addEventListener('blur', release);
 
     drawMap(worldLayer, TEST_MAP);
     spawnHero(world, TEST_MAP_SPAWN.x, TEST_MAP_SPAWN.y);
