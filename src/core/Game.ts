@@ -56,8 +56,9 @@ export class Game {
       TEST_MAP_SPAWN,
       MONSTER_SPAWN_CLEARANCE,
     );
+    const monsters = [UnitId.Skeleton, UnitId.NecroWarrior, UnitId.Zombie];
     for (const { x, y } of spots) {
-      const unit = rng() < 0.5 ? UnitId.Skeleton : UnitId.NecroWarrior;
+      const unit = monsters[Math.floor(rng() * monsters.length)];
       spawnMonster(world, unit, x, y, Math.floor(rng() * 8));
     }
     const render = createRenderSystem(worldLayer);
