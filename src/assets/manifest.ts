@@ -12,7 +12,7 @@ export const UnitId = {
 export const CLIPS = [
   { name: 'idle', frames: 1, fps: 1 },
   { name: 'walk', frames: 4, fps: 8 },
-  { name: 'attack', frames: 4, fps: 10, units: ['hero'] },
+  { name: 'attack', frames: 4, fps: 10, units: ['hero', 'skeleton'] },
 ] as const;
 
 export const ClipId = { Idle: 0, Walk: 1, Attack: 2 } as const;
