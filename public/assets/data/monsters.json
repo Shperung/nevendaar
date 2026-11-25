@@ -1,0 +1,5 @@
+{
+  "skeleton": { "hp": 30 },
+  "necro_warrior": { "hp": 60 },
+  "zombie": { "hp": 45 }
+}

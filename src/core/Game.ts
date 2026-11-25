@@ -1,9 +1,10 @@
 import { Application, Container, Point, Rectangle } from 'pixi.js';
-import { UnitId } from '../assets/manifest';
+import { UnitId, UNITS } from '../assets/manifest';
 import { FIXED_DT, MONSTER_PACKS, MONSTER_SPAWN_CLEARANCE } from '../config';
 import { Position } from '../ecs/components/Position';
 import { createGameWorld, createStep, spawnHero, spawnMonster } from '../ecs/world';
 import { createRenderSystem, drawMap } from '../ecs/systems/render';
+import type { MonsterDef } from '../gameplay/Monster';
 import { mulberry32 } from '../gameplay/Random';
 import type { Biome } from '../map/Biome';
 import { floorPacks } from '../map/GameMap';
@@ -17,6 +18,7 @@ export class Game {
   constructor(
     private readonly app: Application,
     private readonly biome: Biome,
+    private readonly monsterDefs: Record<string, MonsterDef>,
   ) {}
 
   start(): void {
@@ -57,7 +59,8 @@ export class Game {
     const monsters = [UnitId.Skeleton, UnitId.NecroWarrior, UnitId.Zombie];
     for (const pack of packs) {
       const unit = monsters[Math.floor(rng() * monsters.length)];
-      for (const { x, y } of pack) spawnMonster(world, unit, x, y, Math.floor(rng() * 8));
+      const { hp } = this.monsterDefs[UNITS[unit]];
+      for (const { x, y } of pack) spawnMonster(world, unit, x, y, Math.floor(rng() * 8), hp);
     }
     const render = createRenderSystem(worldLayer);
     app.stage.addChild(createFullscreenButton(app));

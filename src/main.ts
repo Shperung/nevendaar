@@ -2,6 +2,7 @@ import { Application, Assets, CullerPlugin, extensions } from 'pixi.js';
 import { manifest } from './assets/manifest';
 import { BG_COLOR } from './config';
 import { Game } from './core/Game';
+import { MONSTERS_URL, type MonsterDef } from './gameplay/Monster';
 import { BIOMES_URL, biomeTextures, type Biome } from './map/Biome';
 import { TEST_MAP_BIOME } from './map/testMap';
 
@@ -22,5 +23,6 @@ await Assets.loadBundle('game');
 const biomes = await Assets.load<Record<string, Biome>>(BIOMES_URL);
 const biome = biomes[TEST_MAP_BIOME];
 await Assets.load(biomeTextures(biome));
+const monsters = await Assets.load<Record<string, MonsterDef>>(MONSTERS_URL);
 
-new Game(app, biome).start();
+new Game(app, biome, monsters).start();
