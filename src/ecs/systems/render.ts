@@ -13,6 +13,7 @@ import { atlasPath, type Biome } from '../../map/Biome';
 import { obstacleClusters, type GameMap } from '../../map/GameMap';
 import { toScreen } from '../../map/IsoMath';
 import { Health } from '../components/Health';
+import { Player } from '../components/Player';
 import { Position } from '../components/Position';
 import { Sprite } from '../components/Sprite';
 
@@ -90,12 +91,13 @@ export function createRenderSystem(layer: Container): (world: IWorld, alpha: num
       layer.addChild(view);
       let hp: Graphics | undefined;
       if (hasComponent(world, Health, eid)) {
-        // Full-width red bar scaled horizontally by the health fraction, so it is drawn only once.
+        // Full-width bar scaled horizontally by the health fraction, so it is drawn only once.
         const top = -UNIT_HEIGHT - HP_BAR_H - 4;
         const back = new Graphics()
           .rect(-HP_BAR_W / 2 - 1, top - 1, HP_BAR_W + 2, HP_BAR_H + 2)
           .fill(0x000000);
-        hp = new Graphics().rect(0, 0, HP_BAR_W, HP_BAR_H).fill(0xc0392b);
+        const color = hasComponent(world, Player, eid) ? 0x27ae60 : 0xc0392b;
+        hp = new Graphics().rect(0, 0, HP_BAR_W, HP_BAR_H).fill(color);
         hp.position.set(-HP_BAR_W / 2, top);
         view.addChild(back, hp);
       }

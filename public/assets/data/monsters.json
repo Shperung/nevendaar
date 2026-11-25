@@ -1,5 +1,5 @@
 {
-  "skeleton": { "hp": 30 },
-  "necro_warrior": { "hp": 60 },
-  "zombie": { "hp": 45 }
+  "skeleton": { "hp": 30, "speed": 2.5, "damage": 4, "range": 1, "cooldown": 1, "aggro": 6 },
+  "necro_warrior": { "hp": 60, "speed": 2, "damage": 8, "range": 1, "cooldown": 1.4, "aggro": 5 },
+  "zombie": { "hp": 45, "speed": 1.5, "damage": 6, "range": 1, "cooldown": 1.2, "aggro": 5 }
 }

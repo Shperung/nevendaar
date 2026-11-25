@@ -1,5 +1,5 @@
 import { addComponent, defineQuery, hasComponent, removeComponent, type IWorld } from 'bitecs';
-import { ClipId } from '../../assets/manifest';
+import { ClipId, hasClip } from '../../assets/manifest';
 import { FIXED_DT } from '../../config';
 import type { GameMap } from '../../map/GameMap';
 import { directionFromDelta } from '../../map/IsoMath';
@@ -46,8 +46,10 @@ export function createCombatSystem(map: GameMap): (world: IWorld) => void {
       if (Attack.timer[eid] > 0) continue;
 
       Attack.timer[eid] = Attack.cooldown[eid];
-      Sprite.clip[eid] = ClipId.Attack;
-      Sprite.time[eid] = -FIXED_DT;
+      if (hasClip(Sprite.unit[eid], ClipId.Attack)) {
+        Sprite.clip[eid] = ClipId.Attack;
+        Sprite.time[eid] = -FIXED_DT;
+      }
       Health.current[t] -= Attack.damage[eid];
       if (Health.current[t] <= 0) addComponent(world, Dead, t);
       if (Health.current[t] <= 0 || !AttackTarget.repeat[eid]) {

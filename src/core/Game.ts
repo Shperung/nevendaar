@@ -24,7 +24,7 @@ export class Game {
   start(): void {
     const { app } = this;
     const world = createGameWorld();
-    const step = createStep(TEST_MAP);
+    const step = createStep(TEST_MAP, TEST_MAP_SPAWN);
 
     const worldLayer = new Container({ sortableChildren: true });
     app.stage.addChild(worldLayer);
@@ -59,8 +59,8 @@ export class Game {
     const monsters = [UnitId.Skeleton, UnitId.NecroWarrior, UnitId.Zombie];
     for (const pack of packs) {
       const unit = monsters[Math.floor(rng() * monsters.length)];
-      const { hp } = this.monsterDefs[UNITS[unit]];
-      for (const { x, y } of pack) spawnMonster(world, unit, x, y, Math.floor(rng() * 8), hp);
+      const def = this.monsterDefs[UNITS[unit]];
+      for (const { x, y } of pack) spawnMonster(world, unit, x, y, Math.floor(rng() * 8), def);
     }
     const render = createRenderSystem(worldLayer);
     app.stage.addChild(createFullscreenButton(app));

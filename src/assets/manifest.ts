@@ -17,6 +17,12 @@ export const CLIPS = [
 
 export const ClipId = { Idle: 0, Walk: 1, Attack: 2 } as const;
 
+/** Whether the unit has frames for the clip. */
+export function hasClip(unit: number, clip: number): boolean {
+  const c = CLIPS[clip];
+  return !('units' in c) || (c.units as readonly string[]).includes(UNITS[unit]);
+}
+
 /** Texture alias following the atlas naming `{unit}_{anim}_{dir}_{frame}`. */
 export function frameAlias(unit: number, anim: string, dir: number, frame: number): string {
   return `${UNITS[unit]}_${anim}_${dir}_${String(frame).padStart(2, '0')}`;
@@ -28,10 +34,8 @@ export const manifest = {
   bundles: [
     {
       name: 'game',
-      assets: UNITS.flatMap((name, unit) =>
-        CLIPS.filter(
-          (clip) => !('units' in clip) || (clip.units as readonly string[]).includes(name),
-        ).flatMap((clip) =>
+      assets: UNITS.flatMap((_, unit) =>
+        CLIPS.filter((_, clip) => hasClip(unit, clip)).flatMap((clip) =>
           DIRS.flatMap((dir) =>
             Array.from({ length: clip.frames }, (_, frame) => {
               const alias = frameAlias(unit, clip.name, dir, frame);
