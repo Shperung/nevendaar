@@ -1,0 +1,1453 @@
+{
+  "frames": {
+    "skeleton_attack_0_00": {
+      "frame": {
+        "x": 2,
+        "y": 2,
+        "w": 206,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 206,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 206,
+        "h": 256
+      }
+    },
+    "skeleton_attack_0_01": {
+      "frame": {
+        "x": 210,
+        "y": 2,
+        "w": 217,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 217,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 217,
+        "h": 256
+      }
+    },
+    "skeleton_attack_0_02": {
+      "frame": {
+        "x": 429,
+        "y": 2,
+        "w": 239,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 239,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 239,
+        "h": 256
+      }
+    },
+    "skeleton_attack_0_03": {
+      "frame": {
+        "x": 670,
+        "y": 2,
+        "w": 195,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 195,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 195,
+        "h": 256
+      }
+    },
+    "skeleton_attack_1_00": {
+      "frame": {
+        "x": 867,
+        "y": 2,
+        "w": 245,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 245,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 245,
+        "h": 256
+      }
+    },
+    "skeleton_attack_1_01": {
+      "frame": {
+        "x": 1114,
+        "y": 2,
+        "w": 290,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 290,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 290,
+        "h": 256
+      }
+    },
+    "skeleton_attack_1_02": {
+      "frame": {
+        "x": 1406,
+        "y": 2,
+        "w": 382,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 382,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 382,
+        "h": 256
+      }
+    },
+    "skeleton_attack_1_03": {
+      "frame": {
+        "x": 1790,
+        "y": 2,
+        "w": 202,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 202,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 202,
+        "h": 256
+      }
+    },
+    "skeleton_attack_2_00": {
+      "frame": {
+        "x": 2,
+        "y": 260,
+        "w": 197,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 197,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 197,
+        "h": 256
+      }
+    },
+    "skeleton_attack_2_01": {
+      "frame": {
+        "x": 201,
+        "y": 260,
+        "w": 160,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 160,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 160,
+        "h": 256
+      }
+    },
+    "skeleton_attack_2_02": {
+      "frame": {
+        "x": 363,
+        "y": 260,
+        "w": 309,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 309,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 309,
+        "h": 256
+      }
+    },
+    "skeleton_attack_2_03": {
+      "frame": {
+        "x": 674,
+        "y": 260,
+        "w": 131,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 131,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 131,
+        "h": 256
+      }
+    },
+    "skeleton_attack_3_00": {
+      "frame": {
+        "x": 807,
+        "y": 260,
+        "w": 158,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 158,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 158,
+        "h": 256
+      }
+    },
+    "skeleton_attack_3_01": {
+      "frame": {
+        "x": 967,
+        "y": 260,
+        "w": 186,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 186,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 186,
+        "h": 256
+      }
+    },
+    "skeleton_attack_3_02": {
+      "frame": {
+        "x": 1155,
+        "y": 260,
+        "w": 226,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 226,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 226,
+        "h": 256
+      }
+    },
+    "skeleton_attack_3_03": {
+      "frame": {
+        "x": 1383,
+        "y": 260,
+        "w": 135,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 135,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 135,
+        "h": 256
+      }
+    },
+    "skeleton_attack_4_00": {
+      "frame": {
+        "x": 1520,
+        "y": 260,
+        "w": 215,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 215,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 215,
+        "h": 256
+      }
+    },
+    "skeleton_attack_4_01": {
+      "frame": {
+        "x": 1737,
+        "y": 260,
+        "w": 253,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 253,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 253,
+        "h": 256
+      }
+    },
+    "skeleton_attack_4_02": {
+      "frame": {
+        "x": 2,
+        "y": 518,
+        "w": 137,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 137,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 137,
+        "h": 256
+      }
+    },
+    "skeleton_attack_4_03": {
+      "frame": {
+        "x": 141,
+        "y": 518,
+        "w": 186,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 186,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 186,
+        "h": 256
+      }
+    },
+    "skeleton_attack_5_00": {
+      "frame": {
+        "x": 329,
+        "y": 518,
+        "w": 158,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 158,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 158,
+        "h": 256
+      }
+    },
+    "skeleton_attack_5_01": {
+      "frame": {
+        "x": 489,
+        "y": 518,
+        "w": 186,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 186,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 186,
+        "h": 256
+      }
+    },
+    "skeleton_attack_5_02": {
+      "frame": {
+        "x": 677,
+        "y": 518,
+        "w": 226,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 226,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 226,
+        "h": 256
+      }
+    },
+    "skeleton_attack_5_03": {
+      "frame": {
+        "x": 905,
+        "y": 518,
+        "w": 135,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 135,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 135,
+        "h": 256
+      }
+    },
+    "skeleton_attack_6_00": {
+      "frame": {
+        "x": 1042,
+        "y": 518,
+        "w": 197,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 197,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 197,
+        "h": 256
+      }
+    },
+    "skeleton_attack_6_01": {
+      "frame": {
+        "x": 1241,
+        "y": 518,
+        "w": 160,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 160,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 160,
+        "h": 256
+      }
+    },
+    "skeleton_attack_6_02": {
+      "frame": {
+        "x": 1403,
+        "y": 518,
+        "w": 309,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 309,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 309,
+        "h": 256
+      }
+    },
+    "skeleton_attack_6_03": {
+      "frame": {
+        "x": 1714,
+        "y": 518,
+        "w": 131,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 131,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 131,
+        "h": 256
+      }
+    },
+    "skeleton_attack_7_00": {
+      "frame": {
+        "x": 2,
+        "y": 776,
+        "w": 245,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 245,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 245,
+        "h": 256
+      }
+    },
+    "skeleton_attack_7_01": {
+      "frame": {
+        "x": 249,
+        "y": 776,
+        "w": 290,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 290,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 290,
+        "h": 256
+      }
+    },
+    "skeleton_attack_7_02": {
+      "frame": {
+        "x": 541,
+        "y": 776,
+        "w": 382,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 382,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 382,
+        "h": 256
+      }
+    },
+    "skeleton_attack_7_03": {
+      "frame": {
+        "x": 925,
+        "y": 776,
+        "w": 202,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 202,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 202,
+        "h": 256
+      }
+    },
+    "skeleton_idle_0_00": {
+      "frame": {
+        "x": 1129,
+        "y": 776,
+        "w": 157,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 157,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 157,
+        "h": 256
+      }
+    },
+    "skeleton_idle_1_00": {
+      "frame": {
+        "x": 1288,
+        "y": 776,
+        "w": 175,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 175,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 175,
+        "h": 256
+      }
+    },
+    "skeleton_idle_2_00": {
+      "frame": {
+        "x": 1465,
+        "y": 776,
+        "w": 109,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 109,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 109,
+        "h": 256
+      }
+    },
+    "skeleton_idle_3_00": {
+      "frame": {
+        "x": 1576,
+        "y": 776,
+        "w": 127,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 127,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 127,
+        "h": 256
+      }
+    },
+    "skeleton_idle_4_00": {
+      "frame": {
+        "x": 1705,
+        "y": 776,
+        "w": 174,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 174,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 174,
+        "h": 256
+      }
+    },
+    "skeleton_idle_5_00": {
+      "frame": {
+        "x": 1881,
+        "y": 776,
+        "w": 127,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 127,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 127,
+        "h": 256
+      }
+    },
+    "skeleton_idle_6_00": {
+      "frame": {
+        "x": 2,
+        "y": 1034,
+        "w": 109,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 109,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 109,
+        "h": 256
+      }
+    },
+    "skeleton_idle_7_00": {
+      "frame": {
+        "x": 113,
+        "y": 1034,
+        "w": 175,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 175,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 175,
+        "h": 256
+      }
+    },
+    "skeleton_walk_0_00": {
+      "frame": {
+        "x": 290,
+        "y": 1034,
+        "w": 184,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 184,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 184,
+        "h": 256
+      }
+    },
+    "skeleton_walk_0_01": {
+      "frame": {
+        "x": 476,
+        "y": 1034,
+        "w": 175,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 175,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 175,
+        "h": 256
+      }
+    },
+    "skeleton_walk_0_02": {
+      "frame": {
+        "x": 653,
+        "y": 1034,
+        "w": 179,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 179,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 179,
+        "h": 256
+      }
+    },
+    "skeleton_walk_0_03": {
+      "frame": {
+        "x": 834,
+        "y": 1034,
+        "w": 177,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 177,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 177,
+        "h": 256
+      }
+    },
+    "skeleton_walk_1_00": {
+      "frame": {
+        "x": 1013,
+        "y": 1034,
+        "w": 199,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 199,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 199,
+        "h": 256
+      }
+    },
+    "skeleton_walk_1_01": {
+      "frame": {
+        "x": 1214,
+        "y": 1034,
+        "w": 191,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 191,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 191,
+        "h": 256
+      }
+    },
+    "skeleton_walk_1_02": {
+      "frame": {
+        "x": 1407,
+        "y": 1034,
+        "w": 177,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 177,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 177,
+        "h": 256
+      }
+    },
+    "skeleton_walk_1_03": {
+      "frame": {
+        "x": 1586,
+        "y": 1034,
+        "w": 188,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 188,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 188,
+        "h": 256
+      }
+    },
+    "skeleton_walk_2_00": {
+      "frame": {
+        "x": 1776,
+        "y": 1034,
+        "w": 165,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 165,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 165,
+        "h": 256
+      }
+    },
+    "skeleton_walk_2_01": {
+      "frame": {
+        "x": 2,
+        "y": 1292,
+        "w": 168,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 168,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 168,
+        "h": 256
+      }
+    },
+    "skeleton_walk_2_02": {
+      "frame": {
+        "x": 172,
+        "y": 1292,
+        "w": 167,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 167,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 167,
+        "h": 256
+      }
+    },
+    "skeleton_walk_2_03": {
+      "frame": {
+        "x": 341,
+        "y": 1292,
+        "w": 161,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 161,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 161,
+        "h": 256
+      }
+    },
+    "skeleton_walk_3_00": {
+      "frame": {
+        "x": 504,
+        "y": 1292,
+        "w": 151,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 151,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 151,
+        "h": 256
+      }
+    },
+    "skeleton_walk_3_01": {
+      "frame": {
+        "x": 657,
+        "y": 1292,
+        "w": 157,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 157,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 157,
+        "h": 256
+      }
+    },
+    "skeleton_walk_3_02": {
+      "frame": {
+        "x": 816,
+        "y": 1292,
+        "w": 149,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 149,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 149,
+        "h": 256
+      }
+    },
+    "skeleton_walk_3_03": {
+      "frame": {
+        "x": 967,
+        "y": 1292,
+        "w": 137,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 137,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 137,
+        "h": 256
+      }
+    },
+    "skeleton_walk_4_00": {
+      "frame": {
+        "x": 1106,
+        "y": 1292,
+        "w": 183,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 183,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 183,
+        "h": 256
+      }
+    },
+    "skeleton_walk_4_01": {
+      "frame": {
+        "x": 1291,
+        "y": 1292,
+        "w": 164,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 164,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 164,
+        "h": 256
+      }
+    },
+    "skeleton_walk_4_02": {
+      "frame": {
+        "x": 1457,
+        "y": 1292,
+        "w": 153,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 153,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 153,
+        "h": 256
+      }
+    },
+    "skeleton_walk_4_03": {
+      "frame": {
+        "x": 1612,
+        "y": 1292,
+        "w": 163,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 163,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 163,
+        "h": 256
+      }
+    },
+    "skeleton_walk_5_00": {
+      "frame": {
+        "x": 1777,
+        "y": 1292,
+        "w": 151,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 151,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 151,
+        "h": 256
+      }
+    },
+    "skeleton_walk_5_01": {
+      "frame": {
+        "x": 2,
+        "y": 1550,
+        "w": 157,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 157,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 157,
+        "h": 256
+      }
+    },
+    "skeleton_walk_5_02": {
+      "frame": {
+        "x": 161,
+        "y": 1550,
+        "w": 149,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 149,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 149,
+        "h": 256
+      }
+    },
+    "skeleton_walk_5_03": {
+      "frame": {
+        "x": 312,
+        "y": 1550,
+        "w": 137,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 137,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 137,
+        "h": 256
+      }
+    },
+    "skeleton_walk_6_00": {
+      "frame": {
+        "x": 451,
+        "y": 1550,
+        "w": 165,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 165,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 165,
+        "h": 256
+      }
+    },
+    "skeleton_walk_6_01": {
+      "frame": {
+        "x": 618,
+        "y": 1550,
+        "w": 168,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 168,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 168,
+        "h": 256
+      }
+    },
+    "skeleton_walk_6_02": {
+      "frame": {
+        "x": 788,
+        "y": 1550,
+        "w": 167,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 167,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 167,
+        "h": 256
+      }
+    },
+    "skeleton_walk_6_03": {
+      "frame": {
+        "x": 957,
+        "y": 1550,
+        "w": 161,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 161,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 161,
+        "h": 256
+      }
+    },
+    "skeleton_walk_7_00": {
+      "frame": {
+        "x": 1120,
+        "y": 1550,
+        "w": 199,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 199,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 199,
+        "h": 256
+      }
+    },
+    "skeleton_walk_7_01": {
+      "frame": {
+        "x": 1321,
+        "y": 1550,
+        "w": 191,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 191,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 191,
+        "h": 256
+      }
+    },
+    "skeleton_walk_7_02": {
+      "frame": {
+        "x": 1514,
+        "y": 1550,
+        "w": 177,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 177,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 177,
+        "h": 256
+      }
+    },
+    "skeleton_walk_7_03": {
+      "frame": {
+        "x": 1693,
+        "y": 1550,
+        "w": 188,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 188,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 188,
+        "h": 256
+      }
+    }
+  },
+  "meta": {
+    "image": "skeleton.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 2010,
+      "h": 1808
+    },
+    "scale": 1
+  }
+}
