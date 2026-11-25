@@ -1,0 +1,813 @@
+{
+  "frames": {
+    "necro_warrior_idle_0_00": {
+      "frame": {
+        "x": 2,
+        "y": 2,
+        "w": 108,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 108,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 108,
+        "h": 256
+      }
+    },
+    "necro_warrior_idle_1_00": {
+      "frame": {
+        "x": 112,
+        "y": 2,
+        "w": 205,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 205,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 205,
+        "h": 256
+      }
+    },
+    "necro_warrior_idle_2_00": {
+      "frame": {
+        "x": 319,
+        "y": 2,
+        "w": 231,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 231,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 231,
+        "h": 256
+      }
+    },
+    "necro_warrior_idle_3_00": {
+      "frame": {
+        "x": 552,
+        "y": 2,
+        "w": 122,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 122,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 122,
+        "h": 256
+      }
+    },
+    "necro_warrior_idle_4_00": {
+      "frame": {
+        "x": 676,
+        "y": 2,
+        "w": 114,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 114,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 114,
+        "h": 256
+      }
+    },
+    "necro_warrior_idle_5_00": {
+      "frame": {
+        "x": 792,
+        "y": 2,
+        "w": 122,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 122,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 122,
+        "h": 256
+      }
+    },
+    "necro_warrior_idle_6_00": {
+      "frame": {
+        "x": 916,
+        "y": 2,
+        "w": 231,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 231,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 231,
+        "h": 256
+      }
+    },
+    "necro_warrior_idle_7_00": {
+      "frame": {
+        "x": 1149,
+        "y": 2,
+        "w": 205,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 205,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 205,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_0_00": {
+      "frame": {
+        "x": 1356,
+        "y": 2,
+        "w": 123,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 123,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 123,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_0_01": {
+      "frame": {
+        "x": 1481,
+        "y": 2,
+        "w": 124,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 124,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 124,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_0_02": {
+      "frame": {
+        "x": 1607,
+        "y": 2,
+        "w": 139,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 139,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 139,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_0_03": {
+      "frame": {
+        "x": 1748,
+        "y": 2,
+        "w": 152,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 152,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 152,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_1_00": {
+      "frame": {
+        "x": 2,
+        "y": 260,
+        "w": 174,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 174,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 174,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_1_01": {
+      "frame": {
+        "x": 178,
+        "y": 260,
+        "w": 172,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 172,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 172,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_1_02": {
+      "frame": {
+        "x": 352,
+        "y": 260,
+        "w": 177,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 177,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 177,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_1_03": {
+      "frame": {
+        "x": 531,
+        "y": 260,
+        "w": 211,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 211,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 211,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_2_00": {
+      "frame": {
+        "x": 744,
+        "y": 260,
+        "w": 150,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 150,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 150,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_2_01": {
+      "frame": {
+        "x": 896,
+        "y": 260,
+        "w": 156,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 156,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 156,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_2_02": {
+      "frame": {
+        "x": 1054,
+        "y": 260,
+        "w": 156,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 156,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 156,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_2_03": {
+      "frame": {
+        "x": 1212,
+        "y": 260,
+        "w": 142,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 142,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 142,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_3_00": {
+      "frame": {
+        "x": 1356,
+        "y": 260,
+        "w": 141,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 141,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 141,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_3_01": {
+      "frame": {
+        "x": 1499,
+        "y": 260,
+        "w": 138,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 138,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 138,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_3_02": {
+      "frame": {
+        "x": 1639,
+        "y": 260,
+        "w": 161,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 161,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 161,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_3_03": {
+      "frame": {
+        "x": 1802,
+        "y": 260,
+        "w": 146,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 146,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 146,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_4_00": {
+      "frame": {
+        "x": 2,
+        "y": 518,
+        "w": 119,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 119,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 119,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_4_01": {
+      "frame": {
+        "x": 123,
+        "y": 518,
+        "w": 113,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 113,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 113,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_4_02": {
+      "frame": {
+        "x": 238,
+        "y": 518,
+        "w": 107,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 107,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 107,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_4_03": {
+      "frame": {
+        "x": 347,
+        "y": 518,
+        "w": 109,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 109,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 109,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_5_00": {
+      "frame": {
+        "x": 458,
+        "y": 518,
+        "w": 141,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 141,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 141,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_5_01": {
+      "frame": {
+        "x": 601,
+        "y": 518,
+        "w": 138,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 138,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 138,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_5_02": {
+      "frame": {
+        "x": 741,
+        "y": 518,
+        "w": 161,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 161,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 161,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_5_03": {
+      "frame": {
+        "x": 904,
+        "y": 518,
+        "w": 146,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 146,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 146,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_6_00": {
+      "frame": {
+        "x": 1052,
+        "y": 518,
+        "w": 150,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 150,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 150,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_6_01": {
+      "frame": {
+        "x": 1204,
+        "y": 518,
+        "w": 156,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 156,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 156,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_6_02": {
+      "frame": {
+        "x": 1362,
+        "y": 518,
+        "w": 156,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 156,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 156,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_6_03": {
+      "frame": {
+        "x": 1520,
+        "y": 518,
+        "w": 142,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 142,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 142,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_7_00": {
+      "frame": {
+        "x": 1664,
+        "y": 518,
+        "w": 174,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 174,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 174,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_7_01": {
+      "frame": {
+        "x": 1840,
+        "y": 518,
+        "w": 172,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 172,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 172,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_7_02": {
+      "frame": {
+        "x": 2,
+        "y": 776,
+        "w": 177,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 177,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 177,
+        "h": 256
+      }
+    },
+    "necro_warrior_walk_7_03": {
+      "frame": {
+        "x": 181,
+        "y": 776,
+        "w": 211,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 211,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 211,
+        "h": 256
+      }
+    }
+  },
+  "meta": {
+    "image": "necro_warrior.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 2014,
+      "h": 1034
+    },
+    "scale": 1
+  }
+}

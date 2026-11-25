@@ -31,7 +31,7 @@ export function frameAlias(unit: number, anim: string, dir: number, frame: numbe
 const DIRS = [0, 1, 2, 3, 4, 5, 6, 7];
 
 /** Units packed by tools/pack_atlas.ts into `{unit}.json`; the rest load one PNG per frame. */
-const ATLAS_UNITS: readonly string[] = ['hero', 'skeleton'];
+const ATLAS_UNITS: readonly string[] = ['hero', 'skeleton', 'necro_warrior', 'zombie'];
 
 export const manifest = {
   bundles: [
