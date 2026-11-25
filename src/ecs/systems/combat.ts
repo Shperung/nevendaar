@@ -46,8 +46,8 @@ export function createCombatSystem(map: GameMap): (world: IWorld) => void {
 
       Attack.timer[eid] = Attack.cooldown[eid];
       Health.current[t] -= Attack.damage[eid];
-      if (Health.current[t] <= 0) {
-        addComponent(world, Dead, t);
+      if (Health.current[t] <= 0) addComponent(world, Dead, t);
+      if (Health.current[t] <= 0 || !AttackTarget.repeat[eid]) {
         removeComponent(world, AttackTarget, eid);
       }
     }

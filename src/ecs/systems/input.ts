@@ -13,6 +13,7 @@ import { Player } from '../components/Player';
 import { Position } from '../components/Position';
 
 const playerQuery = defineQuery([Player, Position]);
+const attackingQuery = defineQuery([Player, AttackTarget]);
 const monsterQuery = defineQuery([Position, Health, Not(Player), Not(Dead)]);
 const REPATH_STEPS = Math.round(HOLD_REPATH_INTERVAL / FIXED_DT);
 
@@ -35,6 +36,8 @@ export function createInputSystem(map: GameMap): (world: IWorld) => void {
   let cooldown = 0;
 
   return (world) => {
+    for (const eid of attackingQuery(world)) AttackTarget.repeat[eid] = Input.held ? 1 : 0;
+
     let screenTarget: { x: number; y: number } | null = null;
     cooldown--;
     if (Input.click) {
@@ -55,6 +58,7 @@ export function createInputSystem(map: GameMap): (world: IWorld) => void {
         if (!hasComponent(world, AttackTarget, eid) || AttackTarget.eid[eid] !== monster) {
           addComponent(world, AttackTarget, eid);
           AttackTarget.eid[eid] = monster;
+          AttackTarget.repeat[eid] = Input.held ? 1 : 0;
           removeComponent(world, MoveTarget, eid);
           Path.delete(eid);
         }
