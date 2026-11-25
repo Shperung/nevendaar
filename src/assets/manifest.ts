@@ -30,19 +30,24 @@ export function frameAlias(unit: number, anim: string, dir: number, frame: numbe
 
 const DIRS = [0, 1, 2, 3, 4, 5, 6, 7];
 
+/** Units packed by tools/pack_atlas.ts into `{unit}.json`; the rest load one PNG per frame. */
+const ATLAS_UNITS: readonly string[] = ['hero'];
+
 export const manifest = {
   bundles: [
     {
       name: 'game',
-      assets: UNITS.flatMap((_, unit) =>
-        CLIPS.filter((_, clip) => hasClip(unit, clip)).flatMap((clip) =>
-          DIRS.flatMap((dir) =>
-            Array.from({ length: clip.frames }, (_, frame) => {
-              const alias = frameAlias(unit, clip.name, dir, frame);
-              return { alias, src: `assets/atlases/${alias}.png` };
-            }),
-          ),
-        ),
+      assets: UNITS.flatMap((name, unit) =>
+        ATLAS_UNITS.includes(name)
+          ? [{ alias: `${name}_atlas`, src: `assets/atlases/${name}.json` }]
+          : CLIPS.filter((_, clip) => hasClip(unit, clip)).flatMap((clip) =>
+              DIRS.flatMap((dir) =>
+                Array.from({ length: clip.frames }, (_, frame) => {
+                  const alias = frameAlias(unit, clip.name, dir, frame);
+                  return { alias, src: `assets/atlases/${alias}.png` };
+                }),
+              ),
+            ),
       ),
     },
   ],
