@@ -2,15 +2,19 @@ import { Application, Container, Point, Rectangle } from 'pixi.js';
 import { UnitId, UNITS } from '../assets/manifest';
 import { FIXED_DT, MONSTER_PACKS, MONSTER_SPAWN_CLEARANCE } from '../config';
 import { Position } from '../ecs/components/Position';
+import { Wallet } from '../ecs/components/Wallet';
 import { createGameWorld, createStep, spawnHero, spawnMonster } from '../ecs/world';
 import { createRenderSystem, drawMap } from '../ecs/systems/render';
+import type { LootTable } from '../gameplay/Loot';
 import type { MonsterDef } from '../gameplay/Monster';
 import { mulberry32 } from '../gameplay/Random';
 import type { Biome } from '../map/Biome';
 import { floorPacks } from '../map/GameMap';
 import { toScreen } from '../map/IsoMath';
 import { TEST_MAP, TEST_MAP_SPAWN } from '../map/testMap';
+import type { Storage } from '../save/Storage';
 import { createFullscreenButton } from '../ui/FullscreenButton';
+import { Hud } from '../ui/Hud';
 import { Camera } from './Camera';
 import { Input } from './Input';
 
@@ -19,12 +23,17 @@ export class Game {
     private readonly app: Application,
     private readonly biome: Biome,
     private readonly monsterDefs: Record<string, MonsterDef>,
+    private readonly loot: LootTable,
+    private readonly storage: Storage,
+    private readonly startGold: number,
   ) {}
 
   start(): void {
     const { app } = this;
     const world = createGameWorld();
-    const step = createStep(TEST_MAP, TEST_MAP_SPAWN);
+    // New seed every run until it is kept in the save (AGENTS.md §4).
+    const rng = mulberry32((Math.random() * 2 ** 32) >>> 0);
+    const step = createStep(TEST_MAP, TEST_MAP_SPAWN, rng, this.loot.pickup);
 
     const worldLayer = new Container({ sortableChildren: true });
     app.stage.addChild(worldLayer);
@@ -48,9 +57,7 @@ export class Game {
     window.addEventListener('blur', release);
 
     drawMap(worldLayer, TEST_MAP, this.biome);
-    const hero = spawnHero(world, TEST_MAP_SPAWN.x, TEST_MAP_SPAWN.y);
-    // New seed every run until it is kept in the save (AGENTS.md §4).
-    const rng = mulberry32((Math.random() * 2 ** 32) >>> 0);
+    const hero = spawnHero(world, TEST_MAP_SPAWN.x, TEST_MAP_SPAWN.y, this.startGold);
     const packs = floorPacks(
       TEST_MAP,
       { ...MONSTER_PACKS, avoid: TEST_MAP_SPAWN, minDist: MONSTER_SPAWN_CLEARANCE },
@@ -60,10 +67,21 @@ export class Game {
     // Each monster rolls its own type, so packs come out mixed (or uniform by chance).
     for (const { x, y } of packs.flat()) {
       const unit = monsters[Math.floor(rng() * monsters.length)];
-      spawnMonster(world, unit, x, y, Math.floor(rng() * 8), this.monsterDefs[UNITS[unit]]);
+      const name = UNITS[unit];
+      spawnMonster(
+        world,
+        unit,
+        x,
+        y,
+        Math.floor(rng() * 8),
+        this.monsterDefs[name],
+        this.loot.monsters[name]?.gold,
+      );
     }
     const render = createRenderSystem(worldLayer);
-    app.stage.addChild(createFullscreenButton(app));
+    const hud = new Hud();
+    app.stage.addChild(hud, createFullscreenButton(app));
+    let savedGold = this.startGold;
 
     // Hero position in world screen pixels, interpolated the same way render.ts does.
     const heroScreen = (alpha: number) =>
@@ -87,6 +105,13 @@ export class Game {
       camera.follow(heroScreen(alpha));
       const p = worldLayer.toLocal(pointerScreen);
       Input.pointer = { x: p.x, y: p.y };
+
+      const gold = Wallet.gold[hero];
+      hud.update(gold);
+      if (gold !== savedGold) {
+        savedGold = gold;
+        void this.storage.saveGold(gold);
+      }
     });
   }
 }

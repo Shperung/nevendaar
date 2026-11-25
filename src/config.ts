@@ -26,3 +26,11 @@ export const MONSTER_PACKS = {
 };
 /** Minimum distance of any monster from the hero spawn (tiles). */
 export const MONSTER_SPAWN_CLEARANCE = 5;
+/** Max offset of a gold pile from the monster's death spot (tiles). */
+export const GOLD_SCATTER = 0.3;
+/** Gold amount multiplier of the current zone; later the dungeon level. */
+export const ZONE_GOLD_MULT = 1;
+/** Pile size thresholds (visual only): amount ≤ [0] small, ≤ [1] medium, else large. */
+export const GOLD_PILE_TIERS = [5, 15];
+/** Click/hover hit radius around a gold pile in screen pixels (vertical half as tall, iso-squashed). */
+export const GOLD_PILE_PICK = 24;

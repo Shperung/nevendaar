@@ -37,18 +37,21 @@ export const manifest = {
   bundles: [
     {
       name: 'game',
-      assets: UNITS.flatMap((name, unit) =>
-        ATLAS_UNITS.includes(name)
-          ? [{ alias: `${name}_atlas`, src: `assets/atlases/${name}.json` }]
-          : CLIPS.filter((_, clip) => hasClip(unit, clip)).flatMap((clip) =>
-              DIRS.flatMap((dir) =>
-                Array.from({ length: clip.frames }, (_, frame) => {
-                  const alias = frameAlias(unit, clip.name, dir, frame);
-                  return { alias, src: `assets/atlases/${alias}.png` };
-                }),
+      assets: [
+        { alias: 'gold_pouch', src: 'assets/atlases/loot/gold_pouch.png' },
+        ...UNITS.flatMap((name, unit) =>
+          ATLAS_UNITS.includes(name)
+            ? [{ alias: `${name}_atlas`, src: `assets/atlases/${name}.json` }]
+            : CLIPS.filter((_, clip) => hasClip(unit, clip)).flatMap((clip) =>
+                DIRS.flatMap((dir) =>
+                  Array.from({ length: clip.frames }, (_, frame) => {
+                    const alias = frameAlias(unit, clip.name, dir, frame);
+                    return { alias, src: `assets/atlases/${alias}.png` };
+                  }),
+                ),
               ),
-            ),
-      ),
+        ),
+      ],
     },
   ],
 };

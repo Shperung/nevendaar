@@ -2,9 +2,11 @@ import { Application, Assets, CullerPlugin, extensions } from 'pixi.js';
 import { manifest } from './assets/manifest';
 import { BG_COLOR } from './config';
 import { Game } from './core/Game';
+import { LOOT_URL, parseLoot } from './gameplay/Loot';
 import { MONSTERS_URL, type MonsterDef } from './gameplay/Monster';
 import { BIOMES_URL, biomeTextures, type Biome } from './map/Biome';
 import { TEST_MAP_BIOME } from './map/testMap';
+import { createStorage } from './save/Storage';
 
 // Skips rendering of `cullable` objects outside the screen (the map has thousands of blocks).
 extensions.add(CullerPlugin);
@@ -24,5 +26,8 @@ const biomes = await Assets.load<Record<string, Biome>>(BIOMES_URL);
 const biome = biomes[TEST_MAP_BIOME];
 await Assets.load(biomeTextures(biome));
 const monsters = await Assets.load<Record<string, MonsterDef>>(MONSTERS_URL);
+const loot = parseLoot(await Assets.load<unknown>(LOOT_URL));
+const storage = createStorage(localStorage);
+const gold = await storage.loadGold();
 
-new Game(app, biome, monsters).start();
+new Game(app, biome, monsters, loot, storage, gold).start();

@@ -5,13 +5,17 @@ import {
   FillPattern,
   Graphics,
   Sprite as PixiSprite,
+  Text,
   type Texture,
 } from 'pixi.js';
 import { CLIPS, frameAlias } from '../../assets/manifest';
-import { TILE_H, UNIT_HEIGHT } from '../../config';
+import { GOLD_PILE_PICK, TILE_H, UNIT_HEIGHT } from '../../config';
+import { Input } from '../../core/Input';
+import { pileTier } from '../../gameplay/Loot';
 import { atlasPath, type Biome } from '../../map/Biome';
 import { obstacleClusters, type GameMap } from '../../map/GameMap';
 import { toScreen } from '../../map/IsoMath';
+import { GoldPile } from '../components/GoldPile';
 import { Health } from '../components/Health';
 import { Player } from '../components/Player';
 import { Position } from '../components/Position';
@@ -20,6 +24,11 @@ import { Sprite } from '../components/Sprite';
 const spriteQuery = defineQuery([Position, Sprite]);
 const enterSprites = enterQuery(spriteQuery);
 const exitSprites = exitQuery(spriteQuery);
+const pileQuery = defineQuery([Position, GoldPile]);
+const enterPiles = enterQuery(pileQuery);
+const exitPiles = exitQuery(pileQuery);
+/** Gold pouch sprite width per pileTier, in pixels. */
+const PILE_SIZES = [32, 44, 58];
 
 const HP_BAR_W = 50;
 const HP_BAR_H = 6;
@@ -77,8 +86,62 @@ export function drawMap(layer: Container, map: GameMap, biome: Biome): void {
 
 export function createRenderSystem(layer: Container): (world: IWorld, alpha: number) => void {
   const views = new Map<number, { view: Container; sprite: PixiSprite; hp?: Graphics }>();
+  const pileViews = new Map<number, Container>();
+  // One shared hover label instead of a Text per pile (there can be ~1500 piles).
+  const pileLabel = new Text({
+    style: { fontSize: 14, fill: 0xf1c40f, stroke: { color: 0x000000, width: 3 } },
+    anchor: { x: 0.5, y: 1 },
+    visible: false,
+    zIndex: Infinity,
+  });
+  layer.addChild(pileLabel);
 
   return (world, alpha) => {
+    for (const eid of enterPiles(world)) {
+      const w = PILE_SIZES[pileTier(GoldPile.amount[eid])];
+      const shadow = new Graphics()
+        .ellipse(0, 0, w * 0.45, w * 0.2)
+        .fill({ color: 0x000000, alpha: 0.35 });
+      const pile = new PixiSprite({
+        texture: Assets.get('gold_pouch'),
+        anchor: { x: 0.5, y: 0.85 },
+      });
+      pile.scale.set(w / pile.texture.width);
+      const view = new Container({ cullable: true });
+      view.addChild(shadow, pile);
+      const s = toScreen(Position.x[eid], Position.y[eid]);
+      view.position.set(s.x, s.y);
+      // Below the feet of a unit standing on the pile.
+      view.zIndex = s.y - TILE_H / 2;
+      layer.addChild(view);
+      pileViews.set(eid, view);
+    }
+
+    for (const eid of exitPiles(world)) {
+      pileViews.get(eid)?.destroy({ children: true });
+      pileViews.delete(eid);
+    }
+
+    let hovered = -1;
+    let hoveredY = -Infinity;
+    for (const eid of pileQuery(world)) {
+      const view = pileViews.get(eid);
+      if (!view) continue;
+      view.alpha = GoldPile.delay[eid] > 0 ? 0.5 : 1;
+      const dx = Input.pointer.x - view.x;
+      const dy = Input.pointer.y - view.y;
+      if (Math.hypot(dx, dy * 2) <= GOLD_PILE_PICK && view.y > hoveredY) {
+        hovered = eid;
+        hoveredY = view.y;
+      }
+    }
+    pileLabel.visible = hovered >= 0;
+    if (hovered >= 0) {
+      const view = pileViews.get(hovered) as Container;
+      pileLabel.text = `${GoldPile.amount[hovered]} золота`;
+      pileLabel.position.set(view.x, view.y - view.height);
+    }
+
     for (const eid of enterSprites(world)) {
       // Ground shadow + sprite, anchored at the feet (0,0).
       const sprite = new PixiSprite();
