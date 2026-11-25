@@ -1,9 +1,649 @@
 {
   "frames": {
-    "zombie_idle_0_00": {
+    "zombie_attack_0_00": {
       "frame": {
         "x": 2,
         "y": 2,
+        "w": 201,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 201,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 201,
+        "h": 256
+      }
+    },
+    "zombie_attack_0_01": {
+      "frame": {
+        "x": 205,
+        "y": 2,
+        "w": 173,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 173,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 173,
+        "h": 256
+      }
+    },
+    "zombie_attack_0_02": {
+      "frame": {
+        "x": 380,
+        "y": 2,
+        "w": 111,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 111,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 111,
+        "h": 256
+      }
+    },
+    "zombie_attack_0_03": {
+      "frame": {
+        "x": 493,
+        "y": 2,
+        "w": 137,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 137,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 137,
+        "h": 256
+      }
+    },
+    "zombie_attack_1_00": {
+      "frame": {
+        "x": 632,
+        "y": 2,
+        "w": 162,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 162,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 162,
+        "h": 256
+      }
+    },
+    "zombie_attack_1_01": {
+      "frame": {
+        "x": 796,
+        "y": 2,
+        "w": 174,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 174,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 174,
+        "h": 256
+      }
+    },
+    "zombie_attack_1_02": {
+      "frame": {
+        "x": 972,
+        "y": 2,
+        "w": 209,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 209,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 209,
+        "h": 256
+      }
+    },
+    "zombie_attack_1_03": {
+      "frame": {
+        "x": 1183,
+        "y": 2,
+        "w": 116,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 116,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 116,
+        "h": 256
+      }
+    },
+    "zombie_attack_2_00": {
+      "frame": {
+        "x": 1301,
+        "y": 2,
+        "w": 193,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 193,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 193,
+        "h": 256
+      }
+    },
+    "zombie_attack_2_01": {
+      "frame": {
+        "x": 1496,
+        "y": 2,
+        "w": 187,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 187,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 187,
+        "h": 256
+      }
+    },
+    "zombie_attack_2_02": {
+      "frame": {
+        "x": 1685,
+        "y": 2,
+        "w": 274,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 274,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 274,
+        "h": 256
+      }
+    },
+    "zombie_attack_2_03": {
+      "frame": {
+        "x": 2,
+        "y": 260,
+        "w": 134,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 134,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 134,
+        "h": 256
+      }
+    },
+    "zombie_attack_3_00": {
+      "frame": {
+        "x": 138,
+        "y": 260,
+        "w": 193,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 193,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 193,
+        "h": 256
+      }
+    },
+    "zombie_attack_3_01": {
+      "frame": {
+        "x": 333,
+        "y": 260,
+        "w": 170,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 170,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 170,
+        "h": 256
+      }
+    },
+    "zombie_attack_3_02": {
+      "frame": {
+        "x": 505,
+        "y": 260,
+        "w": 225,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 225,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 225,
+        "h": 256
+      }
+    },
+    "zombie_attack_3_03": {
+      "frame": {
+        "x": 732,
+        "y": 260,
+        "w": 182,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 182,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 182,
+        "h": 256
+      }
+    },
+    "zombie_attack_4_00": {
+      "frame": {
+        "x": 916,
+        "y": 260,
+        "w": 186,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 186,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 186,
+        "h": 256
+      }
+    },
+    "zombie_attack_4_01": {
+      "frame": {
+        "x": 1104,
+        "y": 260,
+        "w": 171,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 171,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 171,
+        "h": 256
+      }
+    },
+    "zombie_attack_4_02": {
+      "frame": {
+        "x": 1277,
+        "y": 260,
+        "w": 169,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 169,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 169,
+        "h": 256
+      }
+    },
+    "zombie_attack_4_03": {
+      "frame": {
+        "x": 1448,
+        "y": 260,
+        "w": 151,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 151,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 151,
+        "h": 256
+      }
+    },
+    "zombie_attack_5_00": {
+      "frame": {
+        "x": 1601,
+        "y": 260,
+        "w": 193,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 193,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 193,
+        "h": 256
+      }
+    },
+    "zombie_attack_5_01": {
+      "frame": {
+        "x": 1796,
+        "y": 260,
+        "w": 170,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 170,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 170,
+        "h": 256
+      }
+    },
+    "zombie_attack_5_02": {
+      "frame": {
+        "x": 2,
+        "y": 518,
+        "w": 225,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 225,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 225,
+        "h": 256
+      }
+    },
+    "zombie_attack_5_03": {
+      "frame": {
+        "x": 229,
+        "y": 518,
+        "w": 182,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 182,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 182,
+        "h": 256
+      }
+    },
+    "zombie_attack_6_00": {
+      "frame": {
+        "x": 413,
+        "y": 518,
+        "w": 193,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 193,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 193,
+        "h": 256
+      }
+    },
+    "zombie_attack_6_01": {
+      "frame": {
+        "x": 608,
+        "y": 518,
+        "w": 187,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 187,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 187,
+        "h": 256
+      }
+    },
+    "zombie_attack_6_02": {
+      "frame": {
+        "x": 797,
+        "y": 518,
+        "w": 274,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 274,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 274,
+        "h": 256
+      }
+    },
+    "zombie_attack_6_03": {
+      "frame": {
+        "x": 1073,
+        "y": 518,
+        "w": 134,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 134,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 134,
+        "h": 256
+      }
+    },
+    "zombie_attack_7_00": {
+      "frame": {
+        "x": 1209,
+        "y": 518,
+        "w": 162,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 162,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 162,
+        "h": 256
+      }
+    },
+    "zombie_attack_7_01": {
+      "frame": {
+        "x": 1373,
+        "y": 518,
+        "w": 174,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 174,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 174,
+        "h": 256
+      }
+    },
+    "zombie_attack_7_02": {
+      "frame": {
+        "x": 1549,
+        "y": 518,
+        "w": 209,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 209,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 209,
+        "h": 256
+      }
+    },
+    "zombie_attack_7_03": {
+      "frame": {
+        "x": 1760,
+        "y": 518,
+        "w": 116,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 116,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 116,
+        "h": 256
+      }
+    },
+    "zombie_idle_0_00": {
+      "frame": {
+        "x": 1878,
+        "y": 518,
         "w": 158,
         "h": 256
       },
@@ -22,8 +662,8 @@
     },
     "zombie_idle_1_00": {
       "frame": {
-        "x": 162,
-        "y": 2,
+        "x": 2,
+        "y": 776,
         "w": 133,
         "h": 256
       },
@@ -42,8 +682,8 @@
     },
     "zombie_idle_2_00": {
       "frame": {
-        "x": 297,
-        "y": 2,
+        "x": 137,
+        "y": 776,
         "w": 123,
         "h": 256
       },
@@ -62,8 +702,8 @@
     },
     "zombie_idle_3_00": {
       "frame": {
-        "x": 422,
-        "y": 2,
+        "x": 262,
+        "y": 776,
         "w": 128,
         "h": 256
       },
@@ -82,8 +722,8 @@
     },
     "zombie_idle_4_00": {
       "frame": {
-        "x": 552,
-        "y": 2,
+        "x": 392,
+        "y": 776,
         "w": 156,
         "h": 256
       },
@@ -102,8 +742,8 @@
     },
     "zombie_idle_5_00": {
       "frame": {
-        "x": 710,
-        "y": 2,
+        "x": 550,
+        "y": 776,
         "w": 128,
         "h": 256
       },
@@ -122,8 +762,8 @@
     },
     "zombie_idle_6_00": {
       "frame": {
-        "x": 840,
-        "y": 2,
+        "x": 680,
+        "y": 776,
         "w": 123,
         "h": 256
       },
@@ -142,8 +782,8 @@
     },
     "zombie_idle_7_00": {
       "frame": {
-        "x": 965,
-        "y": 2,
+        "x": 805,
+        "y": 776,
         "w": 133,
         "h": 256
       },
@@ -162,8 +802,8 @@
     },
     "zombie_walk_0_00": {
       "frame": {
-        "x": 1100,
-        "y": 2,
+        "x": 940,
+        "y": 776,
         "w": 107,
         "h": 256
       },
@@ -182,8 +822,8 @@
     },
     "zombie_walk_0_01": {
       "frame": {
-        "x": 1209,
-        "y": 2,
+        "x": 1049,
+        "y": 776,
         "w": 117,
         "h": 256
       },
@@ -202,8 +842,8 @@
     },
     "zombie_walk_0_02": {
       "frame": {
-        "x": 1328,
-        "y": 2,
+        "x": 1168,
+        "y": 776,
         "w": 115,
         "h": 256
       },
@@ -222,8 +862,8 @@
     },
     "zombie_walk_0_03": {
       "frame": {
-        "x": 1445,
-        "y": 2,
+        "x": 1285,
+        "y": 776,
         "w": 105,
         "h": 256
       },
@@ -242,8 +882,8 @@
     },
     "zombie_walk_1_00": {
       "frame": {
-        "x": 1552,
-        "y": 2,
+        "x": 1392,
+        "y": 776,
         "w": 146,
         "h": 256
       },
@@ -262,8 +902,8 @@
     },
     "zombie_walk_1_01": {
       "frame": {
-        "x": 1700,
-        "y": 2,
+        "x": 1540,
+        "y": 776,
         "w": 153,
         "h": 256
       },
@@ -282,8 +922,8 @@
     },
     "zombie_walk_1_02": {
       "frame": {
-        "x": 1855,
-        "y": 2,
+        "x": 1695,
+        "y": 776,
         "w": 145,
         "h": 256
       },
@@ -302,8 +942,8 @@
     },
     "zombie_walk_1_03": {
       "frame": {
-        "x": 2,
-        "y": 260,
+        "x": 1842,
+        "y": 776,
         "w": 127,
         "h": 256
       },
@@ -322,8 +962,8 @@
     },
     "zombie_walk_2_00": {
       "frame": {
-        "x": 131,
-        "y": 260,
+        "x": 2,
+        "y": 1034,
         "w": 162,
         "h": 256
       },
@@ -342,8 +982,8 @@
     },
     "zombie_walk_2_01": {
       "frame": {
-        "x": 295,
-        "y": 260,
+        "x": 166,
+        "y": 1034,
         "w": 163,
         "h": 256
       },
@@ -362,8 +1002,8 @@
     },
     "zombie_walk_2_02": {
       "frame": {
-        "x": 460,
-        "y": 260,
+        "x": 331,
+        "y": 1034,
         "w": 141,
         "h": 256
       },
@@ -382,8 +1022,8 @@
     },
     "zombie_walk_2_03": {
       "frame": {
-        "x": 603,
-        "y": 260,
+        "x": 474,
+        "y": 1034,
         "w": 149,
         "h": 256
       },
@@ -402,8 +1042,8 @@
     },
     "zombie_walk_3_00": {
       "frame": {
-        "x": 754,
-        "y": 260,
+        "x": 625,
+        "y": 1034,
         "w": 117,
         "h": 256
       },
@@ -422,8 +1062,8 @@
     },
     "zombie_walk_3_01": {
       "frame": {
-        "x": 873,
-        "y": 260,
+        "x": 744,
+        "y": 1034,
         "w": 123,
         "h": 256
       },
@@ -442,8 +1082,8 @@
     },
     "zombie_walk_3_02": {
       "frame": {
-        "x": 998,
-        "y": 260,
+        "x": 869,
+        "y": 1034,
         "w": 148,
         "h": 256
       },
@@ -462,8 +1102,8 @@
     },
     "zombie_walk_3_03": {
       "frame": {
-        "x": 1148,
-        "y": 260,
+        "x": 1019,
+        "y": 1034,
         "w": 141,
         "h": 256
       },
@@ -482,8 +1122,8 @@
     },
     "zombie_walk_4_00": {
       "frame": {
-        "x": 1291,
-        "y": 260,
+        "x": 1162,
+        "y": 1034,
         "w": 140,
         "h": 256
       },
@@ -502,8 +1142,8 @@
     },
     "zombie_walk_4_01": {
       "frame": {
-        "x": 1433,
-        "y": 260,
+        "x": 1304,
+        "y": 1034,
         "w": 141,
         "h": 256
       },
@@ -522,8 +1162,8 @@
     },
     "zombie_walk_4_02": {
       "frame": {
-        "x": 1576,
-        "y": 260,
+        "x": 1447,
+        "y": 1034,
         "w": 146,
         "h": 256
       },
@@ -542,8 +1182,8 @@
     },
     "zombie_walk_4_03": {
       "frame": {
-        "x": 1724,
-        "y": 260,
+        "x": 1595,
+        "y": 1034,
         "w": 136,
         "h": 256
       },
@@ -562,8 +1202,8 @@
     },
     "zombie_walk_5_00": {
       "frame": {
-        "x": 1862,
-        "y": 260,
+        "x": 1733,
+        "y": 1034,
         "w": 117,
         "h": 256
       },
@@ -582,8 +1222,8 @@
     },
     "zombie_walk_5_01": {
       "frame": {
-        "x": 2,
-        "y": 518,
+        "x": 1852,
+        "y": 1034,
         "w": 123,
         "h": 256
       },
@@ -602,8 +1242,8 @@
     },
     "zombie_walk_5_02": {
       "frame": {
-        "x": 127,
-        "y": 518,
+        "x": 2,
+        "y": 1292,
         "w": 148,
         "h": 256
       },
@@ -622,8 +1262,8 @@
     },
     "zombie_walk_5_03": {
       "frame": {
-        "x": 277,
-        "y": 518,
+        "x": 152,
+        "y": 1292,
         "w": 141,
         "h": 256
       },
@@ -642,8 +1282,8 @@
     },
     "zombie_walk_6_00": {
       "frame": {
-        "x": 420,
-        "y": 518,
+        "x": 295,
+        "y": 1292,
         "w": 162,
         "h": 256
       },
@@ -662,8 +1302,8 @@
     },
     "zombie_walk_6_01": {
       "frame": {
-        "x": 584,
-        "y": 518,
+        "x": 459,
+        "y": 1292,
         "w": 163,
         "h": 256
       },
@@ -682,8 +1322,8 @@
     },
     "zombie_walk_6_02": {
       "frame": {
-        "x": 749,
-        "y": 518,
+        "x": 624,
+        "y": 1292,
         "w": 141,
         "h": 256
       },
@@ -702,8 +1342,8 @@
     },
     "zombie_walk_6_03": {
       "frame": {
-        "x": 892,
-        "y": 518,
+        "x": 767,
+        "y": 1292,
         "w": 149,
         "h": 256
       },
@@ -722,8 +1362,8 @@
     },
     "zombie_walk_7_00": {
       "frame": {
-        "x": 1043,
-        "y": 518,
+        "x": 918,
+        "y": 1292,
         "w": 146,
         "h": 256
       },
@@ -742,8 +1382,8 @@
     },
     "zombie_walk_7_01": {
       "frame": {
-        "x": 1191,
-        "y": 518,
+        "x": 1066,
+        "y": 1292,
         "w": 153,
         "h": 256
       },
@@ -762,8 +1402,8 @@
     },
     "zombie_walk_7_02": {
       "frame": {
-        "x": 1346,
-        "y": 518,
+        "x": 1221,
+        "y": 1292,
         "w": 145,
         "h": 256
       },
@@ -782,8 +1422,8 @@
     },
     "zombie_walk_7_03": {
       "frame": {
-        "x": 1493,
-        "y": 518,
+        "x": 1368,
+        "y": 1292,
         "w": 127,
         "h": 256
       },
@@ -805,8 +1445,8 @@
     "image": "zombie.png",
     "format": "RGBA8888",
     "size": {
-      "w": 2002,
-      "h": 776
+      "w": 2038,
+      "h": 1550
     },
     "scale": 1
   }

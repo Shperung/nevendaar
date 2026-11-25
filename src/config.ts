@@ -18,11 +18,11 @@ export const HOLD_REPATH_INTERVAL = 0.1;
 export const CAMERA_EDGE = 0.7;
 /** Monster packs on the test map. Spacing must stay > 2 × radius so packs never overlap (tiles). */
 export const MONSTER_PACKS = {
-  count: 300,
+  count: 600,
   minSize: 3,
   maxSize: 7,
   radius: 2.5,
-  spacing: 7,
+  spacing: 6,
 };
 /** Minimum distance of any monster from the hero spawn (tiles). */
 export const MONSTER_SPAWN_CLEARANCE = 5;

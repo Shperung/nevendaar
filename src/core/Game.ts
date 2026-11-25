@@ -57,10 +57,10 @@ export class Game {
       rng,
     );
     const monsters = [UnitId.Skeleton, UnitId.NecroWarrior, UnitId.Zombie];
-    for (const pack of packs) {
+    // Each monster rolls its own type, so packs come out mixed (or uniform by chance).
+    for (const { x, y } of packs.flat()) {
       const unit = monsters[Math.floor(rng() * monsters.length)];
-      const def = this.monsterDefs[UNITS[unit]];
-      for (const { x, y } of pack) spawnMonster(world, unit, x, y, Math.floor(rng() * 8), def);
+      spawnMonster(world, unit, x, y, Math.floor(rng() * 8), this.monsterDefs[UNITS[unit]]);
     }
     const render = createRenderSystem(worldLayer);
     app.stage.addChild(createFullscreenButton(app));
