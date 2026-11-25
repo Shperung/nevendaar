@@ -8,13 +8,14 @@ export const UnitId = {
   Zombie: UNITS.indexOf('zombie'),
 } as const;
 
-/** Animation clips; `Sprite.clip` stores an index into this list. */
+/** Animation clips; `Sprite.clip` stores an index into this list. `units` limits who has the frames. */
 export const CLIPS = [
   { name: 'idle', frames: 1, fps: 1 },
   { name: 'walk', frames: 4, fps: 8 },
+  { name: 'attack', frames: 4, fps: 10, units: ['hero'] },
 ] as const;
 
-export const ClipId = { Idle: 0, Walk: 1 } as const;
+export const ClipId = { Idle: 0, Walk: 1, Attack: 2 } as const;
 
 /** Texture alias following the atlas naming `{unit}_{anim}_{dir}_{frame}`. */
 export function frameAlias(unit: number, anim: string, dir: number, frame: number): string {
@@ -27,8 +28,10 @@ export const manifest = {
   bundles: [
     {
       name: 'game',
-      assets: UNITS.flatMap((_, unit) =>
-        CLIPS.flatMap((clip) =>
+      assets: UNITS.flatMap((name, unit) =>
+        CLIPS.filter(
+          (clip) => !('units' in clip) || (clip.units as readonly string[]).includes(name),
+        ).flatMap((clip) =>
           DIRS.flatMap((dir) =>
             Array.from({ length: clip.frames }, (_, frame) => {
               const alias = frameAlias(unit, clip.name, dir, frame);

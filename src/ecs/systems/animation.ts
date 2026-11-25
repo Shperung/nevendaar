@@ -7,9 +7,21 @@ import { Sprite } from '../components/Sprite';
 
 const spriteQuery = defineQuery([Position, Sprite]);
 
-/** Picks idle/walk by movement, faces the movement direction and advances the clip frame. */
+/**
+ * Picks idle/walk by movement, faces the movement direction and advances the clip frame.
+ * An attack clip started by combat plays once to the end before idle/walk take over.
+ */
 export function animationSystem(world: IWorld): void {
   for (const eid of spriteQuery(world)) {
+    if (Sprite.clip[eid] === ClipId.Attack) {
+      const { frames, fps } = CLIPS[ClipId.Attack];
+      Sprite.time[eid] += FIXED_DT;
+      if (Sprite.time[eid] < frames / fps) {
+        Sprite.frame[eid] = Math.floor(Sprite.time[eid] * fps);
+        continue;
+      }
+    }
+
     const dx = Position.x[eid] - Position.prevX[eid];
     const dy = Position.y[eid] - Position.prevY[eid];
     const moving = dx !== 0 || dy !== 0;
