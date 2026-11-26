@@ -52,6 +52,28 @@ export function clampTooltip(y: number, h: number, screenH: number): number {
   return Math.max(0, Math.min(y, screenH - h));
 }
 
+export type MedallionLook = 'normal' | 'hover' | 'pressed' | 'disabled';
+
+/** Medallion texture for its state. A pressed stub only shifts, so it never looks like it fired. */
+export function medallionLook(s: {
+  hover: boolean;
+  pressed: boolean;
+  stub?: boolean;
+  indicator?: boolean;
+}): MedallionLook {
+  if (s.indicator) return 'normal';
+  if (s.stub) return s.hover || s.pressed ? 'hover' : 'disabled';
+  if (s.pressed) return 'pressed';
+  return s.hover ? 'hover' : 'normal';
+}
+
+/** Y of the iron bands: every block boundary below the top plus the bottom edge, without duplicates. */
+export function bandYs(blocks: Record<BlockName, number>, h: number): number[] {
+  const ys = PANEL_BLOCKS.map((b) => blocks[b.name]).filter((y) => y > 0);
+  ys.push(h - 4);
+  return [...new Set(ys)].sort((a, b) => a - b);
+}
+
 /** Health fill fraction in [0, 1]; 0 when max is not positive. */
 export function healthFraction(current: number, max: number): number {
   if (!(max > 0)) return 0;

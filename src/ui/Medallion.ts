@@ -1,111 +1,27 @@
-import { Circle, Container, Graphics, Text } from 'pixi.js';
+import { Assets, Circle, Container, Sprite, Text, type Texture } from 'pixi.js';
+import { uiAlias } from '../assets/manifest';
+import { UI_ART_SCALE } from '../config';
+import { medallionLook } from './PanelLayout';
 import type { Tooltip } from './Tooltip';
 
-const ICON_COLOR = 0xc8a96a;
+export type IconName =
+  | 'menu'
+  | 'bell'
+  | 'fullscreen'
+  | 'collapse'
+  | 'helmet'
+  | 'sack'
+  | 'book'
+  | 'scroll'
+  | 'compass'
+  | 'flask'
+  | 'sword';
 
-/** Line-art icon silhouettes centered at (0, 0), fitting a circle of radius `r`; stroked by the caller. */
-const ICONS = {
-  menu: (g: Graphics, r: number) => {
-    for (const y of [-0.5, 0, 0.5]) g.moveTo(-0.7 * r, y * r).lineTo(0.7 * r, y * r);
-    return g;
-  },
-  bell: (g: Graphics, r: number) =>
-    g
-      .moveTo(-0.75 * r, 0.5 * r)
-      .lineTo(0.75 * r, 0.5 * r)
-      .moveTo(-0.55 * r, 0.5 * r)
-      .bezierCurveTo(-0.55 * r, -1 * r, 0.55 * r, -1 * r, 0.55 * r, 0.5 * r)
-      .circle(0, 0.75 * r, 0.15 * r),
-  helmet: (g: Graphics, r: number) =>
-    g
-      .moveTo(-0.6 * r, 0.75 * r)
-      .lineTo(-0.6 * r, -0.1 * r)
-      .arc(0, -0.1 * r, 0.6 * r, Math.PI, 0)
-      .lineTo(0.6 * r, 0.75 * r)
-      .moveTo(-0.6 * r, 0.1 * r)
-      .lineTo(0.6 * r, 0.1 * r)
-      .moveTo(0, 0.1 * r)
-      .lineTo(0, 0.65 * r),
-  sack: (g: Graphics, r: number) =>
-    g
-      .moveTo(-0.25 * r, -0.55 * r)
-      .lineTo(0.25 * r, -0.55 * r)
-      .moveTo(-0.2 * r, -0.5 * r)
-      .bezierCurveTo(-0.95 * r, 0, -0.8 * r, 0.8 * r, 0, 0.8 * r)
-      .bezierCurveTo(0.8 * r, 0.8 * r, 0.95 * r, 0, 0.2 * r, -0.5 * r)
-      .moveTo(-0.25 * r, -0.55 * r)
-      .lineTo(-0.45 * r, -0.85 * r)
-      .moveTo(0.25 * r, -0.55 * r)
-      .lineTo(0.45 * r, -0.85 * r),
-  book: (g: Graphics, r: number) =>
-    g
-      .moveTo(0, -0.5 * r)
-      .lineTo(0, 0.6 * r)
-      .moveTo(0, -0.5 * r)
-      .quadraticCurveTo(-0.4 * r, -0.75 * r, -0.85 * r, -0.5 * r)
-      .lineTo(-0.85 * r, 0.6 * r)
-      .quadraticCurveTo(-0.4 * r, 0.35 * r, 0, 0.6 * r)
-      .moveTo(0, -0.5 * r)
-      .quadraticCurveTo(0.4 * r, -0.75 * r, 0.85 * r, -0.5 * r)
-      .lineTo(0.85 * r, 0.6 * r)
-      .quadraticCurveTo(0.4 * r, 0.35 * r, 0, 0.6 * r),
-  scroll: (g: Graphics, r: number) =>
-    g
-      .ellipse(0, -0.6 * r, 0.6 * r, 0.15 * r)
-      .ellipse(0, 0.6 * r, 0.6 * r, 0.15 * r)
-      .moveTo(-0.5 * r, -0.55 * r)
-      .lineTo(-0.5 * r, 0.55 * r)
-      .moveTo(0.5 * r, -0.55 * r)
-      .lineTo(0.5 * r, 0.55 * r)
-      .moveTo(-0.3 * r, -0.2 * r)
-      .lineTo(0.3 * r, -0.2 * r)
-      .moveTo(-0.3 * r, 0.1 * r)
-      .lineTo(0.3 * r, 0.1 * r),
-  compass: (g: Graphics, r: number) =>
-    g
-      .poly([0, -0.9 * r, 0.45 * r, 0, 0, 0.9 * r, -0.45 * r, 0])
-      .moveTo(-0.85 * r, 0)
-      .lineTo(0.85 * r, 0)
-      .circle(0, 0, 0.12 * r),
-  flask: (g: Graphics, r: number) =>
-    g
-      .moveTo(-0.28 * r, -0.8 * r)
-      .lineTo(0.28 * r, -0.8 * r)
-      .moveTo(-0.15 * r, -0.8 * r)
-      .lineTo(-0.15 * r, -0.28 * r)
-      .moveTo(0.15 * r, -0.8 * r)
-      .lineTo(0.15 * r, -0.28 * r)
-      .circle(0, 0.25 * r, 0.55 * r),
-  sword: (g: Graphics, r: number) =>
-    g
-      .moveTo(-0.55 * r, 0.55 * r)
-      .lineTo(0.75 * r, -0.75 * r)
-      .moveTo(-0.65 * r, 0.15 * r)
-      .lineTo(-0.15 * r, 0.65 * r)
-      .moveTo(-0.55 * r, 0.55 * r)
-      .lineTo(-0.8 * r, 0.8 * r),
-  fullscreen: (g: Graphics, r: number) => corners(g, r, 1),
-  collapse: (g: Graphics, r: number) => corners(g, r, -1),
-};
-
-/** Four corner brackets pointing out (`dir` = 1, "expand") or in (`dir` = -1, "collapse"). */
-function corners(g: Graphics, r: number, dir: number): Graphics {
-  const a = 0.75 * r;
-  const l = 0.4 * r * dir;
-  for (const sx of [-1, 1]) {
-    for (const sy of [-1, 1]) {
-      // With dir = -1 the bracket corner sits at the inner end, so the arms point outward.
-      const cx = dir > 0 ? sx * a : sx * (a - 0.4 * r);
-      const cy = dir > 0 ? sy * a : sy * (a - 0.4 * r);
-      g.moveTo(cx - sx * l, cy)
-        .lineTo(cx, cy)
-        .lineTo(cx, cy - sy * l);
-    }
-  }
-  return g;
-}
-
-export type IconName = keyof typeof ICONS;
+/** On-screen icon side as a fraction of the medallion radius (≈ the inner disc with the file's margins). */
+const ICON_SCALE = 1.3;
+/** Icon files are 80 px squares; the medallion ring has radius 60 px in its 128 px file (30 design px). */
+const ICON_FILE = 80;
+const RING_R = 30;
 
 export interface MedallionOptions {
   icon: IconName | null;
@@ -124,11 +40,15 @@ export interface MedallionOptions {
   onPress?: () => void;
 }
 
-/** Round bronze button: ring + dark disc + icon, with hover / pressed / stub states. */
+const tex = (name: string) => Assets.get<Texture>(uiAlias(name));
+
+/** Round bronze button: painted base + ivory icon, with hover / pressed / stub states. */
 export class Medallion extends Container {
   private readonly face = new Container();
-  private readonly icon = new Graphics();
-  private readonly glow = new Graphics({ visible: false });
+  private readonly base = new Sprite({ anchor: 0.5 });
+  private readonly icon = new Sprite({ anchor: 0.5 });
+  private hover = false;
+  private pressed = false;
 
   constructor(
     private readonly o: MedallionOptions,
@@ -139,23 +59,9 @@ export class Medallion extends Container {
     this.hitArea = new Circle(0, 0, R);
     if (o.onPress && !o.stub) this.cursor = 'pointer';
 
-    const ring = new Graphics()
-      .circle(0, 0, R)
-      .fill(0x6b5a3a)
-      .stroke({ color: 0x0e0d0b, width: 2 })
-      .circle(0, 0, R - 2.5)
-      .stroke({ color: 0x8a7a55, width: 1, alpha: 0.6 })
-      .circle(0, 0, R * 0.72)
-      .fill(0x15130f)
-      .stroke({ color: 0x0e0d0b, width: 1.5 });
-    for (let i = 0; i < 4; i++) {
-      const a = Math.PI / 4 + (i * Math.PI) / 2;
-      ring.circle(Math.cos(a) * R * 0.86, Math.sin(a) * R * 0.86, Math.max(1, R * 0.06));
-    }
-    ring.fill(0x8a7a55);
-    this.glow.circle(0, 0, R + 0.5).stroke({ color: ICON_COLOR, width: 2 });
-    this.icon.alpha = o.stub ? 0.5 : 1;
-    this.face.addChild(ring, this.icon);
+    this.base.scale.set((R / RING_R) * UI_ART_SCALE);
+    this.icon.alpha = o.stub ? 0.45 : 1;
+    this.face.addChild(this.base, this.icon);
     if (o.badge) {
       const badge = new Text({
         text: o.badge,
@@ -170,42 +76,45 @@ export class Medallion extends Container {
       badge.position.set(R * 0.62, R * 0.62);
       this.face.addChild(badge);
     }
-    this.addChild(this.face, this.glow);
+    this.addChild(this.face);
     this.setIcon(o.icon);
+    this.refresh();
 
     this.on('pointerover', () => {
-      if (!o.indicator) this.glow.visible = true;
+      this.hover = true;
+      this.refresh();
       this.showTip();
     });
     this.on('pointerout', () => {
-      this.glow.visible = false;
+      this.hover = false;
+      this.pressed = false;
+      this.refresh();
       tooltip.hide();
-      this.press(false);
     });
     this.on('pointerdown', () => {
       if (o.indicator) return;
-      this.press(true);
+      this.pressed = true;
+      this.refresh();
       if (!o.stub) o.onPress?.();
     });
-    this.on('pointerup', () => this.press(false));
-    this.on('pointerupoutside', () => this.press(false));
+    const release = () => {
+      this.pressed = false;
+      this.refresh();
+    };
+    this.on('pointerup', release);
+    this.on('pointerupoutside', release);
   }
 
   setIcon(icon: IconName | null): void {
-    this.icon.clear();
+    this.icon.visible = !!icon;
     if (!icon) return;
-    const r = this.o.size * 0.42;
-    ICONS[icon](this.icon, r).stroke({
-      color: ICON_COLOR,
-      width: Math.max(1.5, r * 0.18),
-      cap: 'round',
-      join: 'round',
-    });
+    this.icon.texture = tex(`icon_${icon}`);
+    this.icon.scale.set((this.o.size * ICON_SCALE) / ICON_FILE);
   }
 
   setTitle(title: string): void {
     this.o.title = title;
-    if (this.glow.visible) this.showTip();
+    if (this.hover) this.showTip();
   }
 
   private showTip(): void {
@@ -216,9 +125,12 @@ export class Medallion extends Container {
     this.tooltip.show(second ? [first, second] : [first], this.tooltip.edge, b.y + b.height / 2);
   }
 
-  /** "Pushed in": 1 px down and darker while held. */
-  private press(down: boolean): void {
-    this.face.y = down ? 1 : 0;
-    this.face.tint = down ? 0xa0a0a0 : 0xffffff;
+  /** Base texture for the state; "pushed in" also shifts the face 1 px down. */
+  private refresh(): void {
+    const { stub, indicator } = this.o;
+    this.base.texture = tex(
+      `medallion_${medallionLook({ hover: this.hover, pressed: this.pressed, stub, indicator })}`,
+    );
+    this.face.y = this.pressed && !indicator ? 1 : 0;
   }
 }

@@ -40,6 +40,7 @@ public/assets/
   atlases/      спрайт-атласи (TexturePacker JSON + PNG)
   maps/         карти Tiled у JSON
   atlases/{biome}/ текстури ландшафту біому (ground + перешкоди), напр. atlases/snow/
+  ui/           текстури HUD (бічна панель, медальйони, іконки) у 2× дизайн-px, курсор
   data/         items.json, affixes.json, monsters.json, skills.json, biomes.json
   audio/
 src/
@@ -99,6 +100,12 @@ tests/               Vitest-специфікації, що дзеркалять 
 - Завантажуються лише текстури біому поточної карти.
 - Сирі генерації — в `art/concepts/terrain/`; `tools/keyCutout.ts` вирізає фон (`green`, або `magenta` для
  зелених об'єктів як дерева), `tools/seamless.ts` робить текстуру безшовною.
+
+### UI-арт
+- Декор бічної панелі — растрові спрайти з `public/assets/ui/`, намальовані в 2× (`UI_ART_SCALE = 0.5`),
+ з міпмапами; розкладка й хітбокси — у коді (`Hud.ts`, `PanelLayout.ts`), арт під них лише вписується.
+- Сирі генерації — в `art/concepts/ui/<name>.(png|jpg)` на magenta-фоні; `node tools/uiArt.ts [name...]`
+ вирізає фон, вписує в точний розмір (рамки — за прозорим вікном) і виводить стани медальйона з `normal`.
 
 ### Лут і стати
 - Рівні рідкості: `common, magic, rare, unique`. Пули афіксів — в `affixes.json`.

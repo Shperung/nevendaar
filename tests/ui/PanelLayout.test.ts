@@ -1,8 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import {
+  bandYs,
   clampTooltip,
   FIXED_H,
   healthFraction,
+  medallionLook,
   PANEL_BLOCKS,
   panelLayout,
 } from '../../src/ui/PanelLayout';
@@ -57,6 +59,51 @@ describe('panelLayout', () => {
       if (prev.name === 'column') below = true;
       expect(b.blocks[cur.name] - a.blocks[cur.name]).toBeCloseTo(below ? growth : 0);
     }
+  });
+});
+
+describe('medallionLook', () => {
+  const look = (hover: boolean, pressed: boolean, extra = {}) =>
+    medallionLook({ hover, pressed, ...extra });
+
+  it('keeps an indicator normal', () => {
+    for (const [hv, pr] of [
+      [false, false],
+      [true, false],
+      [true, true],
+    ])
+      expect(look(hv, pr, { indicator: true })).toBe('normal');
+  });
+
+  it('shows a stub disabled, warm on hover and never pressed', () => {
+    expect(look(false, false, { stub: true })).toBe('disabled');
+    expect(look(true, false, { stub: true })).toBe('hover');
+    expect(look(true, true, { stub: true })).toBe('hover');
+  });
+
+  it('gives pressed priority over hover on a working button', () => {
+    expect(look(false, false)).toBe('normal');
+    expect(look(true, false)).toBe('hover');
+    expect(look(true, true)).toBe('pressed');
+  });
+});
+
+describe('bandYs', () => {
+  it('puts a band on every block boundary below the top and at the bottom', () => {
+    const l = panelLayout(1600, 800);
+    const ys = bandYs(l.blocks, 800);
+    expect(ys).toHaveLength(PANEL_BLOCKS.length);
+    expect(ys).not.toContain(0);
+    expect(ys[ys.length - 1]).toBe(796);
+    expect([...ys].sort((a, b) => a - b)).toEqual(ys);
+  });
+
+  it('does not stack two bands when the column has zero height', () => {
+    const l = panelLayout(1600, 400);
+    expect(l.columnH).toBe(0);
+    const ys = bandYs(l.blocks, 400 / l.scale);
+    expect(new Set(ys).size).toBe(ys.length);
+    expect(ys).toHaveLength(PANEL_BLOCKS.length - 1);
   });
 });
 

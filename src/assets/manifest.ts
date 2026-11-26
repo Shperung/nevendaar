@@ -33,12 +33,55 @@ const DIRS = [0, 1, 2, 3, 4, 5, 6, 7];
 /** Units packed by tools/pack_atlas.ts into `{unit}.json`; the rest load one PNG per frame. */
 const ATLAS_UNITS: readonly string[] = ['hero', 'skeleton', 'necro_warrior', 'zombie'];
 
+/** Side panel textures in public/assets/ui/ (built by tools/uiArt.ts); the stone tile is a .jpg. */
+export const UI_ART = [
+  'panel_stone',
+  'panel_edge',
+  'panel_band',
+  'panel_crown',
+  'frame_minimap',
+  'panel_niche',
+  'frame_portrait',
+  'parchment',
+  'panel_depth',
+  'panel_dial',
+  'gem_mount',
+  'panel_finial',
+  'medallion_normal',
+  'medallion_hover',
+  'medallion_pressed',
+  'medallion_disabled',
+  ...[
+    'menu',
+    'bell',
+    'fullscreen',
+    'collapse',
+    'helmet',
+    'sack',
+    'book',
+    'scroll',
+    'compass',
+    'flask',
+    'sword',
+  ].map((n) => `icon_${n}`),
+];
+
+export function uiAlias(name: string): string {
+  return `ui_${name}`;
+}
+
 export const manifest = {
   bundles: [
     {
       name: 'game',
       assets: [
         { alias: 'gold_pouch', src: 'assets/atlases/loot/gold_pouch.png' },
+        ...UI_ART.map((name) => ({
+          alias: uiAlias(name),
+          src: `assets/ui/${name}.${name === 'panel_stone' ? 'jpg' : 'png'}`,
+          // Drawn at 0.35–0.7 of the file size, so mipmaps keep fine detail from shimmering.
+          data: { autoGenerateMipmaps: true },
+        })),
         ...UNITS.flatMap((name, unit) =>
           ATLAS_UNITS.includes(name)
             ? [{ alias: `${name}_atlas`, src: `assets/atlases/${name}.json` }]

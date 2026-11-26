@@ -42,3 +42,5 @@ export const PANEL_SCALE = [0.7, 1.4] as const;
 export const PANEL_MIN_VIEW = 0.6;
 /** Minimap window in panel design pixels; tileScale shrinks toScreen so a tile is a 4 × 2 diamond. */
 export const MINIMAP = { w: 160, h: 120, tileScale: 1 / 32 };
+/** Panel art in public/assets/ui/ is painted at 2× the design pixels. */
+export const UI_ART_SCALE = 0.5;
