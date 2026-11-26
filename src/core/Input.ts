@@ -6,4 +6,6 @@ export const Input = {
   held: false,
   /** Current pointer position in world-container screen space. */
   pointer: { x: 0, y: 0 },
+  /** The pointer is over the side panel (`pointer` then keeps its last position in the game area). */
+  overPanel: false,
 };

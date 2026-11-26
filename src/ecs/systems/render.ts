@@ -14,7 +14,7 @@ import { Input } from '../../core/Input';
 import { pileTier } from '../../gameplay/Loot';
 import { atlasPath, type Biome } from '../../map/Biome';
 import { obstacleClusters, type GameMap } from '../../map/GameMap';
-import { toScreen } from '../../map/IsoMath';
+import { toScreen, toTile } from '../../map/IsoMath';
 import { GoldPile } from '../components/GoldPile';
 import { Health } from '../components/Health';
 import { Player } from '../components/Player';
@@ -39,8 +39,29 @@ function tileHash(tx: number, ty: number, salt: number): number {
   return (h >>> 0) / 4294967296;
 }
 
-/** Static map visuals: biome floor below everything, obstacle sprites depth-sorted with units. */
-export function drawMap(layer: Container, map: GameMap, biome: Biome): void {
+/** Visible part of the world layer, in layer-local (world screen) pixels. */
+export type ViewRect = { x: number; y: number; width: number; height: number };
+
+/** Obstacle chunk size in tiles: the unit of adding/removing map sprites to the layer. */
+const CHUNK = 16;
+/** Extra pixels around the view, so tall sprites at the edge never pop in visibly. */
+const VIEW_MARGIN = 256;
+
+function inView(v: ViewRect, x: number, y: number): boolean {
+  return (
+    x > v.x - VIEW_MARGIN &&
+    x < v.x + v.width + VIEW_MARGIN &&
+    y > v.y - VIEW_MARGIN &&
+    y < v.y + v.height + VIEW_MARGIN
+  );
+}
+
+/**
+ * Static map visuals: biome floor below everything, obstacle sprites depth-sorted with units.
+ * Returns an updater that keeps only obstacle chunks under the view in the layer
+ * (the map has ~17k obstacles; sorting and rendering all of them every frame is what lagged).
+ */
+export function drawMap(layer: Container, map: GameMap, biome: Biome): (view: ViewRect) => void {
   const ground = Assets.get<Texture>(atlasPath(biome.ground.texture));
   const floor = new Graphics()
     .poly([
@@ -56,6 +77,9 @@ export function drawMap(layer: Container, map: GameMap, biome: Biome): void {
   // Each connected obstacle group gets one set (a whole rock ridge or a whole tree line).
   const sets = Object.values(biome.obstacles);
   const clusters = obstacleClusters(map);
+  const cols = Math.ceil(map.width / CHUNK);
+  const rows = Math.ceil(map.height / CHUNK);
+  const chunks: PixiSprite[][] = Array.from({ length: cols * rows }, () => []);
   for (let ty = 0; ty < map.height; ty++) {
     for (let tx = 0; tx < map.width; tx++) {
       const cluster = clusters[ty * map.width + tx];
@@ -67,10 +91,7 @@ export function drawMap(layer: Container, map: GameMap, biome: Biome): void {
           )
         ];
       const variant = set[Math.floor(tileHash(tx, ty, 1) * set.length)];
-      const obstacle = new PixiSprite({
-        texture: Assets.get(atlasPath(variant.texture)),
-        cullable: true,
-      });
+      const obstacle = new PixiSprite({ texture: Assets.get(atlasPath(variant.texture)) });
       obstacle.anchor.set(0.5, variant.anchorY);
       const scale = (variant.width / obstacle.texture.width) * (0.85 + tileHash(tx, ty, 2) * 0.3);
       obstacle.scale.set(tileHash(tx, ty, 3) < 0.5 ? scale : -scale, scale);
@@ -79,12 +100,39 @@ export function drawMap(layer: Container, map: GameMap, biome: Biome): void {
       obstacle.position.set(center.x + jitterX, center.y + TILE_H * 0.3);
       // Sort by tile center depth so the hero is hidden when standing behind (north of) an obstacle.
       obstacle.zIndex = center.y;
-      layer.addChild(obstacle);
+      chunks[Math.floor(ty / CHUNK) * cols + Math.floor(tx / CHUNK)].push(obstacle);
     }
   }
+
+  let shown = new Set<number>();
+  return (view) => {
+    const x0 = view.x - VIEW_MARGIN;
+    const x1 = view.x + view.width + VIEW_MARGIN;
+    const y0 = view.y - VIEW_MARGIN;
+    const y1 = view.y + view.height + VIEW_MARGIN;
+    // Tile x = (a + b) / 2 and tile y = (b - a) / 2 (see toTile), so on an axis-aligned screen rect
+    // tile x is smallest at the top-left corner and largest at the bottom-right,
+    // tile y is smallest at the top-right corner and largest at the bottom-left.
+    const cx0 = Math.max(0, Math.floor(toTile(x0, y0).x / CHUNK));
+    const cx1 = Math.min(cols - 1, Math.floor(toTile(x1, y1).x / CHUNK));
+    const cy0 = Math.max(0, Math.floor(toTile(x1, y0).y / CHUNK));
+    const cy1 = Math.min(rows - 1, Math.floor(toTile(x0, y1).y / CHUNK));
+    const next = new Set<number>();
+    for (let cy = cy0; cy <= cy1; cy++) {
+      for (let cx = cx0; cx <= cx1; cx++) {
+        const k = cy * cols + cx;
+        if (chunks[k].length > 0) next.add(k);
+      }
+    }
+    for (const k of next) if (!shown.has(k)) layer.addChild(...chunks[k]);
+    for (const k of shown) if (!next.has(k)) layer.removeChild(...chunks[k]);
+    shown = next;
+  };
 }
 
-export function createRenderSystem(layer: Container): (world: IWorld, alpha: number) => void {
+export function createRenderSystem(
+  layer: Container,
+): (world: IWorld, alpha: number, cam: ViewRect) => void {
   const views = new Map<number, { view: Container; sprite: PixiSprite; hp?: Graphics }>();
   const pileViews = new Map<number, Container>();
   // One shared hover label instead of a Text per pile (there can be ~1500 piles).
@@ -96,7 +144,7 @@ export function createRenderSystem(layer: Container): (world: IWorld, alpha: num
   });
   layer.addChild(pileLabel);
 
-  return (world, alpha) => {
+  return (world, alpha, cam) => {
     for (const eid of enterPiles(world)) {
       const w = PILE_SIZES[pileTier(GoldPile.amount[eid])];
       const shadow = new Graphics()
@@ -107,7 +155,7 @@ export function createRenderSystem(layer: Container): (world: IWorld, alpha: num
         anchor: { x: 0.5, y: 0.85 },
       });
       pile.scale.set(w / pile.texture.width);
-      const view = new Container({ cullable: true });
+      const view = new Container();
       view.addChild(shadow, pile);
       const s = toScreen(Position.x[eid], Position.y[eid]);
       view.position.set(s.x, s.y);
@@ -127,6 +175,8 @@ export function createRenderSystem(layer: Container): (world: IWorld, alpha: num
     for (const eid of pileQuery(world)) {
       const view = pileViews.get(eid);
       if (!view) continue;
+      view.visible = inView(cam, view.x, view.y);
+      if (!view.visible) continue;
       view.alpha = GoldPile.delay[eid] > 0 ? 0.5 : 1;
       const dx = Input.pointer.x - view.x;
       const dy = Input.pointer.y - view.y;
@@ -135,6 +185,7 @@ export function createRenderSystem(layer: Container): (world: IWorld, alpha: num
         hoveredY = view.y;
       }
     }
+    if (Input.overPanel) hovered = -1;
     pileLabel.visible = hovered >= 0;
     if (hovered >= 0) {
       const view = pileViews.get(hovered) as Container;
@@ -149,7 +200,7 @@ export function createRenderSystem(layer: Container): (world: IWorld, alpha: num
       const shadow = new Graphics()
         .ellipse(0, 0, UNIT_HEIGHT * 0.3, UNIT_HEIGHT * 0.15)
         .fill({ color: 0x000000, alpha: 0.35 });
-      const view = new Container({ cullable: true });
+      const view = new Container();
       view.addChild(shadow, sprite);
       layer.addChild(view);
       let hp: Graphics | undefined;
@@ -176,19 +227,22 @@ export function createRenderSystem(layer: Container): (world: IWorld, alpha: num
       const entry = views.get(eid);
       if (!entry) continue;
       const { view, sprite, hp } = entry;
+      // Interpolate between the last two fixed steps for smooth motion at any frame rate.
+      const x = Position.prevX[eid] + (Position.x[eid] - Position.prevX[eid]) * alpha;
+      const y = Position.prevY[eid] + (Position.y[eid] - Position.prevY[eid]) * alpha;
+      const s = toScreen(x, y);
+      // Off-screen units are hidden and not updated at all (there are thousands of them).
+      view.visible = inView(cam, s.x, s.y);
+      if (!view.visible) continue;
+      view.position.set(s.x, s.y);
+      view.zIndex = s.y;
+
       if (hp) hp.scale.x = Math.max(0, Health.current[eid] / Health.max[eid]);
       const clip = CLIPS[Sprite.clip[eid]].name;
       sprite.texture = Assets.get(
         frameAlias(Sprite.unit[eid], clip, Sprite.dir[eid], Sprite.frame[eid]),
       );
       sprite.scale.set(UNIT_HEIGHT / sprite.texture.height);
-
-      // Interpolate between the last two fixed steps for smooth motion at any frame rate.
-      const x = Position.prevX[eid] + (Position.x[eid] - Position.prevX[eid]) * alpha;
-      const y = Position.prevY[eid] + (Position.y[eid] - Position.prevY[eid]) * alpha;
-      const s = toScreen(x, y);
-      view.position.set(s.x, s.y);
-      view.zIndex = s.y;
     }
   };
 }

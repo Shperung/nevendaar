@@ -34,3 +34,11 @@ export const ZONE_GOLD_MULT = 1;
 export const GOLD_PILE_TIERS = [5, 15];
 /** Click/hover hit radius around a gold pile in screen pixels (vertical half as tall, iso-squashed). */
 export const GOLD_PILE_PICK = 24;
+/** Right side panel design size in pixels; it scales with the window height within PANEL_SCALE. */
+export const PANEL_W = 200;
+export const PANEL_H = 800;
+export const PANEL_SCALE = [0.7, 1.4] as const;
+/** Min fraction of the window width left to the game when the window is narrow. */
+export const PANEL_MIN_VIEW = 0.6;
+/** Minimap window in panel design pixels; tileScale shrinks toScreen so a tile is a 4 × 2 diamond. */
+export const MINIMAP = { w: 160, h: 120, tileScale: 1 / 32 };

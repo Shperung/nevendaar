@@ -1,23 +1,25 @@
-import type { Application, Container } from 'pixi.js';
+import type { Container } from 'pixi.js';
 import { CAMERA_EDGE } from '../config';
 
 type Point = { x: number; y: number };
+type Size = { width: number; height: number };
 
-/** Dead-zone camera: moves `layer` only when the target leaves the central part of the screen. */
+/** Dead-zone camera: moves `layer` only when the target leaves the central part of the viewport. */
 export class Camera {
+  /** `viewport` is the game area at the top-left of the screen (the screen minus the side panel). */
   constructor(
-    private readonly app: Application,
+    private readonly viewport: () => Size,
     private readonly layer: Container,
   ) {}
 
   /** `p` is in layer-local (world screen) pixels. */
   centerOn(p: Point): void {
-    const { width, height } = this.app.screen;
+    const { width, height } = this.viewport();
     this.layer.position.set(width / 2 - p.x, height / 2 - p.y);
   }
 
   follow(p: Point): void {
-    const { width, height } = this.app.screen;
+    const { width, height } = this.viewport();
     this.layer.x = push(this.layer.x, p.x, width);
     this.layer.y = push(this.layer.y, p.y, height);
   }
