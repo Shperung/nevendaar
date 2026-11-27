@@ -3,6 +3,7 @@ import { manifest } from './assets/manifest';
 import { BG_COLOR } from './config';
 import { Game } from './core/Game';
 import { INVENTORY_URL, parseInventory } from './gameplay/Inventory';
+import { AFFIXES_URL, ITEMS_URL, parseItemData, restoreItems } from './gameplay/Items';
 import { LOOT_URL, parseLoot } from './gameplay/Loot';
 import { MONSTERS_URL, type MonsterDef } from './gameplay/Monster';
 import { BIOMES_URL, biomeTextures, type Biome } from './map/Biome';
@@ -26,7 +27,16 @@ await Assets.load(biomeTextures(biome));
 const monsters = await Assets.load<Record<string, MonsterDef>>(MONSTERS_URL);
 const loot = parseLoot(await Assets.load<unknown>(LOOT_URL));
 const inventory = parseInventory(await Assets.load<unknown>(INVENTORY_URL));
+const itemData = parseItemData(
+  await Assets.load<unknown>(ITEMS_URL),
+  await Assets.load<unknown>(AFFIXES_URL),
+);
+// Not in the manifest bundle: a missing file would fail loadBundle; render.ts falls back to Graphics.
+await Assets.load({ alias: 'loot_sack', src: 'assets/atlases/loot/loot_sack.png' }).catch(() =>
+  console.warn('loot_sack.png not found, the sack is drawn as a placeholder'),
+);
 const storage = createStorage(localStorage);
 const gold = await storage.loadGold();
+const items = restoreItems(await storage.loadInventory(), itemData);
 
-new Game(app, biome, monsters, loot, inventory, storage, gold).start();
+new Game(app, biome, monsters, loot, inventory, itemData, storage, gold, items).start();

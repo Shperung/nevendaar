@@ -35,6 +35,8 @@ export const GOLD_SCATTER = 0.3;
 export const ZONE_GOLD_MULT = 1;
 /** Pile size thresholds (visual only): amount ≤ [0] small, ≤ [1] medium, else large. */
 export const GOLD_PILE_TIERS = [5, 15];
+/** Safety cap of the hero's artifact list; items beyond it are lost with a console warning. */
+export const BACKPACK_CAP = 10_000;
 /** Click/hover hit radius around a gold pile in screen pixels (vertical half as tall, iso-squashed). */
 export const GOLD_PILE_PICK = 24;
 /** Right side panel design size in pixels; it scales with the window height within PANEL_SCALE. */

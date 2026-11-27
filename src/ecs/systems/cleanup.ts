@@ -7,6 +7,7 @@ import { MoveTarget } from '../components/MoveTarget';
 import { Path } from '../components/Path';
 import { Player } from '../components/Player';
 import { Position } from '../components/Position';
+import { SackItems } from '../components/SackItems';
 
 const deadQuery = defineQuery([Dead]);
 
@@ -18,6 +19,7 @@ export function createCleanupSystem(heroSpawn: Point): (world: IWorld) => void {
   return (world) => {
     for (const eid of deadQuery(world)) {
       Path.delete(eid);
+      SackItems.delete(eid);
       if (!hasComponent(world, Player, eid)) {
         removeEntity(world, eid);
         continue;

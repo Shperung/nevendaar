@@ -1,0 +1,176 @@
+[
+  {
+    "id": "cruel",
+    "kind": "prefix",
+    "group": "damagePct",
+    "stat": "damagePct",
+    "weight": 10,
+    "types": ["weapon1h", "weapon2h"],
+    "names": { "m": "Лютий", "f": "Люта", "pl": "Люті" },
+    "tiers": [
+      { "minIlvl": 1, "min": 5, "max": 10 },
+      { "minIlvl": 3, "min": 11, "max": 20 },
+      { "minIlvl": 6, "min": 21, "max": 35 }
+    ]
+  },
+  {
+    "id": "jagged",
+    "kind": "prefix",
+    "group": "damage",
+    "stat": "damage",
+    "weight": 10,
+    "types": ["weapon1h", "weapon2h", "gloves", "ring"],
+    "names": { "m": "Зазубрений", "f": "Зазубрена", "pl": "Зазубрені" },
+    "tiers": [
+      { "minIlvl": 1, "min": 1, "max": 2 },
+      { "minIlvl": 3, "min": 3, "max": 4 },
+      { "minIlvl": 6, "min": 5, "max": 7 }
+    ]
+  },
+  {
+    "id": "hasty",
+    "kind": "prefix",
+    "group": "attackSpeedPct",
+    "stat": "attackSpeedPct",
+    "weight": 10,
+    "types": ["weapon1h", "weapon2h", "gloves"],
+    "names": { "m": "Квапливий", "f": "Кваплива", "pl": "Квапливі" },
+    "tiers": [
+      { "minIlvl": 1, "min": 5, "max": 8 },
+      { "minIlvl": 3, "min": 9, "max": 14 }
+    ]
+  },
+  {
+    "id": "sturdy",
+    "kind": "prefix",
+    "group": "armor",
+    "stat": "armor",
+    "weight": 10,
+    "types": ["shield", "helm", "armor", "gloves", "belt", "boots"],
+    "names": { "m": "Міцний", "f": "Міцна", "pl": "Міцні" },
+    "tiers": [
+      { "minIlvl": 1, "min": 2, "max": 4 },
+      { "minIlvl": 3, "min": 5, "max": 8 },
+      { "minIlvl": 6, "min": 9, "max": 14 }
+    ]
+  },
+  {
+    "id": "hallowed",
+    "kind": "prefix",
+    "group": "armorPct",
+    "stat": "armorPct",
+    "weight": 10,
+    "types": ["shield", "helm", "armor"],
+    "names": { "m": "Освячений", "f": "Освячена", "pl": "Освячені" },
+    "tiers": [
+      { "minIlvl": 1, "min": 10, "max": 20 },
+      { "minIlvl": 3, "min": 21, "max": 35 }
+    ]
+  },
+  {
+    "id": "ghoulish",
+    "kind": "prefix",
+    "group": "lifeSteal",
+    "stat": "lifeSteal",
+    "weight": 5,
+    "types": ["weapon1h", "weapon2h", "ring", "amulet"],
+    "names": { "m": "Упирячий", "f": "Упиряча", "pl": "Упирячі" },
+    "tiers": [
+      { "minIlvl": 3, "min": 2, "max": 3 },
+      { "minIlvl": 6, "min": 4, "max": 6 }
+    ]
+  },
+  {
+    "id": "stalwart",
+    "kind": "prefix",
+    "group": "life",
+    "stat": "life",
+    "weight": 10,
+    "types": ["shield", "helm", "armor", "gloves", "belt", "boots", "ring", "amulet"],
+    "names": { "m": "Живучий", "f": "Живуча", "pl": "Живучі" },
+    "tiers": [
+      { "minIlvl": 1, "min": 5, "max": 10 },
+      { "minIlvl": 3, "min": 11, "max": 20 },
+      { "minIlvl": 6, "min": 21, "max": 35 }
+    ]
+  },
+  {
+    "id": "of_marrow",
+    "kind": "suffix",
+    "group": "life",
+    "stat": "life",
+    "weight": 10,
+    "types": ["armor", "belt", "ring", "amulet", "helm"],
+    "name": "Кісткового Мозку",
+    "tiers": [
+      { "minIlvl": 1, "min": 5, "max": 10 },
+      { "minIlvl": 3, "min": 11, "max": 20 },
+      { "minIlvl": 6, "min": 21, "max": 35 }
+    ]
+  },
+  {
+    "id": "of_wrath",
+    "kind": "suffix",
+    "group": "damage",
+    "stat": "damage",
+    "weight": 10,
+    "types": ["weapon1h", "weapon2h", "ring", "amulet"],
+    "name": "Гніву",
+    "tiers": [
+      { "minIlvl": 1, "min": 1, "max": 3 },
+      { "minIlvl": 3, "min": 4, "max": 6 }
+    ]
+  },
+  {
+    "id": "of_wake",
+    "kind": "suffix",
+    "group": "lifeOnKill",
+    "stat": "lifeOnKill",
+    "weight": 10,
+    "types": ["weapon1h", "weapon2h", "gloves", "ring", "amulet"],
+    "name": "Тризни",
+    "tiers": [
+      { "minIlvl": 1, "min": 2, "max": 4 },
+      { "minIlvl": 3, "min": 5, "max": 8 }
+    ]
+  },
+  {
+    "id": "of_flight",
+    "kind": "suffix",
+    "group": "moveSpeedPct",
+    "stat": "moveSpeedPct",
+    "weight": 5,
+    "types": ["boots"],
+    "name": "Втечі",
+    "tiers": [
+      { "minIlvl": 1, "min": 5, "max": 10 },
+      { "minIlvl": 3, "min": 11, "max": 15 }
+    ]
+  },
+  {
+    "id": "of_vigil",
+    "kind": "suffix",
+    "group": "armor",
+    "stat": "armor",
+    "weight": 10,
+    "types": ["shield", "helm", "armor", "belt"],
+    "name": "Нічної Варти",
+    "tiers": [
+      { "minIlvl": 1, "min": 2, "max": 4 },
+      { "minIlvl": 3, "min": 5, "max": 9 }
+    ]
+  },
+  {
+    "id": "of_carnage",
+    "kind": "suffix",
+    "group": "attackSpeedPct",
+    "stat": "attackSpeedPct",
+    "weight": 10,
+    "types": ["weapon1h", "weapon2h", "gloves", "ring"],
+    "name": "Різанини",
+    "tiers": [
+      { "minIlvl": 1, "min": 5, "max": 8 },
+      { "minIlvl": 3, "min": 9, "max": 14 }
+    ]
+  }
+]

@@ -1,4 +1,5 @@
 import { GOLD_PILE_TIERS, GOLD_SCATTER } from '../config';
+import { RARITIES, type Rarity } from './Items';
 import type { Rng } from './Random';
 
 /** Gold drop of one monster type: `chance` in [0, 1], amount = `base` ± `spread` (fraction of base). */
@@ -14,9 +15,17 @@ export interface PickupParams {
   pickupRadius: number;
 }
 
+/** Item drop of one monster type: `rolls` independent tries, each succeeding with `chance`. */
+export interface ItemDropDef {
+  rolls: number;
+  chance: number;
+}
+
 export interface LootTable {
   pickup: PickupParams;
-  monsters: Record<string, { gold?: GoldDef }>;
+  /** Rarity weights of a dropped item. */
+  rarity: Record<Rarity, number>;
+  monsters: Record<string, { gold?: GoldDef; items?: ItemDropDef }>;
 }
 
 export const LOOT_URL = 'assets/data/loot.json';
@@ -46,24 +55,35 @@ export function parseLoot(json: unknown): LootTable {
     pickupDelay: num(p.pickupDelay, '_pickup.pickupDelay', 0),
     pickupRadius: num(p.pickupRadius, '_pickup.pickupRadius', 0),
   };
+  const r = obj(root._rarity, '_rarity');
+  const rarity = Object.fromEntries(
+    RARITIES.map((k) => [k, num(r[k], `_rarity.${k}`, 0)]),
+  ) as Record<Rarity, number>;
+  if (RARITIES.every((k) => rarity[k] === 0))
+    throw new Error('loot.json: _rarity weights are all 0');
   const monsters: LootTable['monsters'] = {};
   for (const [id, entry] of Object.entries(root)) {
     if (id.startsWith('_')) continue;
     const e = obj(entry, id);
-    if (e.gold === undefined) {
-      monsters[id] = {};
-      continue;
-    }
-    const g = obj(e.gold, `${id}.gold`);
-    monsters[id] = {
-      gold: {
+    const m: LootTable['monsters'][string] = {};
+    if (e.gold !== undefined) {
+      const g = obj(e.gold, `${id}.gold`);
+      m.gold = {
         chance: num(g.chance, `${id}.gold.chance`, 0, 1),
         base: num(g.base, `${id}.gold.base`, 0),
         spread: num(g.spread, `${id}.gold.spread`, 0, 1, false),
-      },
-    };
+      };
+    }
+    if (e.items !== undefined) {
+      const it = obj(e.items, `${id}.items`);
+      const rolls = num(it.rolls, `${id}.items.rolls`, 0, 255);
+      if (!Number.isInteger(rolls))
+        throw new Error(`loot.json: invalid ${id}.items.rolls: ${rolls}`);
+      m.items = { rolls, chance: num(it.chance, `${id}.items.chance`, 0, 1) };
+    }
+    monsters[id] = m;
   }
-  return { pickup, monsters };
+  return { pickup, rarity, monsters };
 }
 
 /**

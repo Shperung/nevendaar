@@ -1,8 +1,10 @@
 // Builds the side panel and window UI art from raw generations in art/concepts/ui/<name>.(png|jpg) into
 // public/assets/ui/ at 2× design size. Missing raws are skipped, so it can be run piecemeal.
-// Usage: node tools/uiArt.ts [name...]
+// Item icons come from art/concepts/ui/items/<icon>.png (icon names from items.json) into ui/items/.
+// Usage: node tools/uiArt.ts [name...]   (`items` builds every item icon)
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, statSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, statSync } from 'node:fs';
+import { dirname } from 'node:path';
 import sharp from 'sharp';
 import {
   cutHole,
@@ -48,6 +50,12 @@ interface Grade {
 }
 
 const STONE: Grade = { keep: 0.3, gain: 1.12 };
+
+const ITEM_DATA = JSON.parse(readFileSync('public/assets/data/items.json', 'utf8')) as {
+  bases: { icon: string }[];
+  uniques: { icon: string }[];
+};
+const ITEM_ICONS = [...ITEM_DATA.bases, ...ITEM_DATA.uniques].map((e) => e.icon);
 
 const ICONS = [
   'menu',
@@ -117,6 +125,8 @@ const ASSETS: Asset[] = [
     opaque: true,
   },
   { name: 'slot_diamond', grade: STONE, w: 160, h: 160, mode: 'contain' },
+  { name: 'card_frame', grade: STONE, w: 600, h: 600, mode: 'stretch' },
+  { name: 'card_icon_frame', grade: STONE, w: 160, h: 160, mode: 'stretch' },
   ...ICONS.map((n): Asset => ({
     name: `icon_${n}`,
     w: 80,
@@ -124,10 +134,19 @@ const ASSETS: Asset[] = [
     mode: 'contain',
     box: { x: 4, y: 4, w: 72, h: 72 },
   })),
+  ...ITEM_ICONS.map((icon): Asset => ({
+    name: `items/${icon}`,
+    w: 128,
+    h: 128,
+    mode: 'contain',
+    box: { x: 4, y: 4, w: 120, h: 120 },
+  })),
 ];
 
 const only = process.argv.slice(2);
-const wanted = (name: string) => only.length === 0 || only.includes(name);
+/** A name or its folder (`items` for `items/<icon>`) selects the asset. */
+const wanted = (name: string) =>
+  only.length === 0 || only.includes(name) || only.includes(name.split('/')[0]);
 
 function rawPath(name: string): string | null {
   for (const ext of ['png', 'jpg'])
@@ -270,6 +289,7 @@ for (const a of ASSETS) {
     console.warn(`skip ${a.name}: no raw file in ${RAW}`);
     continue;
   }
+  mkdirSync(dirname(`${OUT}/${a.name}`), { recursive: true });
   written.push(await build(a, input));
   if (a.name === 'medallion_normal') written.push(...(await deriveStates()));
 }

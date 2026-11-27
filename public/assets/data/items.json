@@ -1,0 +1,386 @@
+{
+  "bases": [
+    {
+      "id": "notched_cleaver",
+      "name": "Щербатий тесак",
+      "gender": "m",
+      "type": "weapon1h",
+      "qlvl": 1,
+      "weight": 10,
+      "damage": [3, 7],
+      "icon": "item_notched_cleaver"
+    },
+    {
+      "id": "grave_sickle",
+      "name": "Цвинтарний серп",
+      "gender": "m",
+      "type": "weapon1h",
+      "qlvl": 1,
+      "weight": 10,
+      "damage": [2, 8],
+      "icon": "item_grave_sickle"
+    },
+    {
+      "id": "bone_mace",
+      "name": "Кістяна булава",
+      "gender": "f",
+      "type": "weapon1h",
+      "qlvl": 2,
+      "weight": 7,
+      "damage": [4, 7],
+      "icon": "item_bone_mace"
+    },
+    {
+      "id": "war_scythe",
+      "name": "Бойова коса",
+      "gender": "f",
+      "type": "weapon2h",
+      "qlvl": 2,
+      "weight": 7,
+      "damage": [6, 16],
+      "icon": "item_war_scythe"
+    },
+    {
+      "id": "headsman_sword",
+      "name": "Катівський меч",
+      "gender": "m",
+      "type": "weapon2h",
+      "qlvl": 3,
+      "weight": 5,
+      "damage": [9, 17],
+      "icon": "item_headsman_sword"
+    },
+    {
+      "id": "iron_buckler",
+      "name": "Залізний баклер",
+      "gender": "m",
+      "type": "shield",
+      "qlvl": 1,
+      "weight": 10,
+      "armor": 4,
+      "icon": "item_iron_buckler"
+    },
+    {
+      "id": "pavise",
+      "name": "Облуплена павеза",
+      "gender": "f",
+      "type": "shield",
+      "qlvl": 3,
+      "weight": 5,
+      "armor": 9,
+      "icon": "item_pavise"
+    },
+    {
+      "id": "rusted_helm",
+      "name": "Іржавий шолом",
+      "gender": "m",
+      "type": "helm",
+      "qlvl": 1,
+      "weight": 10,
+      "armor": 3,
+      "icon": "item_rusted_helm"
+    },
+    {
+      "id": "visored_bascinet",
+      "name": "Бацинет із забралом",
+      "gender": "m",
+      "type": "helm",
+      "qlvl": 3,
+      "weight": 5,
+      "armor": 6,
+      "icon": "item_visored_bascinet"
+    },
+    {
+      "id": "pilgrim_cassock",
+      "name": "Ряса прочанина",
+      "gender": "f",
+      "type": "armor",
+      "qlvl": 1,
+      "weight": 10,
+      "armor": 3,
+      "icon": "item_pilgrim_cassock"
+    },
+    {
+      "id": "padded_gambeson",
+      "name": "Стьобаний гамбезон",
+      "gender": "m",
+      "type": "armor",
+      "qlvl": 1,
+      "weight": 10,
+      "armor": 5,
+      "icon": "item_padded_gambeson"
+    },
+    {
+      "id": "scale_hauberk",
+      "name": "Лускатий обладунок",
+      "gender": "m",
+      "type": "armor",
+      "qlvl": 3,
+      "weight": 5,
+      "armor": 10,
+      "icon": "item_scale_hauberk"
+    },
+    {
+      "id": "leather_gloves",
+      "name": "Шкіряні рукавиці",
+      "gender": "pl",
+      "type": "gloves",
+      "qlvl": 1,
+      "weight": 10,
+      "armor": 1,
+      "icon": "item_leather_gloves"
+    },
+    {
+      "id": "chain_gauntlets",
+      "name": "Кольчужні рукавиці",
+      "gender": "pl",
+      "type": "gloves",
+      "qlvl": 2,
+      "weight": 7,
+      "armor": 3,
+      "icon": "item_chain_gauntlets"
+    },
+    {
+      "id": "rope_girdle",
+      "name": "Мотузяний пояс",
+      "gender": "m",
+      "type": "belt",
+      "qlvl": 1,
+      "weight": 10,
+      "armor": 1,
+      "icon": "item_rope_girdle"
+    },
+    {
+      "id": "riveted_belt",
+      "name": "Окутий пояс",
+      "gender": "m",
+      "type": "belt",
+      "qlvl": 2,
+      "weight": 7,
+      "armor": 2,
+      "icon": "item_riveted_belt"
+    },
+    {
+      "id": "worn_boots",
+      "name": "Стоптані чоботи",
+      "gender": "pl",
+      "type": "boots",
+      "qlvl": 1,
+      "weight": 10,
+      "armor": 1,
+      "icon": "item_worn_boots"
+    },
+    {
+      "id": "iron_shod_boots",
+      "name": "Окуті чоботи",
+      "gender": "pl",
+      "type": "boots",
+      "qlvl": 2,
+      "weight": 7,
+      "armor": 3,
+      "icon": "item_iron_shod_boots"
+    },
+    {
+      "id": "iron_band",
+      "name": "Залізний перстень",
+      "gender": "m",
+      "type": "ring",
+      "qlvl": 1,
+      "weight": 6,
+      "icon": "item_iron_band"
+    },
+    {
+      "id": "fang_charm",
+      "name": "Оберіг з ікла",
+      "gender": "m",
+      "type": "amulet",
+      "qlvl": 1,
+      "weight": 6,
+      "icon": "item_fang_charm"
+    }
+  ],
+  "uniques": [
+    {
+      "id": "ashen_oath",
+      "name": "Попелиста Присяга",
+      "base": "headsman_sword",
+      "minIlvl": 3,
+      "weight": 1,
+      "stats": [
+        { "stat": "damagePct", "min": 40, "max": 60 },
+        { "stat": "lifeOnKill", "min": 4, "max": 6 }
+      ],
+      "flavor": "Клинок, яким стинали клятвопорушників, досі пам'ятає кожне ім'я.",
+      "icon": "unique_ashen_oath"
+    },
+    {
+      "id": "nameless_sickle",
+      "name": "Серп Безіменного Цвинтаря",
+      "base": "grave_sickle",
+      "minIlvl": 1,
+      "weight": 1,
+      "stats": [
+        { "stat": "lifeSteal", "min": 3, "max": 5 },
+        { "stat": "attackSpeedPct", "min": 10, "max": 15 }
+      ],
+      "flavor": "Ним косили траву над тими, кого не відспівали.",
+      "icon": "unique_nameless_sickle"
+    },
+    {
+      "id": "quiet_confession",
+      "name": "Булава Тихої Сповіді",
+      "base": "bone_mace",
+      "minIlvl": 2,
+      "weight": 1,
+      "stats": [
+        { "stat": "damage", "min": 3, "max": 5 },
+        { "stat": "damagePct", "min": 20, "max": 30 }
+      ],
+      "flavor": "Кожен удар — питання, на яке не відповідають.",
+      "icon": "unique_quiet_confession"
+    },
+    {
+      "id": "bellringer_scythe",
+      "name": "Коса Дзвонаря",
+      "base": "war_scythe",
+      "minIlvl": 2,
+      "weight": 1,
+      "stats": [
+        { "stat": "damagePct", "min": 25, "max": 40 },
+        { "stat": "life", "min": 10, "max": 15 }
+      ],
+      "flavor": "Дзвін давно розбитий, а коса все ще відбиває години.",
+      "icon": "unique_bellringer_scythe"
+    },
+    {
+      "id": "crucified_pavise",
+      "name": "Павеза Розіп'ятого Лицаря",
+      "base": "pavise",
+      "minIlvl": 3,
+      "weight": 1,
+      "stats": [
+        { "stat": "armorPct", "min": 30, "max": 45 },
+        { "stat": "life", "min": 15, "max": 25 }
+      ],
+      "flavor": "Цвяхи з неї так ніхто й не витяг.",
+      "icon": "unique_crucified_pavise"
+    },
+    {
+      "id": "hollow_sockets",
+      "name": "Шолом Порожніх Очниць",
+      "base": "rusted_helm",
+      "minIlvl": 1,
+      "weight": 1,
+      "stats": [
+        { "stat": "armor", "min": 4, "max": 6 },
+        { "stat": "lifeOnKill", "min": 2, "max": 3 }
+      ],
+      "flavor": "Під забралом — лише темрява, що дивиться у відповідь.",
+      "icon": "unique_hollow_sockets"
+    },
+    {
+      "id": "silent_abbot",
+      "name": "Корона Мовчазного Абата",
+      "base": "visored_bascinet",
+      "minIlvl": 3,
+      "weight": 1,
+      "stats": [
+        { "stat": "life", "min": 20, "max": 30 },
+        { "stat": "armorPct", "min": 20, "max": 30 }
+      ],
+      "flavor": "Він дав обітницю мовчання. Шолом її дотримує.",
+      "icon": "unique_silent_abbot"
+    },
+    {
+      "id": "last_pilgrim",
+      "name": "Саван Останнього Прочанина",
+      "base": "pilgrim_cassock",
+      "minIlvl": 1,
+      "weight": 1,
+      "stats": [
+        { "stat": "life", "min": 15, "max": 25 },
+        { "stat": "moveSpeedPct", "min": 5, "max": 8 }
+      ],
+      "flavor": "Дорога скінчилась. Прочанин — ні.",
+      "icon": "unique_last_pilgrim"
+    },
+    {
+      "id": "bellringer_hands",
+      "name": "Пальці Дзвонаря",
+      "base": "chain_gauntlets",
+      "minIlvl": 2,
+      "weight": 1,
+      "stats": [
+        { "stat": "attackSpeedPct", "min": 15, "max": 20 },
+        { "stat": "damage", "min": 2, "max": 3 }
+      ],
+      "flavor": "Руки пам'ятають ритм, якого вже ніхто не чує.",
+      "icon": "unique_bellringer_hands"
+    },
+    {
+      "id": "penitent_chain",
+      "name": "Ланцюг Покутника",
+      "base": "riveted_belt",
+      "minIlvl": 2,
+      "weight": 1,
+      "stats": [
+        { "stat": "life", "min": 20, "max": 30 },
+        { "stat": "armor", "min": 4, "max": 6 }
+      ],
+      "flavor": "Важчає з кожним гріхом, що його носять.",
+      "icon": "unique_penitent_chain"
+    },
+    {
+      "id": "ash_trail",
+      "name": "Сліди Попелу",
+      "base": "iron_shod_boots",
+      "minIlvl": 2,
+      "weight": 1,
+      "stats": [
+        { "stat": "moveSpeedPct", "min": 15, "max": 20 },
+        { "stat": "armor", "min": 3, "max": 5 }
+      ],
+      "flavor": "Там, де він пройшов, більше нічого не росте.",
+      "icon": "unique_ash_trail"
+    },
+    {
+      "id": "black_candle",
+      "name": "Перстень Чорної Свічі",
+      "base": "iron_band",
+      "minIlvl": 2,
+      "weight": 1,
+      "stats": [
+        { "stat": "lifeSteal", "min": 2, "max": 4 },
+        { "stat": "damagePct", "min": 10, "max": 15 }
+      ],
+      "flavor": "Горить лише в темряві й лише для мертвих.",
+      "icon": "unique_black_candle"
+    }
+  ],
+  "rareNames": {
+    "first": [
+      "Жало",
+      "Шепіт",
+      "Тінь",
+      "Плач",
+      "Шрам",
+      "Вирок",
+      "Іскра",
+      "Обітниця",
+      "Кайдани",
+      "Ікло"
+    ],
+    "second": [
+      "Ворона",
+      "Могили",
+      "Попелу",
+      "Згарища",
+      "Чуми",
+      "Смерку",
+      "Відьми",
+      "Каплиці",
+      "Безодні",
+      "Вовкулаки"
+    ]
+  }
+}

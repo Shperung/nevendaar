@@ -4,23 +4,48 @@ import { dropPosition, parseLoot, pileTier, rollGold } from '../../src/gameplay/
 import { mulberry32 } from '../../src/gameplay/Random';
 
 const PICKUP = { pickupDelay: 2, pickupRadius: 0.6 };
+const RARITY = { common: 60, magic: 30, rare: 9, unique: 1 };
 
 describe('parseLoot', () => {
   it('reads _pickup and does not treat it as a monster', () => {
     const t = parseLoot({
       _pickup: PICKUP,
+      _rarity: RARITY,
       skeleton: { gold: { chance: 0.4, base: 4, spread: 0.5 } },
       bat: {},
     });
     expect(t.pickup).toEqual(PICKUP);
+    expect(t.rarity).toEqual(RARITY);
     expect(Object.keys(t.monsters).sort()).toEqual(['bat', 'skeleton']);
     expect(t.monsters.skeleton.gold).toEqual({ chance: 0.4, base: 4, spread: 0.5 });
     expect(t.monsters.bat.gold).toBeUndefined();
+    expect(t.monsters.skeleton.items).toBeUndefined();
+  });
+
+  it('reads item drops', () => {
+    const t = parseLoot({
+      _pickup: PICKUP,
+      _rarity: RARITY,
+      necro: { items: { rolls: 2, chance: 0.12 } },
+    });
+    expect(t.monsters.necro).toEqual({ items: { rolls: 2, chance: 0.12 } });
   });
 
   it('throws on broken data', () => {
-    const gold = (g: object) => ({ _pickup: PICKUP, skeleton: { gold: g } });
+    const gold = (g: object) => ({ _pickup: PICKUP, _rarity: RARITY, skeleton: { gold: g } });
+    const items = (i: object) => ({ _pickup: PICKUP, _rarity: RARITY, skeleton: { items: i } });
+    const rarity = (r: object) => ({ _pickup: PICKUP, _rarity: r });
     expect(() => parseLoot({ skeleton: {} })).toThrow();
+    expect(() => parseLoot({ _pickup: PICKUP })).toThrow(/^loot\.json: /);
+    expect(() => parseLoot(rarity({ ...RARITY, rare: -1 }))).toThrow(/^loot\.json: /);
+    expect(() => parseLoot(rarity({ common: 60, magic: 30, rare: 9 }))).toThrow(/^loot\.json: /);
+    expect(() => parseLoot(rarity({ common: 0, magic: 0, rare: 0, unique: 0 }))).toThrow(
+      /^loot\.json: /,
+    );
+    expect(() => parseLoot(items({ rolls: 1, chance: 1.2 }))).toThrow(/^loot\.json: /);
+    expect(() => parseLoot(items({ rolls: 1.5, chance: 0.1 }))).toThrow(/^loot\.json: /);
+    expect(() => parseLoot(items({ rolls: -1, chance: 0.1 }))).toThrow(/^loot\.json: /);
+    expect(() => parseLoot(items({ chance: 0.1 }))).toThrow(/^loot\.json: /);
     expect(() => parseLoot(gold({ chance: 1.5, base: 4, spread: 0 }))).toThrow();
     expect(() => parseLoot(gold({ chance: 0.5, base: 4, spread: 1 }))).toThrow();
     expect(() => parseLoot(gold({ chance: 0.5, base: '4', spread: 0 }))).toThrow();

@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { heroStatRows, inventoryScale, type HeroStats } from '../../src/ui/InventoryLayout';
+import {
+  cardPosition,
+  heroStatRows,
+  inventoryScale,
+  type HeroStats,
+} from '../../src/ui/InventoryLayout';
 
 describe('inventoryScale', () => {
   it('keeps the design size on a large screen', () => {
@@ -18,6 +23,23 @@ describe('inventoryScale', () => {
       [960, 640],
     ])
       expect(inventoryScale(w, h)).toBeLessThanOrEqual(1);
+  });
+});
+
+describe('cardPosition', () => {
+  const card = { w: 300, h: 200 };
+  const view = { w: 1000, h: 800 };
+
+  it('puts the card right of and below the cursor', () => {
+    expect(cardPosition({ x: 100, y: 100 }, card, view)).toEqual({ x: 116, y: 116 });
+  });
+
+  it('flips left / up near the right / bottom edge', () => {
+    expect(cardPosition({ x: 900, y: 700 }, card, view)).toEqual({ x: 584, y: 484 });
+  });
+
+  it('never goes past 0', () => {
+    expect(cardPosition({ x: 200, y: 150 }, card, { w: 400, h: 300 })).toEqual({ x: 0, y: 0 });
   });
 });
 

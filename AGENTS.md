@@ -41,6 +41,7 @@ public/assets/
   maps/         карти Tiled у JSON
   atlases/{biome}/ текстури ландшафту біому (ground + перешкоди), напр. atlases/snow/
   ui/           текстури HUD (бічна панель, медальйони, іконки) у 2× дизайн-px, курсор
+  ui/items/     іконки артефактів 128×128 (`item_<base>`, `unique_<id>` — поле `icon` в items.json)
   data/         items.json, affixes.json, monsters.json, skills.json, biomes.json
   audio/
 src/
@@ -116,7 +117,11 @@ tests/               Vitest-специфікації, що дзеркалять 
 - Обробники DOM лише перемикають вікно й пишуть у `Input`; ігрової логіки в них немає.
 
 ### Лут і стати
-- Рівні рідкості: `common, magic, rare, unique`. Пули афіксів — в `affixes.json`.
+- Рівні рідкості: `common, magic, rare, unique`. Пули афіксів — в `affixes.json`, бази й unique — в `items.json`.
+- Генерація артефакту — `gameplay/ItemGenerator.ts` (`rollItem`, `ilvl` = рівень монстра + глибина − 1);
+  зберігається лише результат ролу.
+- Лут на землі — `GoldPile` + side-map `SackItems` (є артефакти → мішечок); список артефактів героя —
+  side-map `Backpack` (порядок підбору), зберігається через `Storage.saveInventory`.
 - `StatCalc.compute(base, items, buffs)` — чиста функція; тестуй кожну зміну формули.
 - RNG сідований (`mulberry32`), seed зберігається в сейві, щоб забіги були відтворювані.
 

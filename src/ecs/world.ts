@@ -1,18 +1,22 @@
 import { addComponent, addEntity, createWorld, type IWorld } from 'bitecs';
 import { UnitId } from '../assets/manifest';
-import { HERO_ATTACK, HERO_HP, HERO_SPEED, MONSTER_LEASH_FACTOR } from '../config';
-import type { GoldDef, PickupParams } from '../gameplay/Loot';
+import { DEPTH, HERO_ATTACK, HERO_HP, HERO_SPEED, MONSTER_LEASH_FACTOR } from '../config';
+import type { Item, ItemData } from '../gameplay/Items';
+import type { GoldDef, ItemDropDef, LootTable } from '../gameplay/Loot';
 import type { MonsterDef } from '../gameplay/Monster';
 import type { Rng } from '../gameplay/Random';
 import type { GameMap } from '../map/GameMap';
 import type { Point } from '../map/Pathfinder';
 import { AI } from './components/AI';
 import { Attack } from './components/Attack';
+import { Backpack } from './components/Backpack';
 import { GoldDrop } from './components/GoldDrop';
 import { GoldPile } from './components/GoldPile';
 import { Health } from './components/Health';
+import { ItemDrop } from './components/ItemDrop';
 import { Player } from './components/Player';
 import { Position } from './components/Position';
+import { SackItems } from './components/SackItems';
 import { Speed } from './components/Speed';
 import { Sprite } from './components/Sprite';
 import { Wallet } from './components/Wallet';
@@ -33,11 +37,13 @@ export function createStep(
   map: GameMap,
   heroSpawn: Point,
   rng: Rng,
-  pickup: PickupParams,
+  loot: LootTable,
+  items: ItemData,
+  firstUid: number,
 ): (world: IWorld) => void {
   const inputSystem = createInputSystem(map);
   const combatSystem = createCombatSystem(map);
-  const lootSystem = createLootSystem(map, rng, pickup);
+  const lootSystem = createLootSystem(map, rng, loot, items, firstUid);
   const cleanupSystem = createCleanupSystem(heroSpawn);
   return (world) => {
     inputSystem(world);
@@ -50,11 +56,18 @@ export function createStep(
   };
 }
 
-export function spawnHero(world: IWorld, x: number, y: number, gold: number): number {
+export function spawnHero(
+  world: IWorld,
+  x: number,
+  y: number,
+  gold: number,
+  items: Item[] = [],
+): number {
   const eid = addEntity(world);
   addComponent(world, Player, eid);
   addComponent(world, Wallet, eid);
   Wallet.gold[eid] = gold;
+  Backpack.set(eid, [...items]);
   addComponent(world, Position, eid);
   addComponent(world, Speed, eid);
   addComponent(world, Sprite, eid);
@@ -80,6 +93,7 @@ export function spawnMonster(
   dir: number,
   def: MonsterDef,
   gold?: GoldDef,
+  items?: ItemDropDef,
 ): number {
   const eid = addEntity(world);
   addComponent(world, Position, eid);
@@ -105,6 +119,12 @@ export function spawnMonster(
     GoldDrop.base[eid] = gold.base;
     GoldDrop.spread[eid] = gold.spread;
   }
+  if (items) {
+    addComponent(world, ItemDrop, eid);
+    ItemDrop.rolls[eid] = items.rolls;
+    ItemDrop.chance[eid] = items.chance;
+    ItemDrop.ilvl[eid] = def.level + DEPTH - 1;
+  }
   return eid;
 }
 
@@ -114,6 +134,7 @@ export function spawnGoldPile(
   y: number,
   amount: number,
   delay: number,
+  items: Item[] = [],
 ): number {
   const eid = addEntity(world);
   addComponent(world, Position, eid);
@@ -122,5 +143,6 @@ export function spawnGoldPile(
   Position.y[eid] = Position.prevY[eid] = y;
   GoldPile.amount[eid] = amount;
   GoldPile.delay[eid] = delay;
+  if (items.length > 0) SackItems.set(eid, items);
   return eid;
 }

@@ -8,6 +8,25 @@ export function inventoryScale(screenW: number, screenH: number): number {
   return Math.min(1, (screenW * 0.92) / INV.w, (screenH * 0.92) / INV.h);
 }
 
+/** Gap between the cursor and the artifact card, in screen pixels. */
+const CARD_OFFSET = 16;
+
+/**
+ * Top-left corner of the artifact card in screen pixels: right of and below the cursor, flipped to
+ * the left / above when it would cross the right / bottom screen edge, never past 0.
+ */
+export function cardPosition(
+  cursor: { x: number; y: number },
+  card: { w: number; h: number },
+  view: { w: number; h: number },
+): { x: number; y: number } {
+  let x = cursor.x + CARD_OFFSET;
+  let y = cursor.y + CARD_OFFSET;
+  if (x + card.w > view.w) x = cursor.x - CARD_OFFSET - card.w;
+  if (y + card.h > view.h) y = cursor.y - CARD_OFFSET - card.h;
+  return { x: Math.max(0, x), y: Math.max(0, y) };
+}
+
 export interface HeroStats {
   name: string;
   hp: number;

@@ -1,6 +1,16 @@
 {
   "_pickup": { "pickupDelay": 2, "pickupRadius": 0.6 },
-  "skeleton": { "gold": { "chance": 0.4, "base": 4, "spread": 0.5 } },
-  "zombie": { "gold": { "chance": 0.5, "base": 6, "spread": 0.4 } },
-  "necro_warrior": { "gold": { "chance": 0.6, "base": 10, "spread": 0.3 } }
+  "_rarity": { "common": 60, "magic": 30, "rare": 9, "unique": 1 },
+  "skeleton": {
+    "gold": { "chance": 0.4, "base": 4, "spread": 0.5 },
+    "items": { "rolls": 1, "chance": 0.08 }
+  },
+  "zombie": {
+    "gold": { "chance": 0.5, "base": 6, "spread": 0.4 },
+    "items": { "rolls": 1, "chance": 0.12 }
+  },
+  "necro_warrior": {
+    "gold": { "chance": 0.6, "base": 10, "spread": 0.3 },
+    "items": { "rolls": 2, "chance": 0.12 }
+  }
 }

@@ -76,11 +76,13 @@ export function removeKeyColor(data: Uint8Array, key: KeyColor): void {
 
 // Sampled key: generators paint "magenta" as anything from #FF00FF to #BE1660, so the real background
 // color is averaged from the four corners. Pixels closer than SAMPLED_CLEAR to it and connected to the
-// border are the background. Only a thin band (EDGE_BAND px) around it is treated as anti-aliased
+// border are the background; closed holes (rings, frames) are seeded by pixels closer than SAMPLED_SEED,
+// which is tight enough to leave dim glows in the key's hue alone. Only a thin band (EDGE_BAND px) around it is treated as anti-aliased
 // edge: alpha ramps with the distance up to SAMPLED_SOLID and the color is un-mixed
 // (c = (c − (1 − a)·bg) / a) so no pink fringe is left. Dark bronze is about as far from the
 // background as the edge pixels, so a global ramp would make the whole object translucent.
 const SAMPLED_CLEAR = 70;
+const SAMPLED_SEED = 25;
 const SAMPLED_SOLID = 180;
 const EDGE_BAND = 2;
 const CORNER = 8;
@@ -111,6 +113,7 @@ export function removeSampledKey(data: Uint8Array, w: number, h: number): void {
   let front: number[] = [];
   for (let x = 0; x < w; x++) front.push(x, (h - 1) * w + x);
   for (let y = 0; y < h; y++) front.push(y * w, y * w + w - 1);
+  for (let p = 0; p < w * h; p++) if (dist(p) < SAMPLED_SEED) front.push(p);
   while (front.length) {
     const p = front.pop() as number;
     if (band[p] === 0 || dist(p) >= SAMPLED_CLEAR) continue;

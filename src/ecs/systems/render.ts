@@ -15,10 +15,12 @@ import { pileTier } from '../../gameplay/Loot';
 import { atlasPath, type Biome } from '../../map/Biome';
 import { obstacleClusters, type GameMap } from '../../map/GameMap';
 import { toScreen, toTile } from '../../map/IsoMath';
+import { RARITY_GLOW, sackLabel, topRarity } from '../../ui/ItemText';
 import { GoldPile } from '../components/GoldPile';
 import { Health } from '../components/Health';
 import { Player } from '../components/Player';
 import { Position } from '../components/Position';
+import { SackItems } from '../components/SackItems';
 import { Sprite } from '../components/Sprite';
 
 const spriteQuery = defineQuery([Position, Sprite]);
@@ -29,6 +31,24 @@ const enterPiles = enterQuery(pileQuery);
 const exitPiles = exitQuery(pileQuery);
 /** Gold pouch sprite width per pileTier, in pixels. */
 const PILE_SIZES = [32, 44, 58];
+/** Loot sack sprite width in pixels; its rarity aura pulses with this period (ms). */
+const SACK_SIZE = 48;
+const AURA_PERIOD = 1500;
+
+/** Sack sprite, or a brown diamond with a tie while loot_sack.png is missing; feet at (0, 0). */
+function sackGraphic(): Container {
+  if (Assets.cache.has('loot_sack')) {
+    const sack = new PixiSprite({ texture: Assets.get('loot_sack'), anchor: { x: 0.5, y: 0.85 } });
+    sack.scale.set(SACK_SIZE / sack.texture.width);
+    return sack;
+  }
+  return new Graphics()
+    .poly([0, -30, 18, -14, 0, 2, -18, -14])
+    .fill(0x6b4a2b)
+    .stroke({ color: 0x2a1a0e, width: 2 })
+    .rect(-6, -34, 12, 5)
+    .fill(0x3a2716);
+}
 
 const HP_BAR_W = 50;
 const HP_BAR_H = 6;
@@ -135,6 +155,7 @@ export function createRenderSystem(
 ): (world: IWorld, alpha: number, cam: ViewRect) => void {
   const views = new Map<number, { view: Container; sprite: PixiSprite; hp?: Graphics }>();
   const pileViews = new Map<number, Container>();
+  const auras = new Map<number, Graphics>();
   // One shared hover label instead of a Text per pile (there can be ~1500 piles).
   const pileLabel = new Text({
     style: { fontSize: 14, fill: 0xf1c40f, stroke: { color: 0x000000, width: 3 } },
@@ -146,17 +167,31 @@ export function createRenderSystem(
 
   return (world, alpha, cam) => {
     for (const eid of enterPiles(world)) {
-      const w = PILE_SIZES[pileTier(GoldPile.amount[eid])];
+      const sack = SackItems.get(eid);
+      const w = sack ? SACK_SIZE : PILE_SIZES[pileTier(GoldPile.amount[eid])];
       const shadow = new Graphics()
         .ellipse(0, 0, w * 0.45, w * 0.2)
         .fill({ color: 0x000000, alpha: 0.35 });
-      const pile = new PixiSprite({
-        texture: Assets.get('gold_pouch'),
-        anchor: { x: 0.5, y: 0.85 },
-      });
-      pile.scale.set(w / pile.texture.width);
       const view = new Container();
-      view.addChild(shadow, pile);
+      if (sack) {
+        const rarity = topRarity(sack);
+        if (rarity !== 'common') {
+          const aura = new Graphics()
+            .ellipse(0, -4, w * 0.75, w * 0.35)
+            .fill({ color: RARITY_GLOW[rarity], alpha: 0.6 });
+          aura.blendMode = 'add';
+          view.addChild(aura);
+          auras.set(eid, aura);
+        }
+        view.addChild(shadow, sackGraphic());
+      } else {
+        const pile = new PixiSprite({
+          texture: Assets.get('gold_pouch'),
+          anchor: { x: 0.5, y: 0.85 },
+        });
+        pile.scale.set(w / pile.texture.width);
+        view.addChild(shadow, pile);
+      }
       const s = toScreen(Position.x[eid], Position.y[eid]);
       view.position.set(s.x, s.y);
       // Below the feet of a unit standing on the pile.
@@ -168,7 +203,12 @@ export function createRenderSystem(
     for (const eid of exitPiles(world)) {
       pileViews.get(eid)?.destroy({ children: true });
       pileViews.delete(eid);
+      auras.delete(eid);
     }
+
+    // Aura alpha swings between 0.2 and 0.6 over AURA_PERIOD.
+    const pulse = 0.4 + 0.2 * Math.sin((performance.now() / AURA_PERIOD) * 2 * Math.PI);
+    for (const aura of auras.values()) aura.alpha = pulse;
 
     let hovered = -1;
     let hoveredY = -Infinity;
@@ -189,7 +229,11 @@ export function createRenderSystem(
     pileLabel.visible = hovered >= 0;
     if (hovered >= 0) {
       const view = pileViews.get(hovered) as Container;
-      pileLabel.text = `${GoldPile.amount[hovered]} золота`;
+      const sack = SackItems.get(hovered);
+      pileLabel.text = sack
+        ? sackLabel(GoldPile.amount[hovered], sack)
+        : `${GoldPile.amount[hovered]} золота`;
+      pileLabel.style.fill = sack ? RARITY_GLOW[topRarity(sack)] : 0xf1c40f;
       pileLabel.position.set(view.x, view.y - view.height);
     }
 
