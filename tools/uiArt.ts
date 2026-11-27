@@ -1,4 +1,4 @@
-// Builds the side panel UI art from raw generations in art/concepts/ui/<name>.(png|jpg) into
+// Builds the side panel and window UI art from raw generations in art/concepts/ui/<name>.(png|jpg) into
 // public/assets/ui/ at 2× design size. Missing raws are skipped, so it can be run piecemeal.
 // Usage: node tools/uiArt.ts [name...]
 import { execFileSync } from 'node:child_process';
@@ -38,6 +38,8 @@ interface Asset {
   alpha?: number;
   /** Color grade (stoneGrade keep / gain): stone and metal go grey, parchment is only muted. */
   grade?: Grade;
+  /** A whole painting with its own background: no key removal, cover-resized into `${name}.jpg`. */
+  opaque?: boolean;
 }
 
 interface Grade {
@@ -106,6 +108,15 @@ const ASSETS: Asset[] = [
     box: { x: 4, y: 4, w: 120, h: 120 },
     alpha: 200,
   },
+  {
+    name: 'inv_doll',
+    grade: { keep: 0.6, gain: 1 },
+    w: 1376,
+    h: 800,
+    mode: 'stretch',
+    opaque: true,
+  },
+  { name: 'slot_diamond', grade: STONE, w: 160, h: 160, mode: 'contain' },
   ...ICONS.map((n): Asset => ({
     name: `icon_${n}`,
     w: 80,
@@ -155,6 +166,16 @@ async function build(a: Asset, input: string): Promise<string> {
     .raw()
     .toBuffer({ resolveWithObject: true });
   const { width: iw, height: ih } = info;
+  if (a.opaque) {
+    if (a.grade) stoneGrade(data, a.grade.keep, a.grade.gain);
+    const out = `${OUT}/${a.name}.jpg`;
+    await sharp(data, { raw: { width: iw, height: ih, channels: 4 } })
+      .resize(a.w, a.h, { fit: 'cover' })
+      .removeAlpha()
+      .jpeg({ quality: 82, mozjpeg: true })
+      .toFile(out);
+    return out;
+  }
   removeSampledKey(data, iw, ih);
   if (a.grade) stoneGrade(data, a.grade.keep, a.grade.gain);
   const box = a.box ?? { x: 0, y: 0, w: a.w, h: a.h };

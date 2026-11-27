@@ -1,0 +1,15 @@
+{
+  "backpack": { "cols": 10, "rows": 4 },
+  "slots": [
+    { "id": "head", "title": "Шолом", "accepts": ["helm"] },
+    { "id": "amulet", "title": "Амулет", "accepts": ["amulet"] },
+    { "id": "weapon", "title": "Зброя", "accepts": ["weapon1h", "weapon2h"] },
+    { "id": "offhand", "title": "Лівиця", "accepts": ["shield", "weapon1h"] },
+    { "id": "gloves", "title": "Рукавиці", "accepts": ["gloves"] },
+    { "id": "belt", "title": "Пояс", "accepts": ["belt"] },
+    { "id": "ring1", "title": "Кільце", "accepts": ["ring"] },
+    { "id": "ring2", "title": "Кільце", "accepts": ["ring"] },
+    { "id": "body", "title": "Обладунок", "accepts": ["armor"] },
+    { "id": "boots", "title": "Чоботи", "accepts": ["boots"] }
+  ]
+}

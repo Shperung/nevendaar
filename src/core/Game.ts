@@ -1,11 +1,16 @@
+import { hasComponent } from 'bitecs';
 import { Application, Assets, Container, Point, Rectangle, type Texture } from 'pixi.js';
 import { ClipId, CLIPS, frameAlias, UnitId, UNITS } from '../assets/manifest';
-import { FIXED_DT, MONSTER_PACKS, MONSTER_SPAWN_CLEARANCE } from '../config';
+import { DEPTH, FIXED_DT, HERO_NAME, MONSTER_PACKS, MONSTER_SPAWN_CLEARANCE } from '../config';
+import { Attack } from '../ecs/components/Attack';
+import { Dead } from '../ecs/components/Dead';
 import { Health } from '../ecs/components/Health';
 import { Position } from '../ecs/components/Position';
+import { Speed } from '../ecs/components/Speed';
 import { Wallet } from '../ecs/components/Wallet';
 import { createGameWorld, createStep, spawnHero, spawnMonster } from '../ecs/world';
 import { createRenderSystem, drawMap } from '../ecs/systems/render';
+import type { InventoryDef } from '../gameplay/Inventory';
 import type { LootTable } from '../gameplay/Loot';
 import type { MonsterDef } from '../gameplay/Monster';
 import { mulberry32 } from '../gameplay/Random';
@@ -15,6 +20,8 @@ import { toScreen } from '../map/IsoMath';
 import { TEST_MAP, TEST_MAP_SPAWN } from '../map/testMap';
 import type { Storage } from '../save/Storage';
 import { Hud, toggleFullscreen } from '../ui/Hud';
+import type { HeroStats } from '../ui/InventoryLayout';
+import { InventoryWindow } from '../ui/InventoryWindow';
 import { Minimap } from '../ui/Minimap';
 import { Tooltip } from '../ui/Tooltip';
 import { Camera } from './Camera';
@@ -26,6 +33,7 @@ export class Game {
     private readonly biome: Biome,
     private readonly monsterDefs: Record<string, MonsterDef>,
     private readonly loot: LootTable,
+    private readonly inventory: InventoryDef,
     private readonly storage: Storage,
     private readonly startGold: number,
   ) {}
@@ -43,6 +51,7 @@ export class Game {
     const hud = new Hud(
       tooltip,
       Assets.get<Texture>(frameAlias(UnitId.Hero, CLIPS[ClipId.Idle].name, 4, 0)),
+      () => toggleInventory(),
     );
     // The game area is the screen left of the side panel.
     const viewport = () => ({
@@ -66,9 +75,6 @@ export class Game {
     app.stage.on('globalpointermove', (e) => {
       Input.overPanel = e.global.x >= hud.x;
       if (!Input.overPanel) pointerScreen.copyFrom(e.global);
-    });
-    window.addEventListener('keydown', (e) => {
-      if (e.code === 'KeyF' && !e.repeat) toggleFullscreen();
     });
     const release = () => (Input.held = false);
     app.stage.on('pointerup', release);
@@ -97,6 +103,37 @@ export class Game {
         this.loot.monsters[name]?.gold,
       );
     }
+    const inventoryWindow = new InventoryWindow(this.inventory);
+    const heroStats = (): HeroStats => ({
+      name: HERO_NAME,
+      hp: Health.current[hero],
+      maxHp: Health.max[hero],
+      damage: Attack.damage[hero],
+      cooldown: Attack.cooldown[hero],
+      range: Attack.range[hero],
+      speed: Speed.value[hero],
+      gold: Wallet.gold[hero],
+      depth: DEPTH,
+    });
+    const toggleInventory = () => {
+      if (inventoryWindow.isOpen) inventoryWindow.close();
+      else if (!hasComponent(world, Dead, hero)) inventoryWindow.open(heroStats());
+    };
+    // The world keeps running: the window only drops a held button so the hero stops following it.
+    inventoryWindow.onChange = (open) => {
+      hud.inventory.setActive(open);
+      tooltip.hide();
+      Input.click = null;
+      Input.held = false;
+    };
+    // Esc closes the dialog natively; while it is open other hotkeys are ignored.
+    window.addEventListener('keydown', (e) => {
+      if (e.repeat) return;
+      if (e.code === 'KeyI') toggleInventory();
+      else if (inventoryWindow.isOpen) return;
+      else if (e.code === 'KeyF') toggleFullscreen();
+    });
+
     const render = createRenderSystem(worldLayer);
     const minimap = new Minimap(app.renderer, TEST_MAP);
     hud.minimapSlot.addChild(minimap);
@@ -114,6 +151,7 @@ export class Game {
     app.renderer.on('resize', () => {
       hud.layout(app.screen.width, app.screen.height);
       camera.centerOn(heroScreen(1));
+      inventoryWindow.resize();
     });
 
     // Fixed-step accumulator: logic runs at exactly 60 Hz, rendering interpolates the remainder.
@@ -135,6 +173,7 @@ export class Game {
       const gold = Wallet.gold[hero];
       hud.update({ gold, hp: Health.current[hero], maxHp: Health.max[hero] });
       minimap.update(hero);
+      if (inventoryWindow.isOpen) inventoryWindow.update(heroStats());
       if (gold !== savedGold) {
         savedGold = gold;
         void this.storage.saveGold(gold);

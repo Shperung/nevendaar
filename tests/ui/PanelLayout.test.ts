@@ -86,6 +86,12 @@ describe('medallionLook', () => {
     expect(look(true, false)).toBe('hover');
     expect(look(true, true)).toBe('pressed');
   });
+
+  it('keeps an active toggle pressed, but a stub stays a stub', () => {
+    expect(look(false, false, { active: true })).toBe('pressed');
+    expect(look(true, false, { active: true })).toBe('pressed');
+    expect(look(false, false, { active: true, stub: true })).toBe('disabled');
+  });
 });
 
 describe('bandYs', () => {

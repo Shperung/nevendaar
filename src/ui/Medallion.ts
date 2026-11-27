@@ -49,6 +49,7 @@ export class Medallion extends Container {
   private readonly icon = new Sprite({ anchor: 0.5 });
   private hover = false;
   private pressed = false;
+  private active = false;
 
   constructor(
     private readonly o: MedallionOptions,
@@ -112,6 +113,12 @@ export class Medallion extends Container {
     this.icon.scale.set((this.o.size * ICON_SCALE) / ICON_FILE);
   }
 
+  /** Toggle buttons stay pushed in while their window is open. */
+  setActive(on: boolean): void {
+    this.active = on;
+    this.refresh();
+  }
+
   setTitle(title: string): void {
     this.o.title = title;
     if (this.hover) this.showTip();
@@ -128,9 +135,10 @@ export class Medallion extends Container {
   /** Base texture for the state; "pushed in" also shifts the face 1 px down. */
   private refresh(): void {
     const { stub, indicator } = this.o;
+    const { hover, pressed, active } = this;
     this.base.texture = tex(
-      `medallion_${medallionLook({ hover: this.hover, pressed: this.pressed, stub, indicator })}`,
+      `medallion_${medallionLook({ hover, pressed, stub, indicator, active })}`,
     );
-    this.face.y = this.pressed && !indicator ? 1 : 0;
+    this.face.y = (pressed || active) && !indicator ? 1 : 0;
   }
 }

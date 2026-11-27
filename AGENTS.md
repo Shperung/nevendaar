@@ -25,13 +25,13 @@ Disciples 2: темне готичне фентезі, пререндерені 
 | Карти | Tiled (JSON-експорт), ізометрична орієнтація | Завантажує `src/map/TiledLoader.ts` |
 | Пошук шляху | easystarjs (A* на сітці) | Обгортка в `src/map/Pathfinder.ts` |
 | Збереження | `localStorage` (тимчасово), далі IndexedDB через `idb` | Сейви, налаштування, seed забігів; доступ лише через `src/save/Storage.ts` |
-| UI | Контейнери PixiJS (HUD, інвентар) | Без React/DOM для внутрішньоігрового UI |
+| UI | HUD — контейнери PixiJS; модальні вікна (інвентар тощо) — нативний `<dialog>` + CSS | Без фреймворків |
 | Тести | Vitest | Юніт-тести для чистої логіки (стати, лут, iso-математика) |
 | Лінт / формат | ESLint + Prettier | Запускати перед комітом |
 | Пакетний менеджер | npm | Lockfile комітиться |
 
-Заборонено: фізичні движки (Matter, Box2D), веб-експорти Unity/Godot, jQuery, DOM-базований
-ігровий UI, тип `any` поза шимами для сторонніх бібліотек.
+Заборонено: фізичні движки (Matter, Box2D), веб-експорти Unity/Godot, jQuery, React/Vue/інші
+UI-фреймворки, DOM для HUD, тип `any` поза шимами для сторонніх бібліотек.
 
 ## 3. Структура репозиторію
 
@@ -53,7 +53,7 @@ src/
     systems/         один файл на систему, чисті функції (world) => void
   map/               TiledLoader, IsoMath, Pathfinder, FogOfWar
   gameplay/          ItemGenerator, StatCalc, SkillTree, DungeonGen (чисті, тестовані)
-  ui/                Hud, Inventory, Tooltip, Menus (контейнери Pixi)
+  ui/                Pixi-HUD (Hud, Tooltip, Medallion) + DOM-вікна (`*Window.ts` + однойменний `.css`)
   assets/manifest.ts бандли Pixi Assets
   save/Storage.ts    обгортка над idb
 tools/               Node/Python-скрипти: пакування атласів, рендер спрайтів у Blender, валідація даних
@@ -106,6 +106,14 @@ tests/               Vitest-специфікації, що дзеркалять 
  з міпмапами; розкладка й хітбокси — у коді (`Hud.ts`, `PanelLayout.ts`), арт під них лише вписується.
 - Сирі генерації — в `art/concepts/ui/<name>.(png|jpg)` на magenta-фоні; `node tools/uiArt.ts [name...]`
  вирізає фон, вписує в точний розмір (рамки — за прозорим вікном) і виводить стани медальйона з `normal`.
+- CSS DOM-вікон бере ті самі текстури з `public/assets/ui/` (2×, тож `background-size` = ½ розміру файлу).
+ Цілісні картини з власним фоном (`opaque` в `tools/uiArt.ts`, напр. `inv_doll`) не вирізаються, а пишуться в `.jpg`.
+
+### Модальні вікна
+- Нативний `<dialog>` + `showModal()` + CSS, без фреймворків; вікно поверх гри й бічної панелі (top layer).
+- Гра **не** ставиться на паузу: світ живе далі, вікно лише блокує керування героєм
+ (`::backdrop` гасить кліки по canvas, утримання ЛКМ скидається, інші хоткеї ігноруються).
+- Обробники DOM лише перемикають вікно й пишуть у `Input`; ігрової логіки в них немає.
 
 ### Лут і стати
 - Рівні рідкості: `common, magic, rare, unique`. Пули афіксів — в `affixes.json`.

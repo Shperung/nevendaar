@@ -1,0 +1,320 @@
+/* Inventory window: 960 × 640 design px, scaled by --scale (set from inventoryScale on resize).
+   Textures from /assets/ui/ are painted at 2×, so background-size is half the file size. */
+
+.inv {
+  --ink: #2a1e12;
+  --bronze: #6b5a3a;
+  --gold: #e0b050;
+  /* Centered by translate, so the box stays centered even when it is larger than the viewport. */
+  position: fixed;
+  inset: 50% auto auto 50%;
+  translate: -50% -50%;
+  transform: scale(var(--scale, 1));
+  box-sizing: border-box;
+  width: 960px;
+  height: 640px;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 16px;
+  overflow: visible;
+  display: grid;
+  grid-template-columns: 224px 688px;
+  grid-template-rows: 400px 192px;
+  gap: 16px;
+  color: var(--ink);
+  font-family: Georgia, serif;
+  border: 3px solid #3a3226;
+  background:
+    radial-gradient(circle at 12px 12px, #d08a3a 0 3px, #4a3418 4px 6px, transparent 7px),
+    radial-gradient(
+      circle at calc(100% - 12px) 12px,
+      #d08a3a 0 3px,
+      #4a3418 4px 6px,
+      transparent 7px
+    ),
+    radial-gradient(
+      circle at 12px calc(100% - 12px),
+      #d08a3a 0 3px,
+      #4a3418 4px 6px,
+      transparent 7px
+    ),
+    radial-gradient(
+      circle at calc(100% - 12px) calc(100% - 12px),
+      #d08a3a 0 3px,
+      #4a3418 4px 6px,
+      transparent 7px
+    ),
+    url(/assets/ui/panel_stone.jpg) 0 0 / 128px 128px;
+  box-shadow:
+    inset 0 0 0 2px var(--bronze),
+    inset 0 0 0 4px #15120e,
+    inset 0 0 40px rgb(0 0 0 / 0.6),
+    0 0 0 1px #000,
+    0 12px 60px rgb(0 0 0 / 0.9);
+  opacity: 1;
+  scale: 1;
+  transition:
+    opacity 120ms ease-out,
+    scale 120ms ease-out,
+    overlay 120ms allow-discrete,
+    display 120ms allow-discrete;
+}
+
+.inv:not([open]) {
+  display: none;
+  opacity: 0;
+  scale: 0.97;
+}
+
+@starting-style {
+  .inv[open] {
+    opacity: 0;
+    scale: 0.97;
+  }
+}
+
+.inv::backdrop {
+  background: radial-gradient(ellipse at center, rgb(0 0 0 / 0.5), rgb(0 0 0 / 0.8));
+  opacity: 1;
+  transition:
+    opacity 120ms ease-out,
+    overlay 120ms allow-discrete,
+    display 120ms allow-discrete;
+}
+
+.inv:not([open])::backdrop {
+  opacity: 0;
+}
+
+@starting-style {
+  .inv[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+.inv,
+.inv *,
+.inv::backdrop {
+  cursor:
+    url(/assets/ui/cursor.png) 1 1,
+    auto;
+}
+
+/* Left column: three parchment plaques. */
+.inv-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.inv-plaque {
+  margin: 0;
+  padding: 12px 16px;
+  background: url(/assets/ui/parchment.png) center / 100% 100% no-repeat;
+  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.7));
+}
+
+.inv-name {
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+.inv-stats {
+  flex: 1;
+}
+
+.inv-stats,
+.inv-extra {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-content: center;
+  column-gap: 8px;
+  row-gap: 10px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.inv-stats dt,
+.inv-extra dt {
+  opacity: 0.8;
+}
+
+.inv-stats dd,
+.inv-extra dd {
+  margin: 0;
+  font-weight: bold;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Center: hero painting with the equipment slots on top. */
+.inv-doll {
+  position: relative;
+  background: #0b0a09 url(/assets/ui/inv_doll.jpg) center / 688px 400px;
+  box-shadow:
+    0 0 0 2px var(--bronze),
+    0 0 0 4px #15120e,
+    inset 0 0 30px rgb(0 0 0 / 0.8);
+}
+
+.inv-slot {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: url(/assets/ui/slot_diamond.png) center / 80px 80px;
+  filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.8));
+  transition: filter 80ms;
+}
+
+.inv-slot:hover {
+  filter: brightness(1.35) drop-shadow(0 0 6px rgb(224 176 80 / 0.7));
+}
+
+/* Dim silhouette of the item type (only types with an existing icon). */
+.inv-slot--head::before,
+.inv-slot--weapon::before {
+  content: '';
+  position: absolute;
+  inset: 20px;
+  background: center / contain no-repeat;
+  opacity: 0.25;
+}
+
+.inv-slot--head::before {
+  background-image: url(/assets/ui/icon_helmet.png);
+}
+
+.inv-slot--weapon::before {
+  background-image: url(/assets/ui/icon_sword.png);
+}
+
+/* Slot tooltip in the HUD tooltip style. */
+.inv-slot:hover::after {
+  content: attr(data-title);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% - 4px);
+  translate: -50% 0;
+  padding: 6px 10px;
+  white-space: nowrap;
+  color: #d8c8a0;
+  font-size: 14px;
+  background: #15130f;
+  border: 2px solid var(--bronze);
+  outline: 1px solid #2e2a24;
+  outline-offset: -5px;
+  z-index: 1;
+}
+
+/* Slot positions in the 688 × 400 doll; the bottom inner pair flanks the hero's feet. */
+.inv-slot--head {
+  left: 72px;
+  top: 8px;
+}
+.inv-slot--amulet {
+  left: 536px;
+  top: 8px;
+}
+.inv-slot--weapon {
+  left: 72px;
+  top: 112px;
+}
+.inv-slot--offhand {
+  left: 536px;
+  top: 112px;
+}
+.inv-slot--gloves {
+  left: 72px;
+  top: 216px;
+}
+.inv-slot--belt {
+  left: 536px;
+  top: 216px;
+}
+.inv-slot--ring1 {
+  left: 72px;
+  top: 312px;
+}
+.inv-slot--body {
+  left: 196px;
+  top: 312px;
+}
+.inv-slot--boots {
+  left: 412px;
+  top: 312px;
+}
+.inv-slot--ring2 {
+  left: 536px;
+  top: 312px;
+}
+
+/* Bottom: backpack grid of 40 × 40 cells. */
+.inv-pack {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 40px);
+  grid-template-rows: repeat(var(--rows), 40px);
+  gap: 4px;
+  place-content: center;
+  background: rgb(10 9 8 / 0.55);
+  box-shadow:
+    0 0 0 2px var(--bronze),
+    0 0 0 4px #15120e,
+    inset 0 0 24px rgb(0 0 0 / 0.8);
+}
+
+.inv-cell {
+  background: #120f0c;
+  border: 1px solid #4a3f2e;
+  box-shadow:
+    inset 0 0 8px #000,
+    0 0 0 1px #000;
+  transition:
+    border-color 80ms,
+    box-shadow 80ms;
+}
+
+.inv-cell:hover {
+  border-color: var(--gold);
+  box-shadow:
+    inset 0 0 8px #000,
+    0 0 6px rgb(224 176 80 / 0.6);
+}
+
+/* Close button: a small HUD medallion in the top right corner of the frame. */
+.inv-close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  width: 40px;
+  height: 40px;
+  padding: 0 0 3px;
+  border: 0;
+  border-radius: 50%;
+  color: #d8c8a0;
+  font:
+    bold 24px/1 Georgia,
+    serif;
+  background: url(/assets/ui/medallion_normal.png) center / 100% 100%;
+  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.8));
+}
+
+.inv-close:hover {
+  background-image: url(/assets/ui/medallion_hover.png);
+}
+
+.inv-close:active {
+  background-image: url(/assets/ui/medallion_pressed.png);
+  padding-top: 2px;
+}
+
+.inv-close:focus {
+  outline: none;
+}
+
+.inv-close:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}

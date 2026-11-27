@@ -54,16 +54,20 @@ export function clampTooltip(y: number, h: number, screenH: number): number {
 
 export type MedallionLook = 'normal' | 'hover' | 'pressed' | 'disabled';
 
-/** Medallion texture for its state. A pressed stub only shifts, so it never looks like it fired. */
+/**
+ * Medallion texture for its state. A pressed stub only shifts, so it never looks like it fired;
+ * an active toggle (its window is open) stays pressed.
+ */
 export function medallionLook(s: {
   hover: boolean;
   pressed: boolean;
   stub?: boolean;
   indicator?: boolean;
+  active?: boolean;
 }): MedallionLook {
   if (s.indicator) return 'normal';
   if (s.stub) return s.hover || s.pressed ? 'hover' : 'disabled';
-  if (s.pressed) return 'pressed';
+  if (s.pressed || s.active) return 'pressed';
   return s.hover ? 'hover' : 'normal';
 }
 

@@ -8,6 +8,9 @@ export const HERO_SPEED = 4;
 /** Hero melee: damage per hit, reach in tiles, seconds between hits. */
 export const HERO_ATTACK = { damage: 10, range: 1.2, cooldown: 0.5 };
 export const HERO_HP = 100;
+/** Hero name and dungeon depth shown by the HUD and the inventory window (no dungeon yet). */
+export const HERO_NAME = 'Вотан';
+export const DEPTH = 1;
 /** Monsters stop chasing once the hero is this many times their aggro range away. */
 export const MONSTER_LEASH_FACTOR = 2;
 /** On-screen unit height in pixels; also the click hit box height (width is half of it). */

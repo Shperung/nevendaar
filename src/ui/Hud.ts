@@ -11,7 +11,7 @@ import {
   type Texture,
 } from 'pixi.js';
 import { uiAlias } from '../assets/manifest';
-import { MINIMAP, PANEL_W, UI_ART_SCALE } from '../config';
+import { DEPTH, HERO_NAME, MINIMAP, PANEL_W, UI_ART_SCALE } from '../config';
 import { Medallion, type MedallionOptions } from './Medallion';
 import { bandYs, healthFraction, panelLayout, PANEL_BLOCKS, type BlockName } from './PanelLayout';
 import type { Tooltip } from './Tooltip';
@@ -73,11 +73,14 @@ export class Hud extends Container {
   private readonly goldText = this.text('', 12, INK, true);
   private readonly liquid = new Graphics();
   private readonly fullscreen: Medallion;
+  /** Inventory toggle; shown pressed while the window is open. */
+  readonly inventory: Medallion;
   private shown = { gold: -1, hp: -1, maxHp: -1 };
 
   constructor(
     private readonly tooltip: Tooltip,
     portrait: Texture,
+    onInventory: () => void,
   ) {
     super({ eventMode: 'static' });
     this.edges[1].scale.x = -UI_ART_SCALE;
@@ -104,7 +107,7 @@ export class Hud extends Container {
     });
     this.drawCrown();
     this.drawMinimapFrame();
-    this.drawRow();
+    this.inventory = this.drawRow(onInventory);
     this.drawPortrait(portrait);
     this.drawDepth();
     this.drawRing();
@@ -204,16 +207,26 @@ export class Hud extends Container {
     });
   }
 
-  private drawRow(): void {
+  /** Returns the inventory medallion, the only working one in the row. */
+  private drawRow(onInventory: () => void): Medallion {
     const items: [MedallionOptions['icon'], string, string][] = [
       ['helmet', 'Персонаж', 'C'],
       ['sack', 'Інвентар', 'I'],
       ['book', 'Навички', 'S'],
       ['scroll', 'Журнал', 'Q'],
     ];
-    items.forEach(([icon, title, hotkey], i) =>
-      this.medallion('row', 31 + i * 46, 32, { icon, size: 21, title, hotkey, stub: true }),
-    );
+    const row = items.map(([icon, title, hotkey], i) => {
+      const onPress = icon === 'sack' ? onInventory : undefined;
+      return this.medallion('row', 31 + i * 46, 32, {
+        icon,
+        size: 21,
+        title,
+        hotkey,
+        stub: !onPress,
+        onPress,
+      });
+    });
+    return row[1];
   }
 
   private drawPortrait(texture: Texture): void {
@@ -231,7 +244,7 @@ export class Hud extends Container {
       .rect(p.x + 8, p.y + 22, p.w - 16, 1)
       .fill({ color: INK, alpha: 0.4 });
 
-    const name = this.text('Вотан', 12, INK, true);
+    const name = this.text(HERO_NAME, 12, INK, true);
     name.anchor.set(0.5, 0);
     name.position.set(p.x + p.w / 2, p.y + 5);
     const hpLabel = this.text("Здоров'я", 10, INK);
@@ -260,7 +273,7 @@ export class Hud extends Container {
   }
 
   private drawDepth(): void {
-    const depth = this.text('1', 13, INK, true);
+    const depth = this.text(String(DEPTH), 13, INK, true);
     depth.anchor.set(0.5);
     depth.position.set(100, 16);
     this.blocks.depth.addChild(art('panel_depth'), depth);
